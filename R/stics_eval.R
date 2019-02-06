@@ -113,38 +113,61 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
     NbCores= parallel::detectCores()-1
     cl= parallel::makeCluster(min(NbCores,length(stics)))
     parallel::clusterExport(cl=cl,
-                  varlist=c("dir.orig","dir.targ","usm_name","stics",
-                            "obs_name","Out_var","import_usm",
-                            "set_out_var","Plant","run_stics",
-                            "eval_output","Parameter","Erase","method",
-                            "set_param","Param_val"),
-                  envir=environment())
+                            varlist=c("dir.orig","dir.targ","usm_name","stics",
+                                      "obs_name","Out_var","import_usm",
+                                      "set_out_var","Plant","run_stics",
+                                      "eval_output","Parameter","Erase","method",
+                                      "set_param","Param_val"),
+                            envir=environment())
     # The apply function runs either along parameter values or stics exe.
     outputs=
-      parallel::parLapply(cl,seq_along(usm_name),
-                function(x,dir.orig,dir.targ,usm_name,stics,
-                         obs_name,Parameter,Plant,Erase,method,
-                         Param_val){
-                  USM_path= file.path(dir.targ,usm_name[x])
-                  import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
-                             usm_name = usm_name[x], overwrite = T,
-                             stics = ifelse(method=="stics",stics[[x]],
-                                            stics[[1]]))
-                  set_out_var(filepath= file.path(USM_path,"var.mod"),
-                              vars=Out_var, add=F)
-                  if(method=="Parameter"){
-                    set_param(dirpath = USM_path,
-                              param = names(Parameter),plant = Plant,
-                              value = Param_val[[x]])
-                  }
-                  run_stics(dirpath = USM_path)
-                  output= eval_output(dirpath= USM_path, obs_name= obs_name)
-                  if(Erase){
-                    unlink(x = USM_path, recursive = T, force = T)
-                  }
-                  output
-                },dir.orig,dir.targ,usm_name,stics,obs_name,
-                Parameter,Plant,Erase,method,Param_val)
+      parallel::parLapply(
+        cl,
+        seq_along(usm_name),
+        function(x,dir.orig,dir.targ,usm_name,stics,
+                 obs_name,Parameter,Plant,Erase,method,
+                 Param_val){
+          tryCatch(expr = {
+            USM_path= file.path(dir.targ,usm_name[x])
+            import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
+                       usm_name = usm_name[x], overwrite = T,
+                       stics = ifelse(method=="stics",stics[[x]],
+                                      stics[[1]]))
+            set_out_var(filepath= file.path(USM_path,"var.mod"),
+                        vars=Out_var, add=F)
+            if(method=="Parameter"){
+              set_param(dirpath = USM_path,
+                        param = names(Parameter),plant = Plant,
+                        value = Param_val[[x]])
+            }
+            run_stics(dirpath = USM_path)
+            output= eval_output(dirpath= USM_path, obs_name= obs_name)
+            if(Erase){
+              unlink(x = USM_path, recursive = T, force = T)
+            }
+            output
+          },
+          error=function(cond) {
+            message(paste("Error during simulation setup for USM:",usm_name[x]))
+            message("Here's the original error message:")
+            message(cond)
+            unlink(x = USM_path, recursive = T, force = T)
+            return(NULL)
+          },
+          warning=function(cond) {
+            message(paste("Simulation setup caused a warning for USM:",usm_name[x]))
+            message("Here's the original warning message:")
+            message(cond)
+            return(NULL)
+          },
+          finally={
+            if(Erase){
+              unlink(x = USM_path, recursive = T, force = T)
+            }
+          }
+          )
+        },dir.orig,dir.targ,usm_name,stics,obs_name,
+        Parameter,Plant,Erase,method,Param_val)
     parallel::stopCluster(cl)
   }else{
     outputs=
