@@ -126,7 +126,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
   }
   ggstics=
     ggstics +
-    geom_line(aes(x=Date, y= value, colour= Dominance,linetype= Version))+
+    geom_line(aes(x=Date, y= value, colour= Dominance,linetype= Version),
+              na.rm=TRUE)+
     labs(linetype='Simulation',colour='Plant dominance')+
     ggtitle(Title)
 
@@ -151,7 +152,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
     x_meas_no_sd= x_meas_[!grepl("_sd",x_meas_$variable),]
     ggstics= ggstics+
       geom_point(data= x_meas_no_sd,
-                 aes(x=Date, y= value, colour= Dominance,pch= Version))+
+                 aes(x=Date, y= value, colour= Dominance,pch= Version),
+                 na.rm=TRUE)+
       labs(pch='Observations')
     # If there are sd values in the observation file:
     if(any(grepl("_sd",x_meas_$variable))){
@@ -173,7 +175,8 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
       }
       ggstics= ggstics+
         geom_errorbar(data= x_meas_sd,aes(x=Date, ymin= value_min, ymax= value_max,
-                                          colour= Dominance,pch= Version))
+                                          colour= Dominance),
+                      na.rm=TRUE)
     }
 
   }
@@ -183,5 +186,18 @@ plot_output= function(..., Vars=NULL,obs_name=NULL,Title=NULL,plot_it=T,group=F)
 }
 
 
-identical_vals= function(x){length(unique(x))==1}
+#' Identical
+#'
+#' @description Test if all values in x are identical
+#' @param x A vector of values
+#'
+#' @return A boolean
+#' @export
+#'
+#' @examples
+#' identical_vals(c(1,1,1,1))
+#' identical_vals(c(1,1,1,2))
+identical_vals= function(x){
+  length(unique(x))==1
+}
 

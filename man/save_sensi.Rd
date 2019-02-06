@@ -3,7 +3,6 @@
 \name{save_sensi}
 \alias{save_sensi}
 \alias{load_sensi}
-\alias{load_sensi}
 \title{Save and Read sensitivity analysis of STICS}
 \usage{
 save_sensi(x, dirpath = getwd(), device = "png", width = NULL,

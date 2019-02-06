@@ -23,8 +23,8 @@ read_tmp(filepath = "tempoparv6.sti")
 
 read_plant(filepath = "ficplt1.txt", max_variety = 30)
 
-read_tec(filepath = "fictec1.txt", several_fert = T, several_thin = T,
-  is_pasture = F)
+read_tec(filepath = "fictec1.txt", several_fert = T,
+  several_thin = T, is_pasture = F)
 
 read_soil(filepath = "param.sol")
 

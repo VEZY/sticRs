@@ -31,7 +31,8 @@ set_tec(filepath = "fictec1.txt", param, value, add = F)
 
 set_soil(filepath = "param.sol", param, value)
 
-set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"), add = F)
+set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"),
+  add = F)
 }
 \arguments{
 \item{dirpath}{USM directory path}
