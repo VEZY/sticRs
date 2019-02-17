@@ -19,6 +19,9 @@
     <loc>https://vezy.github.io/sticRs//reference/find_STICS_var.html</loc>
   </url>
   <url>
+    <loc>https://vezy.github.io/sticRs//reference/identical_vals.html</loc>
+  </url>
+  <url>
     <loc>https://vezy.github.io/sticRs//reference/import_usm.html</loc>
   </url>
   <url>
@@ -62,6 +65,9 @@
   </url>
   <url>
     <loc>https://vezy.github.io/sticRs//reference/stics_eval.html</loc>
+  </url>
+  <url>
+    <loc>https://vezy.github.io/sticRs//reference/write_obs.html</loc>
   </url>
   <url>
     <loc>https://vezy.github.io/sticRs//articles/Introduction_to_sticRs.html</loc>

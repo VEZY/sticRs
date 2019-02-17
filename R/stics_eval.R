@@ -14,7 +14,7 @@
 #'                   \code{c(Dominant,Dominated)} for mixed crops.
 #'                   See \code{\link{read_obs}} \code{filename} parameter for more details.
 #' @param Out_var    The variables needed as output
-#' @param plot_it    Boolean. Do the plot as to be pinted ?
+#' @param plot_it    Boolean. Do the plot has to be pinted ?
 #' @param Parallel   Are the simulations to be executed in parallel ?
 #' @param mixed      (optional) Is the simulation made on mixed species (boolean)
 #' @param Title      A title for the evaluation. This will be used on the ggplot object.
