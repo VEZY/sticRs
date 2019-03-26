@@ -271,6 +271,8 @@ all_out_var= function(){
     "isens",
     "izrac",
     "lai(n)",
+    "lai(ao)",
+    "lai(as)",
     "lai_mx_av_cut",
     "laimax",
     "laisen(n)",
