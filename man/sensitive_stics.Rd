@@ -6,7 +6,8 @@
 \usage{
 sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name,
   Parameters, Vars, method = c("fast99", "sobol"), n = 10 *
-  length(Vars), q = "qunif", Plant = 1, Erase = T, ...)
+  length(Vars), q = "qunif", Plant = 1, Erase = T, values = rep(1,
+  length(Parameters)), ...)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -39,6 +40,9 @@ Set to \code{NULL} if using STICS in sole crop}
 
 \item{Erase}{Should the simulations data be erased upon import ? (see details)}
 
+\item{values}{A named list of number of values given to each parameter (will repeat the value found in the DOE
+by `values`). If `NULL`, it is set to 1.}
+
 \item{...}{Further parameters passed to the sensitivity function called
 (see \pkg{sensitivity} package)}
 }
@@ -69,6 +73,9 @@ The function uses the \pkg{sensitivity} package functions under the hood to
  As the simulations can take a lot of space on disk while augmenting the parameters
  number, the `Erase` parameter allow the user to erase each simulation as soon as
  its data is imported.
+ The `values` parameter is used to repeat the input value found in the DOE given to set_param.
+ It is usefull for plant parameters in intercrops that are still in the temporary parameter file
+ so they have two values (one for each plant).
 }
 \examples{
 \dontrun{

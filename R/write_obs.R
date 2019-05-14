@@ -28,5 +28,5 @@ write_obs= function(x,path){
       z= paste(c(paste(z[1:2], collapse = "("),z[3]), collapse = ")_")
     })
 
-  write.table(x,path,sep=";",na="-999.99",row.names= F, quote=F)
+  utils::write.table(x,path,sep=";",na="-999.99",row.names= F, quote=F)
 }

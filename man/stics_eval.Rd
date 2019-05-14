@@ -28,7 +28,7 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 
 \item{Out_var}{The variables needed as output}
 
-\item{plot_it}{Boolean. Do the plot as to be pinted ?}
+\item{plot_it}{Boolean. Do the plot has to be pinted ?}
 
 \item{Parallel}{Are the simulations to be executed in parallel ?}
 
