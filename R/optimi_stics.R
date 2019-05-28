@@ -23,7 +23,7 @@
 #' @details The function uses the \pkg{dfoptim} package functions under the hood. Currently only the Nelder-Mead algorithm
 #'  is implemented.
 #'  The `Parameters` argument should take the form of a list of arguments for each parameter, named after the parameter
-#'  of interest (see example).
+#'  of interest (see example). If the start is `NULL`, then the mean value between the min and max values is taken.
 #'  If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
 #'
@@ -33,7 +33,8 @@
 #'
 #' @return A list of three :
 #' \itemize{
-#'   \item gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values.
+#'   \item gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
+#'   compared to original parameter values.
 #'   \item values: A list of the optimized parameter values.
 #' }
 #'
@@ -56,6 +57,7 @@
 #'              dir.targ = "2-Simulations/param_optim",
 #'              stics = "0-DATA/stics_executable/19-new/Stics.exe",
 #'              obs_name = c("6_IC_Wheat_N0.obs","6_IC_Pea_N0.obs"),
+#'              Parameters= Parameters,
 #'              Vars = c('lai(n)','masec(n)','hauteur'),
 #'              method= "nmkb",Plant=1)
 #'}
@@ -78,6 +80,17 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     weight= data.frame(variable= Vars_R, weight= weight, stringsAsFactors = FALSE)
   }
 
+  if(!is.data.frame(Parameters)){
+    stop("Parameters should be a data.frame")
+  }else if(!all(colnames(Parameters)%in%c("parameter","start","min","max"))){
+    stop("Parameters should be a data.frame with columns name: parameter, start, min, max")
+  }else{
+    null_start= lapply(Parameters$start,is.null)%>%unlist
+    if(any(null_start)){
+      Parameters$start[null_start]= (Parameters$max[null_start]+Parameters$min[null_start])/2
+    }
+  }
+
   # NB: we don't use stics_eval dircectly because we want to copy the usm only once for
   # performance.
 
@@ -88,6 +101,8 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
              stics = stics)
   set_out_var(filepath= file.path(USM_path,"var.mod"),
               vars=Vars, add=F)
+  run_stics(dirpath = USM_path)
+  output_orig= eval_output(dirpath= USM_path, obs_name= obs_name)
 
   opti= dfoptim::nmkb(fn= stics_eval_opti,
                       par= Parameters$start,
@@ -96,18 +111,17 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                       USM_path= USM_path,
                       param= as.character(Parameters$parameter),
                       Plant= Plant,
+                      weight= weight,
                       obs_name= obs_name)
 
   # Import the last simulation output:
-  output= eval_output(dirpath= USM_path, obs_name= obs_name)
-  gg_output= plot_output(output, plot_it = FALSE)
+  output_opti= eval_output(dirpath= USM_path, obs_name= obs_name)
+  gg_output= plot_output(original= output_orig,
+                         optimized= output_opti, plot_it = FALSE)
 
+  unlink(x = dir.targ, recursive = T, force = T)
 
-  if(erase_dir){
-    unlink(x = dir.targ, recursive = T, force = T)
-  }
-
-  invisible(list(gg_objects= gg_output, opti_output= opti,last_sim= output))
+  invisible(list(gg_objects= gg_output, opti_output= opti,last_sim= output_opti))
 }
 
 
@@ -151,14 +165,17 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
   }
 
   if(is.null(weight)){
-    out_stats%>%
+    crit=
+      out_stats%>%
       dplyr::mutate(crit= (.data$SS_res/.data$n_obs)^(.data$n_obs/2))%>%
       dplyr::summarise(crit= prod(.data$crit))
   }else{
-    dplyr::left_join(weight,out_stats%>%mutate(variable= as.character(variable)),
-                     by= "variable")%>%
+    crit=
+      dplyr::left_join(weight,out_stats%>%mutate(variable= as.character(variable)),
+                       by= "variable")%>%
       dplyr::mutate(crit= .data$SS_res*.data$weight)%>%
       dplyr::summarise(crit= sum(.data$crit))
   }
+  crit$crit
 }
 

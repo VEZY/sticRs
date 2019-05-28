@@ -38,7 +38,8 @@ Set to \code{NULL} if using STICS in sole crop}
 \value{
 A list of three :
 \itemize{
-  \item gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values.
+  \item gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
+  compared to original parameter values.
   \item values: A list of the optimized parameter values.
 }
 }
@@ -49,7 +50,7 @@ Optimize STICS parameter values according to measurements
 The function uses the \pkg{dfoptim} package functions under the hood. Currently only the Nelder-Mead algorithm
  is implemented.
  The `Parameters` argument should take the form of a list of arguments for each parameter, named after the parameter
- of interest (see example).
+ of interest (see example). If the start is `NULL`, then the mean value between the min and max values is taken.
  If weight is not provided by the user, the selection criteria is computed using the equation
 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
 }
@@ -66,6 +67,7 @@ optimi_stics(dir.orig = "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
              dir.targ = "2-Simulations/param_optim",
              stics = "0-DATA/stics_executable/19-new/Stics.exe",
              obs_name = c("6_IC_Wheat_N0.obs","6_IC_Pea_N0.obs"),
+             Parameters= Parameters,
              Vars = c('lai(n)','masec(n)','hauteur'),
              method= "nmkb",Plant=1)
 }

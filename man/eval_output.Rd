@@ -4,7 +4,8 @@
 \alias{eval_output}
 \title{Compare STICS simulation outputs (mod_s) to observations (*.obs)}
 \usage{
-eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL)
+eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL,
+  verbose = FALSE)
 }
 \arguments{
 \item{dirpath}{Directory path}
@@ -13,6 +14,8 @@ eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL)
 \code{c(Principal,Associated)} for mixed crops. See details.}
 
 \item{mixed}{(optional) Is the simulation made on mixed species (boolean)}
+
+\item{verbose}{Is informations during execution needed?}
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) with

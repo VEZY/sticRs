@@ -6,6 +6,7 @@
 #' @param obs_name A vector of observation file name(s). It must have the form
 #'                 \code{c(Principal,Associated)} for mixed crops. See details.
 #' @param mixed    (optional) Is the simulation made on mixed species (boolean)
+#' @param verbose  Is informations during execution needed?
 #'
 #' @details For mixed crops, the \code{obs_name} argument should have the principal plant
 #'          observations first in the character vector, and then the associated plant.
@@ -27,7 +28,7 @@
 #'
 #' @export
 #'
-eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
+eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL, verbose=FALSE){
   .= NULL
   sim= read_output(dirpath = dirpath, mixed = mixed)
 
@@ -78,8 +79,10 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
     }
   }
 
-  message("Input/Output files used for simulation:\n")
-  message(Equiv)
+  if(verbose){
+    cat("Input/Output files used for simulation:\n")
+    print(Equiv)
+  }
 
   if(mixed){
     Table_comp= merge(sim,meas,by = c("Dominance","Date"),
