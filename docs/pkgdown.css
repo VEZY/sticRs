@@ -65,7 +65,7 @@ summary {
 
 /* Typographic tweaking ---------------------------------*/
 
-.contents h1.page-header {
+.contents .page-header {
   margin-top: calc(-60px + 1em);
 }
 
@@ -233,4 +233,10 @@ mark {
 /* vertical spacing after htmlwidgets */
 .html-widget {
   margin-bottom: 10px;
+}
+
+/* fontawesome ------------------------ */
+
+.fab {
+    font-family: "Font Awesome 5 Brands" !important;
 }

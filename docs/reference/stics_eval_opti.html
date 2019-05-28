@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read STICS input meteo file — read_met • sticRs</title>
+<title>Objective function to optimize — stics_eval_opti • sticRs</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,9 +31,10 @@
 
 
 
-<meta property="og:title" content="Read STICS input meteo file — read_met" />
+<meta property="og:title" content="Objective function to optimize — stics_eval_opti" />
 
-<meta property="og:description" content="Read the meteorology input for STICS (&quot;climat.txt&quot;)" />
+<meta property="og:description" content="Function evaluated for parameter optimization. This function is only provided
+for informative value, but should not be used by the user. It is called by optimi_stics." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -115,53 +116,64 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read STICS input meteo file</h1>
+    <h1>Objective function to optimize</h1>
     
-    <div class="hidden name"><code>read_met.Rd</code></div>
+    <div class="hidden name"><code>stics_eval_opti.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Read the meteorology input for STICS ("climat.txt")</p>
+    <p>Function evaluated for parameter optimization. This function is only provided
+for informative value, but should not be used by the user. It is called by <code><a href='optimi_stics.html'>optimi_stics</a></code>.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>read_met</span>(<span class='kw'>dirpath</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/getwd'>getwd</a></span>(), <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"climat.txt"</span>)</pre>
+    <pre class="usage"><span class='fu'>stics_eval_opti</span>(<span class='no'>x</span>, <span class='no'>USM_path</span>, <span class='no'>obs_name</span>, <span class='no'>param</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Plant</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dirpath</th>
-      <td><p>Directory path</p></td>
+      <th>x</th>
+      <td><p>The starting parameter values</p></td>
     </tr>
     <tr>
-      <th>filename</th>
-      <td><p>The meteorology file name (default to <code>climat.txt</code>).</p></td>
+      <th>USM_path</th>
+      <td><p>The path to the USM</p></td>
+    </tr>
+    <tr>
+      <th>obs_name</th>
+      <td><p>The observation file name</p></td>
+    </tr>
+    <tr>
+      <th>param</th>
+      <td><p>The parameter names (in same order than x)</p></td>
+    </tr>
+    <tr>
+      <th>weight</th>
+      <td><p>The weight used for each variable (see details)</p></td>
+    </tr>
+    <tr>
+      <th>Plant</th>
+      <td><p>The plant evaluated (for intercrop)</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data.frame of the input meteorological variables used as input for the
-        STICS model.</p>
+    <p>The weighted product of squares (selection criteria)</p>
     
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The time-related variables are summarised into one POSIXct column named
-      codeDate.</p>
+    <p>If weight is not provided by the user, the selection criteria is computed using the equation
+5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.</p>
     
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <div class='dont-index'><p><code><a href='read_obs.html'>read_obs</a></code></p></div>
+    <p>Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
+ A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling &amp; Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004</p>
     
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><span class='co'># NOT RUN {</span>
-<span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sticRs</span>)
-<span class='no'>Meteo</span><span class='kw'>=</span> <span class='fu'>read_met</span>()
-<span class='co'># }</span><div class='input'>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -170,12 +182,10 @@
       
       <li><a href="#value">Value</a></li>
 
-      <li><a href="#note">Note</a></li>
+      <li><a href="#details">Details</a></li>
 
-      <li><a href="#see-also">See also</a></li>
-      
-      <li><a href="#examples">Examples</a></li>
-    </ul>
+      <li><a href="#references">References</a></li>
+          </ul>
 
   </div>
 </div>

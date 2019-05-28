@@ -25,6 +25,9 @@
     <loc>https://vezy.github.io/sticRs//reference/import_usm.html</loc>
   </url>
   <url>
+    <loc>https://vezy.github.io/sticRs//reference/optimi_stics.html</loc>
+  </url>
+  <url>
     <loc>https://vezy.github.io/sticRs//reference/plot_output.html</loc>
   </url>
   <url>
@@ -65,6 +68,9 @@
   </url>
   <url>
     <loc>https://vezy.github.io/sticRs//reference/stics_eval.html</loc>
+  </url>
+  <url>
+    <loc>https://vezy.github.io/sticRs//reference/stics_eval_opti.html</loc>
   </url>
   <url>
     <loc>https://vezy.github.io/sticRs//reference/write_obs.html</loc>
