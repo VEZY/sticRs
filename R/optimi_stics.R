@@ -66,8 +66,7 @@
 #'
 optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                        Vars,weight=NULL,method=c("nmkb"),Plant=1,...){
-  # .=Date=Dominance=S_Max=S_Mean=S_Min=Sim=meas=plant=sd_meas=Design=
-  #   Parameter=NULL
+  .= NULL # to avoid CRAN checks errors
 
   method= match.arg(method,c("nmkb")) # add new methods here
 
@@ -145,6 +144,8 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
 #'  A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
 #'
+#' @importFrom rlang .data
+#'
 #' @return The weighted product of squares (selection criteria)
 #' @export
 #'
@@ -171,7 +172,8 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
       dplyr::summarise(crit= prod(.data$crit))
   }else{
     crit=
-      dplyr::left_join(weight,out_stats%>%mutate(variable= as.character(variable)),
+      dplyr::left_join(weight,out_stats%>%
+                         dplyr::mutate(variable= as.character(.data$variable)),
                        by= "variable")%>%
       dplyr::mutate(crit= .data$SS_res*.data$weight)%>%
       dplyr::summarise(crit= sum(.data$crit))

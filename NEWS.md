@@ -1,3 +1,6 @@
+# sticRs 1.1.0
+Add parameter optimization (adapted to intercropping)
+
 # sticRs 1.0.2
 Add vignettes for introduction and for sensitivity analyses.
 

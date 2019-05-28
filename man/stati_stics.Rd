@@ -46,6 +46,7 @@ stati_stics("dummy/path/simulation_1","dummy/path/simulation_2",
             obs_name = c("Wheat.obs","Pea.obs"))
 
 }
+
 }
 \seealso{
 This function is largely inspired from the \code{evaluate()} function from the

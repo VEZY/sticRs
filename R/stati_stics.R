@@ -41,6 +41,7 @@
 #'             obs_name = c("Wheat.obs","Pea.obs"))
 #'
 #'}
+#'
 #' @export
 #'
 stati_stics= function(...,obs_name=NULL){
