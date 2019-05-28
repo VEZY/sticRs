@@ -114,6 +114,7 @@ stati_stics= function(...,obs_name=NULL){
                        CV_obs= (sd_obs/mean_obs)*100,
                        CV_sim= (sd_sim/mean_sim)*100,
                        R2= R2(sim = sim, obs = obs),
+                       SS_res= SS_res(sim = sim, obs = obs),
                        RMSE= RMSE(sim = sim, obs = obs),
                        nRMSE= nRMSE(sim = sim, obs = obs),
                        MAE= MAE(sim = sim, obs = obs),
@@ -127,13 +128,15 @@ stati_stics= function(...,obs_name=NULL){
       )
 
     attr(x, "description")=
-      data.frame(mean_obs= "Mean of the observations",
+      data.frame(n_obs= "Number of observations",
+                 mean_obs= "Mean of the observations",
                  mean_sim= "Mean of the simulation",
                  sd_obs= "Standard deviation of the observations",
                  sd_sim= "Standard deviation of the simulation",
                  CV_obs= "Coefficient of variation of the observations",
                  CV_sim= "Coefficient of variation of the simulation",
                  R2= "coefficient of determination for obs~sim",
+                 SS_res= "Residual sum of squares",
                  RMSE= "Root Mean Squared Error",
                  nRMSE= "Normalized Root Mean Squared Error, CV(RMSE)",
                  MAE= "Mean Absolute Error",
@@ -168,6 +171,7 @@ stati_stics= function(...,obs_name=NULL){
 #'          for \code{LATEX}):
 #' \itemize{
 #'   \item \code{R2()}: coefficient of determination, computed using \code{\link[stats]{lm}} on obs~sim.
+#'   \item \code{SS_res()}: residual sum of squares (see notes).
 #'   \item \code{RMSE()}: Root Mean Squared Error, computed as
 #'             \deqn{RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{RMSE = sqrt(mean((sim-obs)^2)}
 #'   \item \code{NSE()}: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.
@@ -228,6 +232,12 @@ R2= function(sim,obs, na.action= stats::na.omit){
 
 #' @export
 #' @rdname predictor_assessment
+SS_res= function(sim,obs,na.rm= T){
+  sum((obs-sim)^2, na.rm = na.rm) # residual sum of squares
+}
+
+#' @export
+#' @rdname predictor_assessment
 RMSE= function(sim,obs,na.rm= T){
   sqrt(mean((sim-obs)^2, na.rm = na.rm))
 }
@@ -263,8 +273,7 @@ EF=  function(sim,obs,na.rm= T){
   # Modeling efficiency
   SStot= sum((obs-mean(obs,na.rm= na.rm))^2, na.rm = na.rm) # total sum of squares
   # SSreg= sum((sim-mean(obs))^2) # explained sum of squares
-  SSres= sum((obs-sim)^2, na.rm = na.rm) # residual sum of squares
-  1-SSres/SStot
+  1-SS_res(sim = sim, obs = obs, na.rm = na.rm)/SStot
 }
 
 #' @export

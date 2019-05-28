@@ -3,6 +3,7 @@
 \name{predictor_assessment}
 \alias{predictor_assessment}
 \alias{R2}
+\alias{SS_res}
 \alias{RMSE}
 \alias{nRMSE}
 \alias{MAE}
@@ -17,6 +18,8 @@
 \title{Model quality assessment}
 \usage{
 R2(sim, obs, na.action = stats::na.omit)
+
+SS_res(sim, obs, na.rm = T)
 
 RMSE(sim, obs, na.rm = T)
 
@@ -62,6 +65,7 @@ The statistics for model quality can differ between sources. Here is a
          for \code{LATEX}):
 \itemize{
   \item \code{R2()}: coefficient of determination, computed using \code{\link[stats]{lm}} on obs~sim.
+  \item \code{SS_res()}: residual sum of squares (see notes).
   \item \code{RMSE()}: Root Mean Squared Error, computed as
             \deqn{RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}}{RMSE = sqrt(mean((sim-obs)^2)}
   \item \code{NSE()}: Nash-Sutcliffe Efficiency, alias of EF, provided for user convenience.

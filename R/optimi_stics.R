@@ -12,6 +12,7 @@
 #' @param Parameters A list of list of starting, min and max values for each parameters, named after
 #'                   them (see details and example)
 #' @param Vars       Output variables on which the optimization is performed
+#' @param weight   The weight used for each variable (see details)
 #' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only \code{\link[dfoptim]{nmkb}}
 #' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
@@ -23,6 +24,11 @@
 #'  is implemented.
 #'  The `Parameters` argument should take the form of a list of arguments for each parameter, named after the parameter
 #'  of interest (see example).
+#'  If weight is not provided by the user, the selection criteria is computed using the equation
+#' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
+#'
+#' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
+#'  A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
 #'
 #'
 #' @return A list of three :
@@ -57,13 +63,20 @@
 #' @export
 #'
 optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
-                       Vars,method=c("nmkb"),Plant=1,...){
+                       Vars,weight=NULL,method=c("nmkb"),Plant=1,...){
   # .=Date=Dominance=S_Max=S_Mean=S_Min=Sim=meas=plant=sd_meas=Design=
   #   Parameter=NULL
 
   method= match.arg(method,c("nmkb")) # add new methods here
 
   Vars_R= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
+
+  if(!is.null(weight)){
+    if(length(weight)!=length(Vars_R)){
+      stop("weight length should be the same as the Vars length")
+    }
+    weight= data.frame(variable= Vars_R, weight= weight, stringsAsFactors = FALSE)
+  }
 
   # NB: we don't use stics_eval dircectly because we want to copy the usm only once for
   # performance.
@@ -109,25 +122,43 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @param USM_path The path to the USM
 #' @param obs_name The observation file name
 #' @param param    The parameter names (in same order than x)
+#' @param weight   The weight used for each variable (see details)
 #' @param Plant    The plant evaluated (for intercrop)
 #'
-#' @return
+#' @details If weight is not provided by the user, the selection criteria is computed using the equation
+#' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
+#'
+#' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
+#'  A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
+#'
+#' @return The weighted product of squares (selection criteria)
 #' @export
 #'
-#' @examples
-stics_eval_opti= function(x,USM_path,obs_name,param,Plant){
+stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
   names(x)= param
   lapply(param, function(pa){
     set_param(dirpath = USM_path, param = pa,
               value = x[pa], plant = Plant)
   })
   run_stics(dirpath = USM_path)
-  out_stats= stati_stics(USM_path, obs_name= obs_name)
+  out_stats=
+    stati_stics(USM_path, obs_name= obs_name)%>%
+    dplyr::ungroup()
 
   # Selecting only the plant the user need:
   if(length(unique(out_stats$Dominance))>1){
     out_stats= out_stats[out_stats$Dominance==ifelse(Plant==1,"Principal","Associated"),]
   }
-  mean(out_stats$nRMSE)
+
+  if(is.null(weight)){
+    out_stats%>%
+      dplyr::mutate(crit= (.data$SS_res/.data$n_obs)^(.data$n_obs/2))%>%
+      dplyr::summarise(crit= prod(.data$crit))
+  }else{
+    dplyr::left_join(weight,out_stats%>%mutate(variable= as.character(variable)),
+                     by= "variable")%>%
+      dplyr::mutate(crit= .data$SS_res*.data$weight)%>%
+      dplyr::summarise(crit= sum(.data$crit))
+  }
 }
 

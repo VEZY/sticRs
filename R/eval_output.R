@@ -78,8 +78,8 @@ eval_output= function(dirpath= getwd(), obs_name= NULL, mixed= NULL){
     }
   }
 
-  cat("Input/Output files used for simulation:\n")
-  print(Equiv)
+  message("Input/Output files used for simulation:\n")
+  message(Equiv)
 
   if(mixed){
     Table_comp= merge(sim,meas,by = c("Dominance","Date"),
