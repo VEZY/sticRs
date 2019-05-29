@@ -4,7 +4,7 @@
 \alias{stics_eval_no_copy}
 \title{Make a simulation}
 \usage{
-stics_eval_no_copy(USM_path, param, obs_name)
+stics_eval_no_copy(USM_path, param, obs_name, Plant)
 }
 \arguments{
 \item{USM_path}{The path to the USM folder}
@@ -12,6 +12,10 @@ stics_eval_no_copy(USM_path, param, obs_name)
 \item{param}{The parameter values}
 
 \item{obs_name}{The observation file names}
+
+\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
+will be set (only for plant or technical parameters in mixed crop simulations)
+Set to \code{NULL} if using STICS in sole crop#'}
 }
 \value{
 The output of [eval_output()]

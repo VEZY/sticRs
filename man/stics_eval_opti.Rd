@@ -17,7 +17,9 @@ stics_eval_opti(x, USM_path, obs_name, param, weight = NULL, Plant = 1)
 
 \item{weight}{The weight used for each variable (see details)}
 
-\item{Plant}{The plant evaluated (for intercrop)}
+\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
+will be set (only for plant or technical parameters in mixed crop simulations)
+Set to \code{NULL} if using STICS in sole crop}
 }
 \value{
 The weighted product of squares (selection criteria)

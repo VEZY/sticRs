@@ -185,7 +185,9 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @param obs_name The observation file name
 #' @param param    The parameter names (in same order than x)
 #' @param weight   The weight used for each variable (see details)
-#' @param Plant    The plant evaluated (for intercrop)
+#' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
+#'                   will be set (only for plant or technical parameters in mixed crop simulations)
+#'                   Set to \code{NULL} if using STICS in sole crop
 #'
 #' @details If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
@@ -205,7 +207,7 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
 
   out_stats=
     output%>%
-    dplyr::select(-Plant)%>% # removing the Plant column to avoid any issue in the next line
+    dplyr::select(-.data$Plant)%>% # removing the Plant column to avoid any issue in the next line
     # Selecting only the plant the user need:
     dplyr::filter(ifelse(.data$Dominance=="Sole crop"|(.data$Dominance=="Principal"&Plant==1)|
                            (.data$Dominance=="Associated"&Plant==2),TRUE,FALSE))%>%
@@ -237,10 +239,12 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
 #' @param USM_path The path to the USM folder
 #' @param param    The parameter values
 #' @param obs_name The observation file names
-#'
+#' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
+#'                   will be set (only for plant or technical parameters in mixed crop simulations)
+#'                   Set to \code{NULL} if using STICS in sole crop#'
 #' @return The output of [eval_output()]
 #'
-stics_eval_no_copy= function(USM_path,param,obs_name){
+stics_eval_no_copy= function(USM_path,param,obs_name,Plant){
 
   if(length(USM_path)==1){
     outputs=
@@ -264,7 +268,7 @@ stics_eval_no_copy= function(USM_path,param,obs_name){
     cl= parallel::makeCluster(min(NbCores,length(USM_path)))
     parallel::clusterExport(cl=cl,
                             varlist=c("USM_path","param","obs_name","set_param",
-                                      "run_stics","eval_output"),
+                                      "run_stics","eval_output","Plant"),
                             envir=environment())
 
     parallel::clusterEvalQ(cl, library("dplyr"))

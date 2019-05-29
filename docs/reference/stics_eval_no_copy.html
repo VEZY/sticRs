@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Objective function to optimize — stics_eval_opti • sticRs</title>
+<title>Make a simulation — stics_eval_no_copy • sticRs</title>
 
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
@@ -31,10 +31,10 @@
 
 
 
-<meta property="og:title" content="Objective function to optimize — stics_eval_opti" />
+<meta property="og:title" content="Make a simulation — stics_eval_no_copy" />
 
-<meta property="og:description" content="Function evaluated for parameter optimization. This function is only provided
-for informative value, but should not be used by the user. It is called by optimi_stics." />
+<meta property="og:description" content="Make a STICS simulation such as for using [stics_eval()] but without
+importing the files, and without making plots. This function is parallelized over USMs." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -116,64 +116,46 @@ for informative value, but should not be used by the user. It is called by optim
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Objective function to optimize</h1>
+    <h1>Make a simulation</h1>
     
-    <div class="hidden name"><code>stics_eval_opti.Rd</code></div>
+    <div class="hidden name"><code>stics_eval_no_copy.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Function evaluated for parameter optimization. This function is only provided
-for informative value, but should not be used by the user. It is called by <code><a href='optimi_stics.html'>optimi_stics</a></code>.</p>
+    <p>Make a STICS simulation such as for using [stics_eval()] but without
+importing the files, and without making plots. This function is parallelized over USMs.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>stics_eval_opti</span>(<span class='no'>x</span>, <span class='no'>USM_path</span>, <span class='no'>obs_name</span>, <span class='no'>param</span>, <span class='kw'>weight</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Plant</span> <span class='kw'>=</span> <span class='fl'>1</span>)</pre>
+    <pre class="usage"><span class='fu'>stics_eval_no_copy</span>(<span class='no'>USM_path</span>, <span class='no'>param</span>, <span class='no'>obs_name</span>, <span class='no'>Plant</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>The starting parameter values</p></td>
-    </tr>
-    <tr>
       <th>USM_path</th>
-      <td><p>The path to the USM</p></td>
-    </tr>
-    <tr>
-      <th>obs_name</th>
-      <td><p>The observation file name</p></td>
+      <td><p>The path to the USM folder</p></td>
     </tr>
     <tr>
       <th>param</th>
-      <td><p>The parameter names (in same order than x)</p></td>
+      <td><p>The parameter values</p></td>
     </tr>
     <tr>
-      <th>weight</th>
-      <td><p>The weight used for each variable (see details)</p></td>
+      <th>obs_name</th>
+      <td><p>The observation file names</p></td>
     </tr>
     <tr>
       <th>Plant</th>
       <td><p>The plant (<em>i.e.</em> Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
-Set to <code>NULL</code> if using STICS in sole crop</p></td>
+Set to <code>NULL</code> if using STICS in sole crop#'</p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>The weighted product of squares (selection criteria)</p>
-    
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>If weight is not provided by the user, the selection criteria is computed using the equation
-5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.</p>
-    
-    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
-
-    <p>Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
- A package of parameter e00stimation methods and implementation for the STICS crop-soil model. Environmental Modelling &amp; Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004</p>
+    <p>The output of [eval_output()]</p>
     
 
   </div>
@@ -183,10 +165,6 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
       <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#value">Value</a></li>
-
-      <li><a href="#details">Details</a></li>
-
-      <li><a href="#references">References</a></li>
           </ul>
 
   </div>
