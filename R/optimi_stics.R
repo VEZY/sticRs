@@ -2,8 +2,7 @@
 #'
 #' @description Optimize STICS parameter values according to measurements
 #'
-#' @param dir.orig   Path to the directory from which to copy the simulation files. If
-#'                   \code{NULL} (the default), uses the package dummy USM.
+#' @param dir.orig   Vector of paths to the directory from which to copy the USMs files.
 #' @param dir.targ   Path to the target directory for evaluation. Created if missing.
 #' @param stics      STICS executable path
 #' @param obs_name   A vector of observation file name(s). It must have the form
@@ -53,12 +52,23 @@
 #'                        min= c(0,0),
 #'                        max= c(1,1))
 #'
+#' # On a single USM:
 #' optimi_stics(dir.orig = "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
 #'              dir.targ = "2-Simulations/param_optim",
 #'              stics = "0-DATA/stics_executable/19-new/Stics.exe",
 #'              obs_name = c("6_IC_Wheat_N0.obs","6_IC_Pea_N0.obs"),
 #'              Parameters= Parameters,
 #'              Vars = c('lai(n)','masec(n)','hauteur'),
+#'              method= "nmkb",Plant=1)
+#'
+#' # On a series of USMs:
+#' optimi_stics(dir.orig = c("0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
+#'                           "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"),
+#'              dir.targ = "2-Simulations/param_optim",
+#'              stics = "0-DATA/stics_executable/19-new/Stics.exe",
+#'              obs_name = data.frame(Principal= rep("6_IC_Wheat_N0.obs",2),
+#'                                    Associated= rep("6_IC_Pea_N0.obs",2)),
+#'              Parameters = Parameters, weight= 1, Vars = c('hauteur'),
 #'              method= "nmkb",Plant=1)
 #'}
 #'
@@ -69,6 +79,14 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   .= NULL # to avoid CRAN checks errors
 
   method= match.arg(method,c("nmkb")) # add new methods here
+
+  if(!is.data.frame(obs_name)){
+    obs_name= data.frame(as.list(obs_name))
+  }
+
+  if(length(dir.orig)!=nrow(obs_name)){
+    stop("Each USM from dir.orig should have its own obs_name")
+  }
 
   Vars_R= gsub("\\(","_",Vars)%>%gsub("\\)","",.)
 
@@ -93,16 +111,34 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   # NB: we don't use stics_eval dircectly because we want to copy the usm only once for
   # performance.
 
-  usm_name= paste0("optim")
+  usm_name= paste0("optim_",1:length(dir.orig))
   USM_path= file.path(dir.targ,usm_name)
-  import_usm(dir.orig = dir.orig, dir.targ = dir.targ,
-             usm_name = usm_name, overwrite = T,
-             stics = stics)
-  set_out_var(filepath= file.path(USM_path,"var.mod"),
-              vars=Vars, add=F)
-  run_stics(dirpath = USM_path)
-  output_orig= eval_output(dirpath= USM_path, obs_name= obs_name)
 
+  # Reference values:
+  NbCores= parallel::detectCores()-1
+  cl= parallel::makeCluster(min(NbCores,length(dir.orig)))
+  parallel::clusterExport(cl=cl,
+                          varlist=c("dir.orig","dir.targ","usm_name","stics",
+                                    "obs_name","Vars","stics_eval"),
+                          envir=environment())
+
+  outputs=
+    parallel::parLapply(
+      cl,
+      1:length(dir.orig),
+      function(x,dir.orig,dir.targ,Vars,stics,obs_name){
+        sim_name= list(stics)
+        names(sim_name)= usm_name[x]
+        stics_eval(dir.orig = dir.orig[x], dir.targ = dir.targ,
+                   stics = sim_name, obs_name = obs_name[x,],
+                   Out_var = Vars, plot_it = FALSE, Erase = FALSE,
+                   Parallel = FALSE)
+      },dir.orig,dir.targ,Vars,stics,obs_name)
+
+  names(outputs)= usm_name
+  parallel::stopCluster(cl)
+
+  # Then, optimize the parameter values for each
   opti= dfoptim::nmkb(fn= stics_eval_opti,
                       par= Parameters$start,
                       lower= Parameters$min,
@@ -114,13 +150,26 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                       obs_name= obs_name)
 
   # Import the last simulation output:
-  output_opti= eval_output(dirpath= USM_path, obs_name= obs_name)
-  gg_output= plot_output(original= output_orig,
-                         optimized= output_opti, plot_it = FALSE)
+  output_opti=
+    lapply(1:length(USM_path),
+           function(x){
+             eval_output(USM_path[x], obs_name= obs_name[x,])%>%
+               dplyr::mutate(usm= USM_path[x])
+           })%>%
+    data.table::rbindlist(fill = TRUE)%>%
+    as.data.frame()
+
+  opti_plot=
+    lapply(1:length(USM_path),
+           function(x){
+             plot_output(original= outputs[[x]]$outputs,
+                         optimized= eval_output(USM_path[x], obs_name= obs_name[x,]),
+                         plot_it = FALSE)
+           })
 
   unlink(x = dir.targ, recursive = T, force = T)
 
-  invisible(list(gg_objects= gg_output, opti_output= opti,last_sim= output_opti))
+  invisible(list(gg_objects= opti_plot, opti_output= opti, last_sim_data= output_opti))
 }
 
 
@@ -142,28 +191,26 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
 #'
 #' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
-#'  A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
+#'  A package of parameter e00stimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
 #'
-#' @importFrom rlang .data
+#' @importFrom rlang .data00
 #'
 #' @return The weighted product of squares (selection criteria)
 #' @export
 #'
 stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
   names(x)= param
-  lapply(param, function(pa){
-    set_param(dirpath = USM_path, param = pa,
-              value = x[pa], plant = Plant)
-  })
-  run_stics(dirpath = USM_path)
-  out_stats=
-    stati_stics(USM_path, obs_name= obs_name)%>%
-    dplyr::ungroup()
 
-  # Selecting only the plant the user need:
-  if(length(unique(out_stats$Dominance))>1){
-    out_stats= out_stats[out_stats$Dominance==ifelse(Plant==1,"Principal","Associated"),]
-  }
+  output= stics_eval_no_copy(USM_path,x,obs_name)
+
+  out_stats=
+    output%>%
+    dplyr::select(-Plant)%>% # removing the Plant column to avoid any issue in the next line
+    # Selecting only the plant the user need:
+    dplyr::filter(ifelse(.data$Dominance=="Sole crop"|(.data$Dominance=="Principal"&Plant==1)|
+                           (.data$Dominance=="Associated"&Plant==2),TRUE,FALSE))%>%
+    dplyr::select(-.data$usm)%>%
+    stati_stics()%>%dplyr::ungroup()
 
   if(is.null(weight)){
     crit=
@@ -181,3 +228,36 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
   crit$crit
 }
 
+
+# make this execution parallel over USMs
+
+
+
+
+#' Make a simulation
+#'
+#' @description Make a STICS simulation such as for using [stics_eval()] but without
+#' importing the files, and without making plots. This function is parallelized over USMs.
+#'
+#' @param USM_path The path to the USM folder
+#' @param param    The parameter values
+#' @param obs_name The observation file names
+#'
+#' @return The output of [eval_output()]
+#'
+stics_eval_no_copy= function(USM_path,param,obs_name){
+  lapply(1:length(USM_path),
+         function(x){
+           lapply(names(param), function(pa){
+             set_param(dirpath = USM_path[x],
+                       param = pa,
+                       value = param[pa],
+                       plant = Plant)
+           })
+           run_stics(dirpath = USM_path[x])
+           eval_output(USM_path[x], obs_name= obs_name[x,])%>%
+             dplyr::mutate(usm= USM_path[x])
+         })%>%
+    data.table::rbindlist(fill = TRUE)%>%
+    as.data.frame()
+}

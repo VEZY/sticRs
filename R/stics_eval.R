@@ -111,7 +111,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
 
   if(Parallel&length(usm_name)>1){
     NbCores= parallel::detectCores()-1
-    cl= parallel::makeCluster(min(NbCores,length(stics)))
+    cl= parallel::makeCluster(min(NbCores,length(usm_name)))
     parallel::clusterExport(cl=cl,
                             varlist=c("dir.orig","dir.targ","usm_name","stics",
                                       "obs_name","Out_var","import_usm",
