@@ -8,8 +8,7 @@ optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
   Vars, weight = NULL, method = c("nmkb"), Plant = 1, ...)
 }
 \arguments{
-\item{dir.orig}{Path to the directory from which to copy the simulation files. If
-\code{NULL} (the default), uses the package dummy USM.}
+\item{dir.orig}{Vector of paths to the directory from which to copy the USMs files.}
 
 \item{dir.targ}{Path to the target directory for evaluation. Created if missing.}
 
@@ -63,12 +62,23 @@ Parameters= data.frame(parameter= c('hautK1','hautK2'),
                        min= c(0,0),
                        max= c(1,1))
 
+# On a single USM:
 optimi_stics(dir.orig = "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
              dir.targ = "2-Simulations/param_optim",
              stics = "0-DATA/stics_executable/19-new/Stics.exe",
              obs_name = c("6_IC_Wheat_N0.obs","6_IC_Pea_N0.obs"),
              Parameters= Parameters,
              Vars = c('lai(n)','masec(n)','hauteur'),
+             method= "nmkb",Plant=1)
+
+# On a series of USMs:
+optimi_stics(dir.orig = c("0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
+                          "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"),
+             dir.targ = "2-Simulations/param_optim",
+             stics = "0-DATA/stics_executable/19-new/Stics.exe",
+             obs_name = data.frame(Principal= rep("6_IC_Wheat_N0.obs",2),
+                                   Associated= rep("6_IC_Pea_N0.obs",2)),
+             Parameters = Parameters, weight= 1, Vars = c('hauteur'),
              method= "nmkb",Plant=1)
 }
 

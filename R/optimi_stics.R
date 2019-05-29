@@ -162,7 +162,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   opti_plot=
     lapply(1:length(USM_path),
            function(x){
-             plot_output(original= outputs[[x]]$outputs,
+             plot_output(original= outputs[[x]]$outputs[[1]],
                          optimized= eval_output(USM_path[x], obs_name= obs_name[x,]),
                          plot_it = FALSE)
            })
@@ -193,7 +193,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
 #'  A package of parameter e00stimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
 #'
-#' @importFrom rlang .data00
+#' @importFrom rlang .data
 #'
 #' @return The weighted product of squares (selection criteria)
 #' @export
@@ -229,11 +229,6 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
 }
 
 
-# make this execution parallel over USMs
-
-
-
-
 #' Make a simulation
 #'
 #' @description Make a STICS simulation such as for using [stics_eval()] but without
@@ -246,18 +241,53 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
 #' @return The output of [eval_output()]
 #'
 stics_eval_no_copy= function(USM_path,param,obs_name){
-  lapply(1:length(USM_path),
-         function(x){
-           lapply(names(param), function(pa){
-             set_param(dirpath = USM_path[x],
-                       param = pa,
-                       value = param[pa],
-                       plant = Plant)
-           })
-           run_stics(dirpath = USM_path[x])
-           eval_output(USM_path[x], obs_name= obs_name[x,])%>%
-             dplyr::mutate(usm= USM_path[x])
-         })%>%
-    data.table::rbindlist(fill = TRUE)%>%
-    as.data.frame()
+
+  if(length(USM_path)==1){
+    outputs=
+      lapply(1:length(USM_path),
+             function(x){
+               lapply(names(param), function(pa){
+                 set_param(dirpath = USM_path[x],
+                           param = pa,
+                           value = param[pa],
+                           plant = Plant)
+               })
+               run_stics(dirpath = USM_path[x])
+               eval_output(USM_path[x], obs_name= obs_name[x,])%>%
+                 dplyr::mutate(usm= USM_path[x])
+             })%>%
+      data.table::rbindlist(fill = TRUE)%>%
+      as.data.frame()
+  }else{
+    # Make the simulation in parallel if there are several USMs
+    NbCores= parallel::detectCores()-1
+    cl= parallel::makeCluster(min(NbCores,length(USM_path)))
+    parallel::clusterExport(cl=cl,
+                            varlist=c("USM_path","param","obs_name","set_param",
+                                      "run_stics","eval_output"),
+                            envir=environment())
+
+    parallel::clusterEvalQ(cl, library("dplyr"))
+
+    outputs=
+      parallel::parLapply(
+        cl,
+        1:length(USM_path),
+        function(x,USM_path,param,obs_name){
+          lapply(names(param), function(pa){
+            set_param(dirpath = USM_path[x],
+                      param = pa,
+                      value = param[pa],
+                      plant = Plant)
+          })
+          run_stics(dirpath = USM_path[x])
+          eval_output(USM_path[x], obs_name= obs_name[x,])%>%
+            dplyr::mutate(usm= USM_path[x])
+        },USM_path,param,obs_name)%>%
+      data.table::rbindlist(fill = TRUE)%>%
+      as.data.frame()
+    parallel::stopCluster(cl)
+  }
+
+  outputs
 }
