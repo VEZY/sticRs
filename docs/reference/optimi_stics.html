@@ -89,10 +89,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/Introduction_to_sticRs.html">Introduction to sticRs</a>
+      <a href="../articles/Introduction_to_sticRs.html">1-Introduction to sticRs</a>
     </li>
     <li>
-      <a href="../articles/Sensitivity_analyses.html">Sensitivity analyses</a>
+      <a href="../articles/optimisation.html">3-Parameter value optimization</a>
+    </li>
+    <li>
+      <a href="../articles/Sensitivity_analyses.html">2-Sensitivity analyses</a>
     </li>
   </ul>
 </li>
@@ -134,7 +137,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>dir.orig</th>
-      <td><p>Vector of paths to the directory from which to copy the USMs files.</p></td>
+      <td><p>Vector or named list of paths to the directory from which to copy the USMs files.</p></td>
     </tr>
     <tr>
       <th>dir.targ</th>
@@ -169,7 +172,7 @@ them (see details and example)</p></td>
     </tr>
     <tr>
       <th>Plant</th>
-      <td><p>The plant (<em>i.e.</em> Principal or associated) for which the parameters
+      <td><p>A vector for the plant (<em>i.e.</em> Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
 Set to <code>NULL</code> if using STICS in sole crop</p></td>
     </tr>
@@ -227,14 +230,14 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
              <span class='kw'>method</span><span class='kw'>=</span> <span class='st'>"nmkb"</span>,<span class='kw'>Plant</span><span class='kw'>=</span><span class='fl'>1</span>)
 
 <span class='co'># On a series of USMs:</span>
-<span class='fu'>optimi_stics</span>(<span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,
-                          <span class='st'>"0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"</span>),
+<span class='fu'>optimi_stics</span>(<span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/list'>list</a></span>(<span class='kw'>Y2005</span><span class='kw'>=</span> <span class='st'>"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,
+                             <span class='kw'>Y2006</span><span class='kw'>=</span> <span class='st'>"0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"</span>),
              <span class='kw'>dir.targ</span> <span class='kw'>=</span> <span class='st'>"2-Simulations/param_optim"</span>,
              <span class='kw'>stics</span> <span class='kw'>=</span> <span class='st'>"0-DATA/stics_executable/19-new/Stics.exe"</span>,
              <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/data.frame'>data.frame</a></span>(<span class='kw'>Principal</span><span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"6_IC_Wheat_N0.obs"</span>,<span class='fl'>2</span>),
                                    <span class='kw'>Associated</span><span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/rep'>rep</a></span>(<span class='st'>"6_IC_Pea_N0.obs"</span>,<span class='fl'>2</span>)),
              <span class='kw'>Parameters</span> <span class='kw'>=</span> <span class='no'>Parameters</span>, <span class='kw'>weight</span><span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='st'>'hauteur'</span>),
-             <span class='kw'>method</span><span class='kw'>=</span> <span class='st'>"nmkb"</span>,<span class='kw'>Plant</span><span class='kw'>=</span><span class='fl'>1</span>)
+             <span class='kw'>method</span><span class='kw'>=</span> <span class='st'>"nmkb"</span>,<span class='kw'>Plant</span><span class='kw'>=</span><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/c'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>1</span>))
 <span class='co'># }</span><div class='input'>
 </div></pre>
   </div>

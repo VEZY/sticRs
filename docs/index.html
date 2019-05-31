@@ -56,10 +56,13 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="articles/Introduction_to_sticRs.html">Introduction to sticRs</a>
+      <a href="articles/Introduction_to_sticRs.html">1-Introduction to sticRs</a>
     </li>
     <li>
-      <a href="articles/Sensitivity_analyses.html">Sensitivity analyses</a>
+      <a href="articles/optimisation.html">3-Parameter value optimization</a>
+    </li>
+    <li>
+      <a href="articles/Sensitivity_analyses.html">2-Sensitivity analyses</a>
     </li>
   </ul>
 </li>
@@ -99,7 +102,8 @@
 <li><p>import the results for analyzes (<a href="R/read_output.R"><code>read_output</code></a>), or the observations available in the USM (<a href="R/read_obs.R"><code>read_obs</code></a>)</p></li>
 <li><p>compare observations and simulations (<a href="R/eval_output.R"><code>eval_output</code></a>)</p></li>
 <li><p>make all previous at once in parallel to evaluate and compare the output of STICS versions or parameter values effect (<a href="R/stics_eval.R"><code>stics_eval</code></a>)</p></li>
-<li><p>and run sensitivity analyzes (<a href="R/sensitive_stics.R"><code>sensitive_stics</code></a>) to one or more input parameters and their possible interactions on one or more output variables. Note that <a href="R/stics_eval.R"><code>stics_eval</code></a> can evaluate parameter change effect also, but doesn’t run full sensitivity analyzes.</p></li>
+<li><p>run sensitivity analyzes (<a href="R/sensitive_stics.R"><code>sensitive_stics</code></a>) to one or more input parameters and their possible interactions on one or more output variables. Note that <a href="R/stics_eval.R"><code>stics_eval</code></a> can evaluate parameter change effect also, but doesn’t run full sensitivity analyzes.</p></li>
+<li><p>and optimize parameter values (<a href="R/optimi_stics.R"><code>optimi_stics</code></a>)</p></li>
 </ul>
 <p>The package is under intensive development, so you can fill an issue or request me a feature <a href="https://github.com/VEZY/sticRs/issues">here</a> at any time.</p>
 </div>
@@ -116,7 +120,7 @@
 <div id="examples" class="section level2">
 <h2 class="hasAnchor">
 <a href="#examples" class="anchor"></a>Examples</h2>
-<p>Toy examples are given here for users in a hurry, but it is highly recommended to read the <a href="https://vezy.github.io/sticRs/articles/Introduction_to_sticRs.html">introductory vignette</a> for a good start, and the <a href="https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html">sensitivity vignette</a> if needed.</p>
+<p>Toy examples are given here for users in a hurry, but it is highly recommended to read the <a href="https://vezy.github.io/sticRs/articles/Introduction_to_sticRs.html">introductory vignette</a> for a good start, and the <a href="https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html">sensitivity</a> and <a href="https://vezy.github.io/sticRs/articles/optimisation.html">parameter optimization</a> vignettes if needed.</p>
 <div id="setting-a-parameter-running-the-model-and-compare-with-observations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#setting-a-parameter-running-the-model-and-compare-with-observations" class="anchor"></a>Setting a parameter, running the model and compare with observations</h3>

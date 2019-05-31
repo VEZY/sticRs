@@ -2,7 +2,7 @@
 #'
 #' @description Optimize STICS parameter values according to measurements
 #'
-#' @param dir.orig   Vector of paths to the directory from which to copy the USMs files.
+#' @param dir.orig   Vector or named list of paths to the directory from which to copy the USMs files.
 #' @param dir.targ   Path to the target directory for evaluation. Created if missing.
 #' @param stics      STICS executable path
 #' @param obs_name   A vector of observation file name(s). It must have the form
@@ -13,7 +13,7 @@
 #' @param Vars       Output variables on which the optimization is performed
 #' @param weight   The weight used for each variable (see details)
 #' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only \code{\link[dfoptim]{nmkb}}
-#' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
+#' @param Plant      A vector for the plant (\emph{i.e.} Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
 #'                   Set to \code{NULL} if using STICS in sole crop
 #' @param ...        Further parameters passed to the optimization function called
@@ -62,14 +62,14 @@
 #'              method= "nmkb",Plant=1)
 #'
 #' # On a series of USMs:
-#' optimi_stics(dir.orig = c("0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
-#'                           "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"),
+#' optimi_stics(dir.orig = list(Y2005= "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
+#'                              Y2006= "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"),
 #'              dir.targ = "2-Simulations/param_optim",
 #'              stics = "0-DATA/stics_executable/19-new/Stics.exe",
 #'              obs_name = data.frame(Principal= rep("6_IC_Wheat_N0.obs",2),
 #'                                    Associated= rep("6_IC_Pea_N0.obs",2)),
 #'              Parameters = Parameters, weight= 1, Vars = c('hauteur'),
-#'              method= "nmkb",Plant=1)
+#'              method= "nmkb",Plant=c(1,1))
 #'}
 #'
 #' @export
@@ -79,6 +79,15 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   .= NULL # to avoid CRAN checks errors
 
   method= match.arg(method,c("nmkb")) # add new methods here
+
+  if(!is.list(dir.orig)){
+    dir.orig= as.list(dir.orig)
+  }
+
+  if(length(Plant)!=length(dir.orig)){
+    Plant= rep(Plant, length(dir.orig))
+    warning("Single value of the Plant argument used for all USMs")
+  }
 
   if(!is.data.frame(obs_name)){
     obs_name= data.frame(as.list(obs_name))
@@ -112,6 +121,11 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   # performance.
 
   usm_name= paste0("optim_",1:length(dir.orig))
+
+  if(is.null(names(dir.orig))){
+    names(dir.orig)= usm_name
+  }
+
   USM_path= file.path(dir.targ,usm_name)
 
   # Reference values:
@@ -119,21 +133,21 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   cl= parallel::makeCluster(min(NbCores,length(dir.orig)))
   parallel::clusterExport(cl=cl,
                           varlist=c("dir.orig","dir.targ","usm_name","stics",
-                                    "obs_name","Vars","stics_eval"),
+                                    "obs_name","Vars","stics_eval","Plant"),
                           envir=environment())
 
   outputs=
     parallel::parLapply(
       cl,
       1:length(dir.orig),
-      function(x,dir.orig,dir.targ,Vars,stics,obs_name){
+      function(x,dir.orig,dir.targ,Vars,stics,obs_name,Plant){
         sim_name= list(stics)
         names(sim_name)= usm_name[x]
-        stics_eval(dir.orig = dir.orig[x], dir.targ = dir.targ,
+        stics_eval(dir.orig = dir.orig[[x]], dir.targ = dir.targ,
                    stics = sim_name, obs_name = obs_name[x,],
                    Out_var = Vars, plot_it = FALSE, Erase = FALSE,
-                   Parallel = FALSE)
-      },dir.orig,dir.targ,Vars,stics,obs_name)
+                   Parallel = FALSE, Plant = Plant[x])
+      },dir.orig,dir.targ,Vars,stics,obs_name,Plant)
 
   names(outputs)= usm_name
   parallel::stopCluster(cl)
@@ -160,12 +174,14 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     as.data.frame()
 
   opti_plot=
-    lapply(1:length(USM_path),
+    lapply(1:length(dir.orig),
            function(x){
              plot_output(original= outputs[[x]]$outputs[[1]],
                          optimized= eval_output(USM_path[x], obs_name= obs_name[x,]),
-                         plot_it = FALSE)
+                         plot_it = FALSE,
+                         Title = paste("Simulations for USM",names(dir.orig)[x]))
            })
+  names(opti_plot)= names(dir.orig)
 
   unlink(x = dir.targ, recursive = T, force = T)
 
@@ -200,10 +216,10 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @return The weighted product of squares (selection criteria)
 #' @export
 #'
-stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant=1){
+stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant){
   names(x)= param
 
-  output= stics_eval_no_copy(USM_path,x,obs_name)
+  output= stics_eval_no_copy(USM_path,x,obs_name,Plant)
 
   out_stats=
     output%>%
@@ -277,17 +293,17 @@ stics_eval_no_copy= function(USM_path,param,obs_name,Plant){
       parallel::parLapply(
         cl,
         1:length(USM_path),
-        function(x,USM_path,param,obs_name){
+        function(x,USM_path,param,obs_name,Plant){
           lapply(names(param), function(pa){
             set_param(dirpath = USM_path[x],
                       param = pa,
                       value = param[pa],
-                      plant = Plant)
+                      plant = Plant[pa])
           })
           run_stics(dirpath = USM_path[x])
           eval_output(USM_path[x], obs_name= obs_name[x,])%>%
             dplyr::mutate(usm= USM_path[x])
-        },USM_path,param,obs_name)%>%
+        },USM_path,param,obs_name,Plant)%>%
       data.table::rbindlist(fill = TRUE)%>%
       as.data.frame()
     parallel::stopCluster(cl)

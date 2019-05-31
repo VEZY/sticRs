@@ -8,7 +8,7 @@ optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
   Vars, weight = NULL, method = c("nmkb"), Plant = 1, ...)
 }
 \arguments{
-\item{dir.orig}{Vector of paths to the directory from which to copy the USMs files.}
+\item{dir.orig}{Vector or named list of paths to the directory from which to copy the USMs files.}
 
 \item{dir.targ}{Path to the target directory for evaluation. Created if missing.}
 
@@ -27,7 +27,7 @@ them (see details and example)}
 
 \item{method}{The optimization method to use, see \pkg{dfoptim} package. For the moment, only \code{\link[dfoptim]{nmkb}}}
 
-\item{Plant}{The plant (\emph{i.e.} Principal or associated) for which the parameters
+\item{Plant}{A vector for the plant (\emph{i.e.} Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
 Set to \code{NULL} if using STICS in sole crop}
 
@@ -72,14 +72,14 @@ optimi_stics(dir.orig = "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
              method= "nmkb",Plant=1)
 
 # On a series of USMs:
-optimi_stics(dir.orig = c("0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
-                          "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"),
+optimi_stics(dir.orig = list(Y2005= "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
+                             Y2006= "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"),
              dir.targ = "2-Simulations/param_optim",
              stics = "0-DATA/stics_executable/19-new/Stics.exe",
              obs_name = data.frame(Principal= rep("6_IC_Wheat_N0.obs",2),
                                    Associated= rep("6_IC_Pea_N0.obs",2)),
              Parameters = Parameters, weight= 1, Vars = c('hauteur'),
-             method= "nmkb",Plant=1)
+             method= "nmkb",Plant=c(1,1))
 }
 
 }
