@@ -146,7 +146,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
         stics_eval(dir.orig = dir.orig[[x]], dir.targ = dir.targ,
                    stics = sim_name, obs_name = obs_name[x,],
                    Out_var = Vars, plot_it = FALSE, Erase = FALSE,
-                   Parallel = FALSE, Plant = Plant[x])
+                   Parallel = FALSE)
       },dir.orig,dir.targ,Vars,stics,obs_name,Plant)
 
   names(outputs)= usm_name
@@ -255,9 +255,9 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant){
 #' @param USM_path The path to the USM folder
 #' @param param    The parameter values
 #' @param obs_name The observation file names
-#' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
-#'                   will be set (only for plant or technical parameters in mixed crop simulations)
-#'                   Set to \code{NULL} if using STICS in sole crop#'
+#' @param Plant    The plant (\emph{i.e.} Principal or associated) for which the parameters
+#'                 will be set (only for plant or technical parameters in mixed crop simulations)
+#'                 Set to \code{NULL} if using STICS in sole crop#'
 #' @return The output of [eval_output()]
 #'
 stics_eval_no_copy= function(USM_path,param,obs_name,Plant){
@@ -298,7 +298,7 @@ stics_eval_no_copy= function(USM_path,param,obs_name,Plant){
             set_param(dirpath = USM_path[x],
                       param = pa,
                       value = param[pa],
-                      plant = Plant[pa])
+                      plant = Plant[x])
           })
           run_stics(dirpath = USM_path[x])
           eval_output(USM_path[x], obs_name= obs_name[x,])%>%
