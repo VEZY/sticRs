@@ -202,6 +202,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #' @export
 set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
   param_val= read_param(dirpath = dirpath, param = param)
+
   file_type=
     lapply(strsplit(names(param_val),"\\."), function(x){x[1]})%>%
     unlist%>%unique
@@ -242,9 +243,13 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
            })
          },
          plant= {
+           variety=
+             read_param(dirpath = dirpath, param = "variete")[plant]%>%
+             as.numeric()
+
            tmp= lapply(plant, function(x){
              set_plant(filepath = file.path(dirpath,paste0("ficplt",x,".txt")),
-                       param = param, value = value, add= add)
+                       param = param, value = value, add= add, variety = variety)
            })
          },
          stop("Parameter not found")
@@ -287,8 +292,8 @@ set_tmp= function(filepath= "tempoparv6.sti",param,value,add=F){
 
 #' @rdname set_param
 #' @export
-set_plant= function(filepath="ficplt1.txt",param,value,add=F){
-  set_file(filepath,param,value,add)
+set_plant= function(filepath="ficplt1.txt",param,value,add=F,variety= NULL){
+  set_file(filepath,param,value,add,variety)
 }
 
 #' @rdname set_param
@@ -365,7 +370,7 @@ set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
 #'
 #' @keywords internal
 #' @export
-set_file= function(filepath,param,value,add){
+set_file= function(filepath,param,value,add,variety= NULL){
   # access the function name from which set_file was called
   type= strsplit(deparse(sys.call(-1)),split = "\\(")[[1]][1]
   params= readLines(filepath)
@@ -386,6 +391,12 @@ set_file= function(filepath,param,value,add){
          set_ini= {
            ref= read_ini(filepath)
            ref_index= grep(param_,names(ref))*2
+         },
+         set_plant= {
+           ref_index= grep(gsub('P_','',param_),params)+1
+           if(!is.null(variety)){
+             ref_index= ref_index[variety]
+           }
          },
          # Default here
          {

@@ -21,7 +21,7 @@ knitr::opts_chunk$set(
 
 Parameter values are not always available, or simply cannot be directly measured on the field. Optimization algorithm can help users calibrate a parameter value using measured outputs that depends on the value of the parameter. The [sticRs](https://vezy.github.io/sticRs/) package provide the `optimi_stics()` function that uses the simplex algorithm from Nelder-Mead. The implementation follows the methodology used in the OptimiSTICS matlab library (Wallach et al., 2011). 
 
-The function `optimi_stics()` can be used to optimize one or several parameters at a time using one or several output variables for one or several USMs.
+The function `optimi_stics()` can be used to optimize one or several parameters at a time using one or several observed variables for one or several USMs.
 
 
 ### Input parameters
@@ -44,7 +44,7 @@ Parameters
 ```
 
 
-### Single USM, single output variable
+### Single USM, single observed variable
 
 The parameter `data.frame` is used as an argument to `optimi_stics()`. Here is an example of the optimization of the two parameters related to plant height for a single USM: 
 
@@ -61,9 +61,9 @@ opti= optimi_stics(dir.orig = "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
 
 In this example, the `hautK1` and `hautA1` parameter values are optimized over one USM for the `hauteur` variable.
 
-### Single USM, several output variables
+### Single USM, several observed variables
 
-We can optimize the parameter values over several output variables also, by giving them as a vector: 
+We can optimize the parameter values over several observed variables also, by giving them as a vector: 
 
 ```{r eval=FALSE}
 library("sticRs")
@@ -98,7 +98,7 @@ The parameters will be optimized over all USMs at the same time. Each USM is sim
 
 ### Weight
 
-The parameters are optimized over output variables, but some variables are more important than others. The user can choose to apply a weight to each variable using the `weight` argument. For example, if the user wants to give three times the importance to one variable compared to others, he would put a weight three times higher for this variable:
+The parameters are optimized over observed variables, but some variables are more important than others. The user can choose to apply a weight to each variable using the `weight` argument. For example, if the user wants to give three times the importance to one variable compared to others, he would put a weight three times higher for this variable:
 
 ```{r eval=FALSE}
 library("sticRs")

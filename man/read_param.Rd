@@ -21,7 +21,8 @@ read_general(filepath = "tempopar.sti")
 
 read_tmp(filepath = "tempoparv6.sti")
 
-read_plant(filepath = "ficplt1.txt", max_variety = 30)
+read_plant(filepath = "ficplt1.txt", variety = NULL,
+  max_variety = 30)
 
 read_tec(filepath = "fictec1.txt", several_fert = T,
   several_thin = T, is_pasture = F)
@@ -44,6 +45,8 @@ return an object with all parameters}
 other functions}
 
 \item{filepath}{File path}
+
+\item{variety}{Integer. The plant variety to get the parameter from.}
 
 \item{max_variety}{Maximum number of variety authorized (this is only for STICS
 compatibility)}

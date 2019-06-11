@@ -25,7 +25,8 @@ set_general(filepath = "tempopar.sti", param, value, add = F)
 
 set_tmp(filepath = "tempoparv6.sti", param, value, add = F)
 
-set_plant(filepath = "ficplt1.txt", param, value, add = F)
+set_plant(filepath = "ficplt1.txt", param, value, add = F,
+  variety = NULL)
 
 set_tec(filepath = "fictec1.txt", param, value, add = F)
 

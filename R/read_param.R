@@ -12,6 +12,7 @@
 #' @param is_pasture   Is the plant a pasture ?
 #' @param max_variety  Maximum number of variety authorized (this is only for STICS
 #'                     compatibility)
+#' @param variety      Integer. The plant variety to get the parameter from.
 #' @param ...          Helper to pass arguments from \code{\link{read_param}} to the
 #'                     other functions
 #'
@@ -76,6 +77,7 @@ read_param= function(dirpath= getwd(),param= NULL,...){
   tmp= read_tmp(file.path(dirpath,"tempoparv6.sti"))
   tec= plant= setNames(vector(mode = "list", length = ini$nbplantes),
                         paste0("plant",1:ini$nbplantes))
+
   for(i in seq_len(ini$nbplantes)){
     tec[paste0("plant",i)]=
       list(read_tec(file.path(dirpath,paste0("fictec",i,".txt")),
@@ -83,6 +85,12 @@ read_param= function(dirpath= getwd(),param= NULL,...){
                is_pasture = is_pasture))
     plant[paste0("plant",i)]=
       list(read_plant(file.path(dirpath,paste0("ficplt",i,".txt")),
+                      variety=
+                        if(!is.null(param)){
+                          tec[[paste0("plant",i)]]$P_variete
+                        }else{
+                          NULL
+                        },
                       max_variety = max_variety))
   }
 
@@ -297,11 +305,16 @@ read_tmp= function(filepath="tempoparv6.sti"){
 
 #' @rdname read_param
 #' @export
-read_plant= function(filepath="ficplt1.txt",max_variety=30){
+read_plant= function(filepath="ficplt1.txt", variety= NULL, max_variety=30){
 
   params= readLines(filepath)
   plant= vector(mode='list', length = 0)
   values= params[!seq_along(params)%%2]
+
+  # No need to read all varieties if the variety is set and is not the last one
+  if(!is.null(variety)){
+    max_variety= min(variety,max_variety)
+  }
 
   index= 1
   val= function(){
@@ -580,13 +593,18 @@ read_plant= function(filepath="ficplt1.txt",max_variety=30){
     if(!any(is.na(err$P_codevar))){tmp= err}else{break}
   }
 
-  plant= c(plant,tmp)
   if(i==max_variety){
     plant$nbVariete = i
   }else{
     plant$nbVariete = i-1
   }
 
+  # Keep only the variety asked:
+  if(!is.null(variety)){
+    tmp= lapply(tmp, function(x)x[variety])
+  }
+
+  plant= c(plant,tmp)
 
   # Transform into numeric:
   plant_out= suppressWarnings(lapply(plant, as.numeric))

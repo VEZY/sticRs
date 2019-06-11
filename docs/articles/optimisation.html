@@ -84,7 +84,7 @@
       <h1>3-Parameter value optimization</h1>
                         <h4 class="author">R. Vezy</h4>
             
-            <h4 class="date">2019-05-31</h4>
+            <h4 class="date">2019-06-11</h4>
       
       
       <div class="hidden name"><code>optimisation.Rmd</code></div>
@@ -97,7 +97,7 @@
 <h2 class="hasAnchor">
 <a href="#parameter-optimization" class="anchor"></a>Parameter optimization</h2>
 <p>Parameter values are not always available, or simply cannot be directly measured on the field. Optimization algorithm can help users calibrate a parameter value using measured outputs that depends on the value of the parameter. The <a href="https://vezy.github.io/sticRs/">sticRs</a> package provide the <code><a href="../reference/optimi_stics.html">optimi_stics()</a></code> function that uses the simplex algorithm from Nelder-Mead. The implementation follows the methodology used in the OptimiSTICS matlab library (Wallach et al., 2011).</p>
-<p>The function <code><a href="../reference/optimi_stics.html">optimi_stics()</a></code> can be used to optimize one or several parameters at a time using one or several output variables for one or several USMs.</p>
+<p>The function <code><a href="../reference/optimi_stics.html">optimi_stics()</a></code> can be used to optimize one or several parameters at a time using one or several observed variables for one or several USMs.</p>
 <div id="input-parameters" class="section level3">
 <h3 class="hasAnchor">
 <a href="#input-parameters" class="anchor"></a>Input parameters</h3>
@@ -118,9 +118,9 @@
 <a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; 1    hautK1   0.2   0   1</span></a>
 <a class="sourceLine" id="cb1-8" title="8"><span class="co">#&gt; 2    hautA1   0.2   0   1</span></a></code></pre></div>
 </div>
-<div id="single-usm-single-output-variable" class="section level3">
+<div id="single-usm-single-observed-variable" class="section level3">
 <h3 class="hasAnchor">
-<a href="#single-usm-single-output-variable" class="anchor"></a>Single USM, single output variable</h3>
+<a href="#single-usm-single-observed-variable" class="anchor"></a>Single USM, single observed variable</h3>
 <p>The parameter <code>data.frame</code> is used as an argument to <code><a href="../reference/optimi_stics.html">optimi_stics()</a></code>. Here is an example of the optimization of the two parameters related to plant height for a single USM:</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sticRs"</span>)</a>
 <a class="sourceLine" id="cb2-2" title="2">opti=<span class="st"> </span><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
@@ -132,10 +132,10 @@
 <a class="sourceLine" id="cb2-8" title="8">                   <span class="dt">method=</span> <span class="st">"nmkb"</span>,<span class="dt">Plant=</span><span class="dv">1</span>)</a></code></pre></div>
 <p>In this example, the <code>hautK1</code> and <code>hautA1</code> parameter values are optimized over one USM for the <code>hauteur</code> variable.</p>
 </div>
-<div id="single-usm-several-output-variables" class="section level3">
+<div id="single-usm-several-observed-variables" class="section level3">
 <h3 class="hasAnchor">
-<a href="#single-usm-several-output-variables" class="anchor"></a>Single USM, several output variables</h3>
-<p>We can optimize the parameter values over several output variables also, by giving them as a vector:</p>
+<a href="#single-usm-several-observed-variables" class="anchor"></a>Single USM, several observed variables</h3>
+<p>We can optimize the parameter values over several observed variables also, by giving them as a vector:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sticRs"</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2">opti=<span class="st"> </span><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
 <a class="sourceLine" id="cb3-3" title="3">                   <span class="dt">dir.targ =</span> <span class="st">"2-Simulations/param_optim"</span>,</a>
@@ -161,7 +161,7 @@
 <div id="weight" class="section level3">
 <h3 class="hasAnchor">
 <a href="#weight" class="anchor"></a>Weight</h3>
-<p>The parameters are optimized over output variables, but some variables are more important than others. The user can choose to apply a weight to each variable using the <code>weight</code> argument. For example, if the user wants to give three times the importance to one variable compared to others, he would put a weight three times higher for this variable:</p>
+<p>The parameters are optimized over observed variables, but some variables are more important than others. The user can choose to apply a weight to each variable using the <code>weight</code> argument. For example, if the user wants to give three times the importance to one variable compared to others, he would put a weight three times higher for this variable:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sticRs"</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2">opti=<span class="st"> </span><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
 <a class="sourceLine" id="cb5-3" title="3">                   <span class="dt">dir.targ =</span> <span class="st">"2-Simulations/param_optim"</span>,</a>

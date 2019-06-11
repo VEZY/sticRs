@@ -4,7 +4,7 @@
 \alias{set_file}
 \title{Internal function to set some STICS input file parameters}
 \usage{
-set_file(filepath, param, value, add)
+set_file(filepath, param, value, add, variety = NULL)
 }
 \arguments{
 \item{filepath}{Path to the parameter file}
