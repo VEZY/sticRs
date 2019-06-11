@@ -8,10 +8,9 @@
 #' @param obs_name   A vector of observation file name(s). It must have the form
 #'                   \code{c(Dominant,Dominated)} for mixed crops.
 #'                   See \code{\link{read_obs}} \code{filename} parameter for more details.
-#' @param Parameters A list of list of starting, min and max values for each parameters, named after
-#'                   them (see details and example)
+#' @param Parameters A data.frame with parameter name, starting, min and max values (see details and example)
 #' @param Vars       Output variables on which the optimization is performed
-#' @param weight   The weight used for each variable (see details)
+#' @param weight     The weight used for each variable (see details)
 #' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only \code{\link[dfoptim]{nmkb}}
 #' @param Plant      A vector for the plant (\emph{i.e.} Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
@@ -19,11 +18,11 @@
 #' @param ...        Further parameters passed to the optimization function called
 #'                   (see \pkg{dfoptim} package)
 #'
-#' @details The function uses the \pkg{dfoptim} package functions under the hood. Currently only the Nelder-Mead algorithm
-#'  is implemented.
-#'  The `Parameters` argument should take the form of a list of arguments for each parameter, named after the parameter
-#'  of interest (see example). If the start is `NULL`, then the mean value between the min and max values is taken.
-#'  If weight is not provided by the user, the selection criteria is computed using the equation
+#' @details The function uses \code{\link[stats]{optimize}} for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
+#' Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
+#' The `Parameters` argument should be formated as a a data.frame (see example).
+#' If the start is `NULL`, then the mean value between the min and max values is taken.
+#' If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
 #'
 #' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
@@ -152,16 +151,27 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   names(outputs)= usm_name
   parallel::stopCluster(cl)
 
-  # Then, optimize the parameter values for each
-  opti= dfoptim::nmkb(fn= stics_eval_opti,
-                      par= Parameters$start,
-                      lower= Parameters$min,
-                      upper= Parameters$max,
-                      USM_path= USM_path,
-                      param= as.character(Parameters$parameter),
-                      Plant= Plant,
-                      weight= weight,
-                      obs_name= obs_name)
+  if(length(Parameters$parameter)==1){
+    # univariate optimization:
+    opti= stats::optimize(fn= stics_eval_opti,
+                          interval= c(Parameters$min,Parameters$max),
+                          USM_path= USM_path,
+                          param= as.character(Parameters$parameter),
+                          Plant= Plant,
+                          weight= weight,
+                          obs_name= obs_name)
+  }else{
+    # multivariate optimization:
+    opti= dfoptim::nmkb(fn= stics_eval_opti,
+                        par= Parameters$start,
+                        lower= Parameters$min,
+                        upper= Parameters$max,
+                        USM_path= USM_path,
+                        param= as.character(Parameters$parameter),
+                        Plant= Plant,
+                        weight= weight,
+                        obs_name= obs_name)
+  }
 
   # Import the last simulation output:
   output_opti=
