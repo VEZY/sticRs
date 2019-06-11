@@ -176,6 +176,7 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #' @param plant    Plant index. Optional, only for plant or technical parameters
 #' @param vars     Vector of variable names for STICS output requirements
 #' @param add      Boolean. Append input to existing file (add to the list)
+#' @param variety  Integer. The plant variety to get the parameter from.
 #'
 #' @details The \code{plant} parameter can be either equal to \code{1}, \code{2} for
 #'          the associated plant in the case of intercrop, or \code{c(1,2)} for both

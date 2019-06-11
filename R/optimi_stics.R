@@ -153,7 +153,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 
   if(length(Parameters$parameter)==1){
     # univariate optimization:
-    opti= stats::optimize(fn= stics_eval_opti,
+    opti= stats::optimize(f= stics_eval_opti,
                           interval= c(Parameters$min,Parameters$max),
                           USM_path= USM_path,
                           param= as.character(Parameters$parameter),

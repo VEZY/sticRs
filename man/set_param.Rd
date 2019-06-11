@@ -48,6 +48,8 @@ set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"),
 
 \item{filepath}{Path to the parameter file}
 
+\item{variety}{Integer. The plant variety to get the parameter from.}
+
 \item{vars}{Vector of variable names for STICS output requirements}
 }
 \description{
