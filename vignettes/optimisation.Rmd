@@ -46,7 +46,7 @@ Parameters
 
 ### Single USM, single observed variable
 
-The parameter `data.frame` is used as an argument to `optimi_stics()`. Here is an example of the optimization of the two parameters related to plant height for a single USM: 
+The parameter `data.frame` is used as an argument to `optimi_stics()`. Here is an example of the optimization of the two parameters related to plant height for a single USM for an intercrop: 
 
 ```{r eval=FALSE}
 library("sticRs")
@@ -58,6 +58,8 @@ opti= optimi_stics(dir.orig = "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea",
                    Vars = 'hauteur',
                    method= "nmkb",Plant=1)
 ```
+
+To make a simulation for a sole crop, simply give one .obs file instead, e.g.: `r obs_name = "6_IC_Pea_N0.obs"`.
 
 In this example, the `hautK1` and `hautA1` parameter values are optimized over one USM for the `hauteur` variable.
 
@@ -95,6 +97,8 @@ optimi_stics(dir.orig = list("Wheat-Pea 2005"= "0-DATA/dummy/Year_2005_2006/IC_W
 ```
 
 The parameters will be optimized over all USMs at the same time. Each USM is simulated in parallel to reduce the computation time. If the parameter is in the plant or the technical file for an intercrop, the user can specify the plant for which the parameter has to be optimized for each USM using the `Plant` argument. 
+
+To make a simulation for a sole crop, simply remove the `Associated` row from the `obs_name` argument, e.g.: `robs_name = data.frame(Principal= rep("6_IC_Wheat_N0.obs",2))`.
 
 ### Weight
 

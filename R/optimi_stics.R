@@ -92,7 +92,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     obs_name= data.frame(as.list(obs_name))
   }
 
-  if(length(dir.orig)!=nrow(obs_name)){
+  if(nrow(obs_name)>0&&length(dir.orig)!=nrow(obs_name)){
     stop("Each USM from dir.orig should have its own obs_name")
   }
 
