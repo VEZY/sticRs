@@ -5,9 +5,8 @@
 #' @param dir.orig   Vector or named list of paths to the directory from which to copy the USMs files.
 #' @param dir.targ   Path to the target directory for evaluation. Created if missing.
 #' @param stics      STICS executable path
-#' @param obs_name   A vector of observation file name(s). It must have the form
-#'                   \code{c(Dominant,Dominated)} for mixed crops.
-#'                   See \code{\link{read_obs}} \code{filename} parameter for more details.
+#' @param obs_name   A `data.frame` of observation file name(s) of the form
+#'                   \code{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply remove the `Dominated` column for sole crops.
 #' @param Parameters A data.frame with parameter name, starting, min and max values (see details and example)
 #' @param Vars       Output variables on which the optimization is performed
 #' @param weight     The weight used for each variable (see details)
@@ -30,11 +29,17 @@
 #'
 #'
 #' @return A list of three :
-#' \itemize{
-#'   \item gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
+#' * gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
 #'   compared to original parameter values.
-#'   \item values: A list of the optimized parameter values.
-#' }
+#' * opti_output: differs if the optimisation is uni or multi-dimensional:
+#'     + Univariate: A list of two: `minimum` -> the optimized parameter(s) value(s), and
+#'       `objective` -> the last value of the objective function.
+#'     + Multivariate: A list of six: `par` -> the optimized parameter(s) value(s),
+#'       `value` -> the last value of the optimization function, `feval`-> the number of times the objective function
+#'        was evaluated, `restarts` -> the number of times the algorithm had to be restarted when it stagnated,
+#'        `convergence` -> 0= convergence, 1 no convergence, and `message` some information about the convergence.
+#' * last_sim_data: the STICS output from the last simulation with the optimized parameter
+#'   values. This data is given using [eval_output()].
 #'
 #' @importFrom dfoptim nmkb
 #' @importFrom dplyr group_by summarise summarise_all select
@@ -107,15 +112,35 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 
   if(!is.data.frame(Parameters)){
     stop("Parameters should be a data.frame")
-  }else if(!all(colnames(Parameters)%in%c("parameter","start","min","max"))){
-    stop("Parameters should be a data.frame with columns name: parameter, start, min, max")
-  }else{
-    null_start= lapply(Parameters$start,is.null)%>%unlist
-    if(any(null_start)){
-      Parameters$start[null_start]= (Parameters$max[null_start]+Parameters$min[null_start])/2
-    }
   }
 
+  # if start values not given:
+  if(!all(c("parameter","min","max")%in%colnames(Parameters))){
+    stop("Parameters should be a data.frame with columns name: parameter, (start), min, max")
+  }else if(!c("start")%in%colnames(Parameters)){
+    warning("Parameters$start not set, taking mean value between min and max")
+    Parameters$start= (Parameters$max+Parameters$min)/2
+  }
+  # Or if any start value not given:
+  na_start= is.na(Parameters$start)
+  if(any(na_start)){
+    Parameters$start[na_start]=
+      (Parameters$max[na_start]+
+         Parameters$min[na_start])/2
+  }
+
+  # Testing start values regarding min and max:
+  if(any(Parameters$start<Parameters$min)){
+    stop("Wrong parameters argument: start value for ",
+         paste(Parameters$parameter[Parameters$start<Parameters$min], collapse=", "),
+         " below its min value")
+  }
+
+  if(any(Parameters$start>Parameters$max)){
+    stop("Wrong parameters argument: start value for ",
+         paste(Parameters$parameter[Parameters$start>Parameters$max], collapse=", "),
+         " above its max value")
+  }
   # NB: we don't use stics_eval dircectly because we want to copy the usm only once for
   # performance.
 
