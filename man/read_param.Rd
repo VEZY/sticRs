@@ -41,7 +41,7 @@ read_out_var(filepath = "var.mod")
 \item{param}{Parameter name. Optional, if not provided, the function
 return an object with all parameters}
 
-\item{...}{Helper to pass arguments from \code{\link{read_param}} to the
+\item{...}{Helper to pass arguments from \code{\link[=read_param]{read_param()}} to the
 other functions}
 
 \item{filepath}{File path}
@@ -59,23 +59,23 @@ compatibility)}
 }
 \value{
 A list of all parameters:
-        \item{ini}{Initialization parameters}
-        \item{general}{General parameters}
-        \item{tec}{Technical parameters}
-        \item{plant}{Plant parameters}
-        \item{soil}{Soil parameters}
-        \item{station}{Station parameters}
-        \item{output}{The output variables the user require from STICS}
+\item{ini}{Initialization parameters}
+\item{general}{General parameters}
+\item{tec}{Technical parameters}
+\item{plant}{Plant parameters}
+\item{soil}{Soil parameters}
+\item{station}{Station parameters}
+\item{output}{The output variables the user require from STICS}
 The function can return several sub-lists for each \code{plant} and \code{tec}
- if mixed crops, numbered by usage
+if mixed crops, numbered by usage
 }
 \description{
 Read STICS model input parameters from a pre-existing STICS input
-             file. Generally used after calling \code{\link{set_usm}}.
+file. Generally used after calling \code{\link[=set_usm]{set_usm()}}.
 }
 \note{
 Users generally only use \code{read_param} that identify parameters for
-      other functions and call them.
+other functions and call them.
 }
 \examples{
 \dontrun{
@@ -88,5 +88,5 @@ read_param(param='interrang')
 
 }
 \seealso{
-\code{\link{set_param}}.
+\code{\link[=set_param]{set_param()}}.
 }

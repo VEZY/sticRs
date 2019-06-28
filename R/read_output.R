@@ -5,18 +5,18 @@
 #' @param dirpath Directory path
 #' @param mixed   (optional) Is the simulation on mixed species (boolean)
 #' @param name    Plant name for the output. Especially usefull for mixed crops.
-#'                If \code{NULL}, the function tries to read it using \code{\link{read_usm}}
+#'                If `NULL`, the function tries to read it using [read_usm()]
 #'
-#' @details If \code{mixed} is not specified (or equal to \code{NULL}), the function try to
+#' @details If `mixed` is not specified (or equal to `NULL`), the function try to
 #'          read the number of species from the input files.
 #'
-#' @note The STICS outputs are controled from the \code{var.mod} file.
-#'       \code{\link{set_out_var}} can be used to set the output variables.
+#' @note The STICS outputs are controled from the `var.mod` file.
+#'       [set_out_var()] can be used to set the output variables.
 #'
 #' @return A data.frame (sole crop) or a list of two data.frames (mixed crops) of
 #'         the STICS outputs.
 #'
-#' @seealso \code{\link{read_param}}, \code{\link{set_param}}.
+#' @seealso [read_param()], [set_param()].
 #'
 #' @importFrom data.table fread
 #'

@@ -14,7 +14,7 @@ Helper function that return the name used as input
 for the STICS model with a partial match.
 }
 \details{
-The function understand \code{\link[base]{regex}} as input.
+The function understand \code{\link[base:regex]{base::regex()}} as input.
 }
 \examples{
 library(sticRs)
@@ -22,5 +22,5 @@ find_STICS_var("lai")
 
 }
 \seealso{
-\code{\link{all_out_var}}
+\code{\link[=all_out_var]{all_out_var()}}
 }

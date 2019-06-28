@@ -34,8 +34,8 @@
 <meta property="og:title" content="Internal function to set some STICS input file parameters — set_file" />
 
 <meta property="og:description" content="Replace or set an input parameter from a pre-existing STICS input
-             file. This function is called by some of the generic set_*
-             functions under the hood." />
+file. This function is called by some of the generic set_*
+functions under the hood." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -128,8 +128,8 @@
     <div class="ref-description">
     
     <p>Replace or set an input parameter from a pre-existing STICS input
-             file. This function is called by some of the generic <code>set_*</code>
-             functions under the hood.</p>
+file. This function is called by some of the generic <code>set_*</code>
+functions under the hood.</p>
     
     </div>
 
@@ -158,17 +158,17 @@
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function uses <code><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>sys.call</a></code> to know from which function
-         of the <code>set_*</code> family it is called, so it won't work properly if called
-         by the user directly. This is why this function is internal.</p>
+    <p>The function uses <code><a href='https://www.rdocumentation.org/packages/base/topics/sys.parent'>base::sys.call()</a></code> to know from which function
+of the <code>set_*</code> family it is called, so it won't work properly if called
+by the user directly. This is why this function is internal.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>This function is not used for <code><a href='set_param.html'>set_soil</a></code>.</p>
+    <p>This function is not used for <code><a href='set_param.html'>set_soil()</a></code>.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='set_param.html'>set_param</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='set_param.html'>set_param()</a></code>.</p></div>
     
 
   </div>

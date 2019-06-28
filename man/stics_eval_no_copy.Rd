@@ -18,9 +18,9 @@ will be set (only for plant or technical parameters in mixed crop simulations)
 Set to \code{NULL} if using STICS in sole crop#'}
 }
 \value{
-The output of [eval_output()]
+The output of \code{\link[=eval_output]{eval_output()}}
 }
 \description{
-Make a STICS simulation such as for using [stics_eval()] but without
+Make a STICS simulation such as for using \code{\link[=stics_eval]{stics_eval()}} but without
 importing the files, and without making plots. This function is parallelized over USMs.
 }

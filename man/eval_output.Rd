@@ -19,18 +19,18 @@ eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL,
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) with
-        simulated and observed data. Simulated and measured data have the \code{_sim}
-        and \code{_meas} suffix respectively.
+simulated and observed data. Simulated and measured data have the \code{_sim}
+and \code{_meas} suffix respectively.
 }
 \description{
 Compare STICS simulation outputs to observations for sole or mixed crops.
 }
 \details{
 For mixed crops, the \code{obs_name} argument should have the principal plant
-         observations first in the character vector, and then the associated plant.
-         If \code{obs_name} is not provided, the function try to guess it using the
-         built-in algorithm from \code{\link{read_obs}}. Idem for the \code{mixed}
-         argument. See documentation for more details.
+observations first in the character vector, and then the associated plant.
+If \code{obs_name} is not provided, the function try to guess it using the
+built-in algorithm from \code{\link[=read_obs]{read_obs()}}. Idem for the \code{mixed}
+argument. See documentation for more details.
 }
 \examples{
 \dontrun{
@@ -40,5 +40,5 @@ Table_compare= eval_output()
 
 }
 \seealso{
-\code{\link{read_output}} and \code{\link{read_obs}}
+\code{\link[=read_output]{read_output()}} and \code{\link[=read_obs]{read_obs()}}
 }

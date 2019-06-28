@@ -12,7 +12,7 @@ add_group(stics_eval_out, y)
 \item{y}{A vector of the group value, either of length 1 or nrow(stics_eval_out$outputs)}
 }
 \description{
-Add a group variable to a simulation from \code{\link{stics_eval}}.
+Add a group variable to a simulation from \code{\link[=stics_eval]{stics_eval()}}.
 }
 \details{
 This is usefull when comparing several simulations, to class outputs per simulations
@@ -52,5 +52,5 @@ plot_output(Eval_stics$outputs)
 }
 }
 \seealso{
-\code{\link{plot_output}} to use this group variable
+\code{\link[=plot_output]{plot_output()}} to use this group variable
 }

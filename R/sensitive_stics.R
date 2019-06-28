@@ -4,12 +4,12 @@
 #'              parameter(s) and their intercation if several are given.
 #'
 #' @param dir.orig   Path to the directory from which to copy the simulation files. If
-#'                   \code{NULL} (the default), uses the package dummy USM.
+#'                   `NULL` (the default), uses the package dummy USM.
 #' @param dir.targ   Path to the target directory for evaluation. Created if missing.
 #' @param stics      STICS executable path
 #' @param obs_name   A vector of observation file name(s). It must have the form
-#'                   \code{c(Dominant,Dominated)} for mixed crops.
-#'                   See \code{\link{read_obs}} \code{filename} parameter for more details.
+#'                   `c(Dominant,Dominated)` for mixed crops.
+#'                   See [read_obs()] `filename` parameter for more details.
 #' @param Parameters A list of list of min and max values for each parameters, named after
 #'                   them (see details and example)
 #' @param Vars       Output variables on which the sensitivity is performed
@@ -17,10 +17,10 @@
 #' @param n          Sample size for simulation (must be an even number for `sobol` alike
 #'                   methods)
 #' @param q          A vector of quantile function names corresponding to factors
-#'                   distribution (see \code{\link[sensitivity]{fast99}} and details)
-#' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
+#'                   distribution (see [sensitivity::fast99()] and details)
+#' @param Plant      The plant (*i.e.* Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
-#'                   Set to \code{NULL} if using STICS in sole crop
+#'                   Set to `NULL` if using STICS in sole crop
 #' @param Erase      Should the simulations data be erased upon import ? (see details)
 #' @param values     A named list of number of values given to each parameter (will repeat the value found in the DOE
 #'                   by `values`). If `NULL`, it is set to 1.
@@ -30,7 +30,7 @@
 #' @details The function uses the \pkg{sensitivity} package functions under the hood to
 #'  create the DOE (design of experiment) and then to compute the sensitivity index. For
 #'  `sobol` alike methods, the DOE is first computed using the
-#'  \code{\link[sensitivity]{fast99}} function using the `q` and `Parameters` (for
+#'  [sensitivity::fast99()] function using the `q` and `Parameters` (for
 #'  `q.arg`) parameters. The DOE is then splitted in two to fill the `X1`` and `X2`
 #'  parameters.
 #'  The `Parameters` should take the form of a list of arguments to pass to the `q`
@@ -58,7 +58,7 @@
 #' @importFrom dplyr group_by summarise summarise_all select
 #' @importFrom magrittr "%<>%"
 #'
-#' @seealso \code{\link[stats]{Distributions}} if you use \code{\link[sensitivity]{fast99}}.
+#' @seealso [stats::Distributions()] if you use [sensitivity::fast99()].
 #'
 #' @examples
 #'\dontrun{

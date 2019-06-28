@@ -24,7 +24,7 @@ is run on mixed crop (1= Principal, 2= Associated)}
 
 \item{obs_name}{A vector of observation file name(s). It must have the form
 \code{c(Dominant,Dominated)} for mixed crops.
-See \code{\link{read_obs}} \code{filename} parameter for more details.}
+See \code{\link[=read_obs]{read_obs()}} \code{filename} parameter for more details.}
 
 \item{Out_var}{The variables needed as output}
 
@@ -41,19 +41,19 @@ See \code{\link{read_obs}} \code{filename} parameter for more details.}
 \value{
 A list of three objects:
 \describe{
-  \item{outputs}{A list of \code{data.frame} objects corresponding
-  to the simulation for each value in the \code{stics} or \code{Parameter} arguments. The
-  data.frame is made by a call to \code{\link{eval_output}}.}
-  \item{gg_object}{A summary plot of the simulations outputs returned as a ggplot object.
-   Possibly a comparison between simulations if several values are given to the \code{stics}
-   or \code{Parameter} arguments.}
-   \item{stats}{A \code{data.frame} of a set of summary statistics for each simulation, computed
-   by a call to \code{\link{stati_stics}}.}
+\item{outputs}{A list of \code{data.frame} objects corresponding
+to the simulation for each value in the \code{stics} or \code{Parameter} arguments. The
+data.frame is made by a call to \code{\link[=eval_output]{eval_output()}}.}
+\item{gg_object}{A summary plot of the simulations outputs returned as a ggplot object.
+Possibly a comparison between simulations if several values are given to the \code{stics}
+or \code{Parameter} arguments.}
+\item{stats}{A \code{data.frame} of a set of summary statistics for each simulation, computed
+by a call to \code{\link[=stati_stics]{stati_stics()}}.}
 }
 }
 \description{
 Wrapper function to run STICS simulations and evaluate
- outputs using observations and/or other model versions.
+outputs using observations and/or other model versions.
 }
 \details{
 The function evaluate STICS outputs either along different model versions \strong{OR}
@@ -96,7 +96,7 @@ stics_eval(dir.orig = "0-DATA/dummy/IC_Wheat_Pea",
 }
 }
 \seealso{
-\code{\link{sensitive_stics}} to evaluate STICS sensitivity to parameter(s), and other
-functions used under the hood: \code{\link{eval_output}}, \code{\link{import_usm}},
-\code{\link{run_stics}}, \code{\link{stati_stics}}, and \code{\link{set_out_var}}.
+\code{\link[=sensitive_stics]{sensitive_stics()}} to evaluate STICS sensitivity to parameter(s), and other
+functions used under the hood: \code{\link[=eval_output]{eval_output()}}, \code{\link[=import_usm]{import_usm()}},
+\code{\link[=run_stics]{run_stics()}}, \code{\link[=stati_stics]{stati_stics()}}, and \code{\link[=set_out_var]{set_out_var()}}.
 }

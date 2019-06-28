@@ -12,22 +12,22 @@ read_output(dirpath = getwd(), mixed = NULL, name = NULL)
 \item{mixed}{(optional) Is the simulation on mixed species (boolean)}
 
 \item{name}{Plant name for the output. Especially usefull for mixed crops.
-If \code{NULL}, the function tries to read it using \code{\link{read_usm}}}
+If \code{NULL}, the function tries to read it using \code{\link[=read_usm]{read_usm()}}}
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) of
-        the STICS outputs.
+the STICS outputs.
 }
 \description{
 Read STICS model outputs for sole or mixed crops.
 }
 \details{
 If \code{mixed} is not specified (or equal to \code{NULL}), the function try to
-         read the number of species from the input files.
+read the number of species from the input files.
 }
 \note{
 The STICS outputs are controled from the \code{var.mod} file.
-      \code{\link{set_out_var}} can be used to set the output variables.
+\code{\link[=set_out_var]{set_out_var()}} can be used to set the output variables.
 }
 \examples{
 \dontrun{
@@ -37,5 +37,5 @@ Output= read_output()
 
 }
 \seealso{
-\code{\link{read_param}}, \code{\link{set_param}}.
+\code{\link[=read_param]{read_param()}}, \code{\link[=set_param]{set_param()}}.
 }

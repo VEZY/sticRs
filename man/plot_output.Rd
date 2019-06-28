@@ -8,7 +8,7 @@ plot_output(..., Vars = NULL, obs_name = NULL, Title = NULL,
   plot_it = T, group = F)
 }
 \arguments{
-\item{...}{Either a file path or the output from \code{\link{eval_output}}
+\item{...}{Either a file path or the output from \code{\link[=eval_output]{eval_output()}}
 If several objects are detected, make a comparison between them.}
 
 \item{Vars}{Character vector of variables required for plotting.}
@@ -34,8 +34,8 @@ to observations when available.
 \details{
 if \code{Vars} is NULL (the default), the function plots all variables
 from the simulation. The output variables from simulations can be set using
-\code{\link{set_out_var}}.If \code{obs_name} is not provided, the function tries
-to guess it using the built-in algorithm from \code{\link{read_obs}}. See
+\code{\link[=set_out_var]{set_out_var()}}.If \code{obs_name} is not provided, the function tries
+to guess it using the built-in algorithm from \code{\link[=read_obs]{read_obs()}}. See
 respective documentation for more details.
 }
 \examples{

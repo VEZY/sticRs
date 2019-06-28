@@ -3,24 +3,24 @@
 #' @description Plot stics outputs, compare between USMs, and compare simulations
 #' to observations when available.
 #'
-#' @param ...      Either a file path or the output from \code{\link{eval_output}}
+#' @param ...      Either a file path or the output from [eval_output()]
 #' If several objects are detected, make a comparison between them.
 #' @param Vars     Character vector of variables required for plotting.
 #' @param obs_name A vector of observation file name(s). It must have the form
-#'                 \code{c(Dominant,Dominated)} for mixed crops. See details.
+#'                 `c(Dominant,Dominated)` for mixed crops. See details.
 #' @param Title    A title for the plot (optional)
 #' @param plot_it  Boolean. Do the plot as to be pinted ?
-#' @param group    Boolean (Optional). Should the \code{group} column be used for
-#'                 column faceting. If \code{TRUE}, make sure that the group column
+#' @param group    Boolean (Optional). Should the `group` column be used for
+#'                 column faceting. If `TRUE`, make sure that the group column
 #'                 exists in the input
 #'
-#' @details if \code{Vars} is NULL (the default), the function plots all variables
+#' @details if `Vars` is NULL (the default), the function plots all variables
 #' from the simulation. The output variables from simulations can be set using
-#' \code{\link{set_out_var}}.If \code{obs_name} is not provided, the function tries
-#' to guess it using the built-in algorithm from \code{\link{read_obs}}. See
+#' [set_out_var()].If `obs_name` is not provided, the function tries
+#' to guess it using the built-in algorithm from [read_obs()]. See
 #' respective documentation for more details.
 #'
-#' @return A ggplot object, and print a plot if \code{plot_it} is set to \code{TRUE}.
+#' @return A ggplot object, and print a plot if `plot_it` is set to `TRUE`.
 #'
 #' @importFrom ggplot2 aes geom_line geom_point ggplot labs facet_grid ggtitle geom_errorbar guides vars
 #' @importFrom reshape2 melt

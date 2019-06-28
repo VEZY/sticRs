@@ -34,7 +34,7 @@
 <meta property="og:title" content="Read STICS input parameters — read_param" />
 
 <meta property="og:description" content="Read STICS model input parameters from a pre-existing STICS input
-             file. Generally used after calling set_usm." />
+file. Generally used after calling set_usm()." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,7 +127,7 @@
     <div class="ref-description">
     
     <p>Read STICS model input parameters from a pre-existing STICS input
-             file. Generally used after calling <code><a href='set_param.html'>set_usm</a></code>.</p>
+file. Generally used after calling <code><a href='set_param.html'>set_usm()</a></code>.</p>
     
     </div>
 
@@ -167,7 +167,7 @@ return an object with all parameters</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Helper to pass arguments from <code>read_param</code> to the
+      <td><p>Helper to pass arguments from <code>read_param()</code> to the
 other functions</p></td>
     </tr>
     <tr>
@@ -201,24 +201,24 @@ compatibility)</p></td>
 
     <p>A list of all parameters:</p>
 <dt>ini</dt><dd><p>Initialization parameters</p></dd>
-        <dt>general</dt><dd><p>General parameters</p></dd>
-        <dt>tec</dt><dd><p>Technical parameters</p></dd>
-        <dt>plant</dt><dd><p>Plant parameters</p></dd>
-        <dt>soil</dt><dd><p>Soil parameters</p></dd>
-        <dt>station</dt><dd><p>Station parameters</p></dd>
-        <dt>output</dt><dd><p>The output variables the user require from STICS</p></dd>
+<dt>general</dt><dd><p>General parameters</p></dd>
+<dt>tec</dt><dd><p>Technical parameters</p></dd>
+<dt>plant</dt><dd><p>Plant parameters</p></dd>
+<dt>soil</dt><dd><p>Soil parameters</p></dd>
+<dt>station</dt><dd><p>Station parameters</p></dd>
+<dt>output</dt><dd><p>The output variables the user require from STICS</p></dd>
 The function can return several sub-lists for each plant and tec
- if mixed crops, numbered by usage
+if mixed crops, numbered by usage
 
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Users generally only use <code>read_param</code> that identify parameters for
-      other functions and call them.</p>
+other functions and call them.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='set_param.html'>set_param</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='set_param.html'>set_param()</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

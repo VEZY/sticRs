@@ -149,9 +149,8 @@
     </tr>
     <tr>
       <th>obs_name</th>
-      <td><p>A vector of observation file name(s). It must have the form
-<code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(Dominant,Dominated)</a></code> for mixed crops.
-See <code><a href='read_obs.html'>read_obs</a></code> <code>filename</code> parameter for more details.</p></td>
+      <td><p>A <code>data.frame</code> of observation file name(s) of the form
+<code>data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)</code> for mixed crops (simply remove the <code>Dominated</code> column for sole crops.</p></td>
     </tr>
     <tr>
       <th>Parameters</th>
@@ -167,7 +166,7 @@ See <code><a href='read_obs.html'>read_obs</a></code> <code>filename</code> para
     </tr>
     <tr>
       <th>method</th>
-      <td><p>The optimization method to use, see <span class="pkg">dfoptim</span> package. For the moment, only <code><a href='https://www.rdocumentation.org/packages/dfoptim/topics/nmkb'>nmkb</a></code></p></td>
+      <td><p>The optimization method to use, see <span class="pkg">dfoptim</span> package. For the moment, only <code><a href='https://www.rdocumentation.org/packages/dfoptim/topics/nmkb'>dfoptim::nmkb()</a></code></p></td>
     </tr>
     <tr>
       <th>Plant</th>
@@ -186,28 +185,37 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
 
     <p>A list of three :</p><ul>
 <li><p>gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
-  compared to original parameter values.</p></li>
-<li><p>values: A list of the optimized parameter values.</p></li>
+compared to original parameter values.</p></li>
+<li><p>opti_output: differs if the optimisation is uni or multi-dimensional:</p><ul>
+<li><p>Univariate: A list of two: <code>minimum</code> -&gt; the optimized parameter(s) value(s), and
+<code>objective</code> -&gt; the last value of the objective function.</p></li>
+<li><p>Multivariate: A list of six: <code>par</code> -&gt; the optimized parameter(s) value(s),
+<code>value</code> -&gt; the last value of the optimization function, <code>feval</code>-&gt; the number of times the objective function
+was evaluated, <code>restarts</code> -&gt; the number of times the algorithm had to be restarted when it stagnated,
+<code>convergence</code> -&gt; 0= convergence, 1 no convergence, and <code>message</code> some information about the convergence.</p></li>
+</ul></li>
+<li><p>last_sim_data: the STICS output from the last simulation with the optimized parameter
+values. This data is given using <code><a href='eval_output.html'>eval_output()</a></code>.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function uses <code><a href='https://www.rdocumentation.org/packages/stats/topics/optimize'>optimize</a></code> for univariate optimization, and the <span class="pkg">dfoptim</span> package functions for multivariate.
+    <p>The function uses <code><a href='https://www.rdocumentation.org/packages/stats/topics/optimize'>stats::optimize()</a></code> for univariate optimization, and the <span class="pkg">dfoptim</span> package functions for multivariate.
 Currently only the Nelder-Mead algorithm is implemented from <span class="pkg">dfoptim</span>.
-The `Parameters` argument should be formated as a a data.frame (see example).
-If the start is `NULL`, then the mean value between the min and max values is taken.
+The <code>Parameters</code> argument should be formated as a a data.frame (see example).
+If the start is <code>NULL</code>, then the mean value between the min and max values is taken.
 If weight is not provided by the user, the selection criteria is computed using the equation
 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.</p>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
- A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling &amp; Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004</p>
+A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling &amp; Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/dfoptim/topics/nmkb'>nmkb</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/dfoptim/topics/nmkb'>dfoptim::nmkb()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

@@ -27,14 +27,14 @@ the ones needed for the STICS simulation.}
 }
 \description{
 Uses a pre-existing USM, copy files to target folder(s) of simulation,
-             set the USMs ready for simulation. \code{import_usm} create as many sub-folders
-             as USM neede in the target folder.
+set the USMs ready for simulation. \code{import_usm} create as many sub-folders
+as USM neede in the target folder.
 }
 \details{
 This function is a helper function used by other package functions.
- If \code{overwrite= F}, the function show to the user which files
- are already present, and asks the user what to do, so be careful while using
- this function for programming.
+If \code{overwrite= F}, the function show to the user which files
+are already present, and asks the user what to do, so be careful while using
+this function for programming.
 }
 \examples{
 \dontrun{

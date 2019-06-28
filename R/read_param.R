@@ -1,7 +1,7 @@
 #' Read STICS input parameters
 #'
 #' @description Read STICS model input parameters from a pre-existing STICS input
-#'              file. Generally used after calling \code{\link{set_usm}}.
+#'              file. Generally used after calling [set_usm()].
 #'
 #' @param dirpath      Directory path
 #' @param filepath     File path
@@ -13,10 +13,10 @@
 #' @param max_variety  Maximum number of variety authorized (this is only for STICS
 #'                     compatibility)
 #' @param variety      Integer. The plant variety to get the parameter from.
-#' @param ...          Helper to pass arguments from \code{\link{read_param}} to the
+#' @param ...          Helper to pass arguments from [read_param()] to the
 #'                     other functions
 #'
-#' @note Users generally only use \code{read_param} that identify parameters for
+#' @note Users generally only use `read_param` that identify parameters for
 #'       other functions and call them.
 #'
 #' @return A list of all parameters:
@@ -27,10 +27,10 @@
 #'         \item{soil}{Soil parameters}
 #'         \item{station}{Station parameters}
 #'         \item{output}{The output variables the user require from STICS}
-#' The function can return several sub-lists for each \code{plant} and \code{tec}
+#' The function can return several sub-lists for each `plant` and `tec`
 #'  if mixed crops, numbered by usage
 #'
-#' @seealso \code{\link{set_param}}.
+#' @seealso [set_param()].
 #'
 #' @importFrom stats setNames
 #'

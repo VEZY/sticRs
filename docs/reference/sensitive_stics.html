@@ -34,7 +34,7 @@
 <meta property="og:title" content="Make sensitivity analysis of STICS output — sensitive_stics" />
 
 <meta property="og:description" content="Make sensitivity analysis on a particular output(s) given STICS input
-             parameter(s) and their intercation if several are given." />
+parameter(s) and their intercation if several are given." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,7 +127,7 @@
     <div class="ref-description">
     
     <p>Make sensitivity analysis on a particular output(s) given STICS input
-             parameter(s) and their intercation if several are given.</p>
+parameter(s) and their intercation if several are given.</p>
     
     </div>
 
@@ -156,7 +156,7 @@
       <th>obs_name</th>
       <td><p>A vector of observation file name(s). It must have the form
 <code><a href='https://www.rdocumentation.org/packages/base/topics/c'>c(Dominant,Dominated)</a></code> for mixed crops.
-See <code><a href='read_obs.html'>read_obs</a></code> <code>filename</code> parameter for more details.</p></td>
+See <code><a href='read_obs.html'>read_obs()</a></code> <code>filename</code> parameter for more details.</p></td>
     </tr>
     <tr>
       <th>Parameters</th>
@@ -173,13 +173,13 @@ them (see details and example)</p></td>
     </tr>
     <tr>
       <th>n</th>
-      <td><p>Sample size for simulation (must be an even number for `sobol` alike
+      <td><p>Sample size for simulation (must be an even number for <code>sobol</code> alike
 methods)</p></td>
     </tr>
     <tr>
       <th>q</th>
       <td><p>A vector of quantile function names corresponding to factors
-distribution (see <code><a href='https://www.rdocumentation.org/packages/sensitivity/topics/fast99'>fast99</a></code> and details)</p></td>
+distribution (see <code><a href='https://www.rdocumentation.org/packages/sensitivity/topics/fast99'>sensitivity::fast99()</a></code> and details)</p></td>
     </tr>
     <tr>
       <th>Plant</th>
@@ -194,7 +194,7 @@ Set to <code>NULL</code> if using STICS in sole crop</p></td>
     <tr>
       <th>values</th>
       <td><p>A named list of number of values given to each parameter (will repeat the value found in the DOE
-by `values`). If `NULL`, it is set to 1.</p></td>
+by <code>values</code>). If <code>NULL</code>, it is set to 1.</p></td>
     </tr>
     <tr>
       <th>...</th>
@@ -207,34 +207,27 @@ by `values`). If `NULL`, it is set to 1.</p></td>
 
     <p>A list of three :</p><ul>
 <li><p>gg_objects: A list of ggplot objects to plot the sensitivity of each
-  variable to the parameter(s) along the rotation</p></li>
-<li><p>sensi_objects: A list of the sensitivity analysis output, *e.g.* a list
-  of class `fast99` for the `fast99` method.</p></li>
+variable to the parameter(s) along the rotation</p></li>
+<li><p>sensi_objects: A list of the sensitivity analysis output, <em>e.g.</em> a list
+of class <code>fast99</code> for the <code>fast99</code> method.</p></li>
 <li><p>DOE: A list of the design of experiment, with parameter values used for
-  each simulation.</p></li>
+each simulation.</p></li>
 </ul>
 
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The function uses the <span class="pkg">sensitivity</span> package functions under the hood to
- create the DOE (design of experiment) and then to compute the sensitivity index. For
- `sobol` alike methods, the DOE is first computed using the
- <code><a href='https://www.rdocumentation.org/packages/sensitivity/topics/fast99'>fast99</a></code> function using the `q` and `Parameters` (for
- `q.arg`) parameters. The DOE is then splitted in two to fill the `X1`` and `X2`
- parameters.
- The `Parameters` should take the form of a list of arguments to pass to the `q`
- function for each parameter, named after the parameter of interest (see example).
- As the simulations can take a lot of space on disk while augmenting the parameters
- number, the `Erase` parameter allow the user to erase each simulation as soon as
- its data is imported.
- The `values` parameter is used to repeat the input value found in the DOE given to set_param.
- It is usefull for plant parameters in intercrops that are still in the temporary parameter file
- so they have two values (one for each plant).</p>
+create the DOE (design of experiment) and then to compute the sensitivity index. For
+<code>sobol</code> alike methods, the DOE is first computed using the
+<code><a href='https://www.rdocumentation.org/packages/sensitivity/topics/fast99'>sensitivity::fast99()</a></code> function using the <code>q</code> and <code>Parameters</code> (for
+<code>q.arg</code>) parameters. The DOE is then splitted in two to fill the <code>X1`` and </code>X2<code>parameters. The</code>Parameters<code>should take the form of a list of arguments to pass to the</code>q<code>function for each parameter, named after the parameter of interest (see example). As the simulations can take a lot of space on disk while augmenting the parameters number, the</code>Erase<code>parameter allow the user to erase each simulation as soon as its data is imported. The</code>values` parameter is used to repeat the input value found in the DOE given to set_param.
+It is usefull for plant parameters in intercrops that are still in the temporary parameter file
+so they have two values (one for each plant).</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/Distributions'>Distributions</a></code> if you use <code><a href='https://www.rdocumentation.org/packages/sensitivity/topics/fast99'>fast99</a></code>.</p></div>
+    <div class='dont-index'><p><code><a href='https://www.rdocumentation.org/packages/stats/topics/Distributions'>stats::Distributions()</a></code> if you use <code><a href='https://www.rdocumentation.org/packages/sensitivity/topics/fast99'>sensitivity::fast99()</a></code>.</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

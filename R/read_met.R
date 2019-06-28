@@ -3,7 +3,7 @@
 #' @description Read the meteorology input for STICS ("climat.txt")
 #'
 #' @param dirpath  Directory path
-#' @param filename The meteorology file name (default to \code{climat.txt}).
+#' @param filename The meteorology file name (default to `climat.txt`).
 #'
 #' @note The time-related variables are summarised into one POSIXct column named
 #'       code{Date}.
@@ -11,7 +11,7 @@
 #' @return A data.frame of the input meteorological variables used as input for the
 #'         STICS model.
 #'
-#' @seealso \code{\link{read_obs}}
+#' @seealso [read_obs()]
 #'
 #' @importFrom data.table fread
 #'

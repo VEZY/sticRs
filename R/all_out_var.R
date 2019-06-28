@@ -3,7 +3,7 @@
 #' @description Helper function to print the list of all possible variables to set as output
 #' from the STICS model.
 #'
-#' @seealso \code{\link{set_out_var}}
+#' @seealso [set_out_var()]
 #'
 #' @examples
 #' library(sticRs)
@@ -569,9 +569,9 @@ all_out_var= function(){
 #'
 #' @param Var Character vector with a (partial) STICS output variable name
 #'
-#' @details The function understand \code{\link[base]{regex}} as input.
+#' @details The function understand [base::regex()] as input.
 #'
-#' @seealso \code{\link{all_out_var}}
+#' @seealso [all_out_var()]
 #'
 #' @examples
 #' library(sticRs)

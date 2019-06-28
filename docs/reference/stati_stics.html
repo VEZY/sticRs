@@ -34,7 +34,7 @@
 <meta property="og:title" content="Compute simulated/observed statistics — stati_stics" />
 
 <meta property="og:description" content="Compute statistics for evaluation of the STICS outputs against observations. This function can
-             be used for one USM or to compare outputs from different model versions or parameter values." />
+be used for one USM or to compare outputs from different model versions or parameter values." />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,7 +127,7 @@
     <div class="ref-description">
     
     <p>Compute statistics for evaluation of the STICS outputs against observations. This function can
-             be used for one USM or to compare outputs from different model versions or parameter values.</p>
+be used for one USM or to compare outputs from different model versions or parameter values.</p>
     
     </div>
 
@@ -138,7 +138,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>...</th>
-      <td><p>Either a folder path or the output from <code><a href='eval_output.html'>eval_output</a></code>. If several objects are
+      <td><p>Either a folder path or the output from <code><a href='eval_output.html'>eval_output()</a></code>. If several objects are
 detected, make a comparison between them.</p></td>
     </tr>
     <tr>
@@ -151,23 +151,23 @@ Must have the form <code><a href='https://www.rdocumentation.org/packages/base/t
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A data.frame with statistics for each simulation. The data.frame has a
-        <code>description</code> attribute that gives the description of the column names</p>
+<code>description</code> attribute that gives the description of the column names</p>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>If <code>obs_name</code> is not provided, the function tries to guess it using the built-in algorithm
-         from <code><a href='read_obs.html'>read_obs</a></code>. See respective documentation for more details.</p>
+from <code><a href='read_obs.html'>read_obs()</a></code>. See respective documentation for more details.</p>
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Because this function has the purpose to assess model quality, all statistics
-      are computed on dates were observations are present only. So the simulation mean
-      is only the mean on dates with observations, not the overall simulation mean.</p>
+are computed on dates were observations are present only. So the simulation mean
+is only the mean on dates with observations, not the overall simulation mean.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>This function is largely inspired from the <code>evaluate()</code> function from the
-         <code>SticsEvalR</code> package</p></div>
+<code>SticsEvalR</code> package</p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

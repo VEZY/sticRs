@@ -6,18 +6,18 @@
 #' @param dir.targ   Path to the target directory for evaluation. Created if missing.
 #' @param stics      STICS executable path
 #' @param obs_name   A `data.frame` of observation file name(s) of the form
-#'                   \code{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply remove the `Dominated` column for sole crops.
+#'                   `data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)` for mixed crops (simply remove the `Dominated` column for sole crops.
 #' @param Parameters A data.frame with parameter name, starting, min and max values (see details and example)
 #' @param Vars       Output variables on which the optimization is performed
 #' @param weight     The weight used for each variable (see details)
-#' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only \code{\link[dfoptim]{nmkb}}
-#' @param Plant      A vector for the plant (\emph{i.e.} Principal or associated) for which the parameters
+#' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only [dfoptim::nmkb()]
+#' @param Plant      A vector for the plant (*i.e.* Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
-#'                   Set to \code{NULL} if using STICS in sole crop
+#'                   Set to `NULL` if using STICS in sole crop
 #' @param ...        Further parameters passed to the optimization function called
 #'                   (see \pkg{dfoptim} package)
 #'
-#' @details The function uses \code{\link[stats]{optimize}} for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
+#' @details The function uses [stats::optimize()] for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
 #' Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
 #' The `Parameters` argument should be formated as a a data.frame (see example).
 #' If the start is `NULL`, then the mean value between the min and max values is taken.
@@ -45,7 +45,7 @@
 #' @importFrom dplyr group_by summarise summarise_all select
 #' @importFrom magrittr "%<>%"
 #'
-#' @seealso \code{\link[dfoptim]{nmkb}}
+#' @seealso [dfoptim::nmkb()]
 #'
 #' @examples
 #'\dontrun{
@@ -229,16 +229,16 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' Objective function to optimize
 #'
 #' @description Function evaluated for parameter optimization. This function is only provided
-#' for informative value, but should not be used by the user. It is called by \code{\link{optimi_stics}}.
+#' for informative value, but should not be used by the user. It is called by [optimi_stics()].
 #'
 #' @param x        The starting parameter values
 #' @param USM_path The path to the USM
 #' @param obs_name The observation file name
 #' @param param    The parameter names (in same order than x)
 #' @param weight   The weight used for each variable (see details)
-#' @param Plant      The plant (\emph{i.e.} Principal or associated) for which the parameters
+#' @param Plant      The plant (*i.e.* Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
-#'                   Set to \code{NULL} if using STICS in sole crop
+#'                   Set to `NULL` if using STICS in sole crop
 #'
 #' @details If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
@@ -290,9 +290,9 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant){
 #' @param USM_path The path to the USM folder
 #' @param param    The parameter values
 #' @param obs_name The observation file names
-#' @param Plant    The plant (\emph{i.e.} Principal or associated) for which the parameters
+#' @param Plant    The plant (*i.e.* Principal or associated) for which the parameters
 #'                 will be set (only for plant or technical parameters in mixed crop simulations)
-#'                 Set to \code{NULL} if using STICS in sole crop#'
+#'                 Set to `NULL` if using STICS in sole crop#'
 #' @return The output of [eval_output()]
 #'
 stics_eval_no_copy= function(USM_path,param,obs_name,Plant){

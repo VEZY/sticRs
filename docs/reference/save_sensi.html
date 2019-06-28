@@ -34,7 +34,7 @@
 <meta property="og:title" content="Save and Read sensitivity analysis of STICS — save_sensi" />
 
 <meta property="og:description" content="Helper functions to conveniently read or save sensitivity outputs from
-             the sensitive_stics function" />
+the sensitive_stics() function" />
 
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
@@ -127,7 +127,7 @@
     <div class="ref-description">
     
     <p>Helper functions to conveniently read or save sensitivity outputs from
-             the <code><a href='sensitive_stics.html'>sensitive_stics</a></code> function</p>
+the <code><a href='sensitive_stics.html'>sensitive_stics()</a></code> function</p>
     
     </div>
 
@@ -141,7 +141,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>The output from the <code><a href='sensitive_stics.html'>sensitive_stics</a></code> function</p></td>
+      <td><p>The output from the <code><a href='sensitive_stics.html'>sensitive_stics()</a></code> function</p></td>
     </tr>
     <tr>
       <th>dirpath</th>
@@ -149,7 +149,7 @@
     </tr>
     <tr>
       <th>device</th>
-      <td><p>Device to use for the <code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></code> function
+      <td><p>Device to use for the <code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave()</a></code> function
 that is used under the hood. From its documentation: Can be either
 a device function (e.g. png()), or one of "eps", "ps", "tex" (pictex),
 "pdf", "jpeg", "tiff", "png", "bmp", "svg" or "wmf" (windows only)</p></td>
@@ -165,20 +165,20 @@ them (see details and example)</p></td>
     </tr>
     <tr>
       <th>...</th>
-      <td><p>Further parameters to pass to <code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></code></p></td>
+      <td><p>Further parameters to pass to <code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave()</a></code></p></td>
     </tr>
     </table>
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The function first save all the `gg_objects` from the output of
-         <code><a href='sensitive_stics.html'>sensitive_stics</a></code> as images, save the full `x`object using
-         <code><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a></code>, and write a readme file for convenience.</p>
+    <p>The function first save all the <code>gg_objects</code> from the output of
+<code><a href='sensitive_stics.html'>sensitive_stics()</a></code> as images, save the full <code>x</code>object using
+<code><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>base::saveRDS()</a></code>, and write a readme file for convenience.</p>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggsave</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>saveRDS</a></code> and
-         <code><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>readRDS</a></code></p></div>
+    <div class='dont-index'><p><code><a href='https://ggplot2.tidyverse.org/reference/ggsave.html'>ggplot2::ggsave()</a></code>, <code><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>base::saveRDS()</a></code> and
+<code><a href='https://www.rdocumentation.org/packages/base/topics/readRDS'>base::readRDS()</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>

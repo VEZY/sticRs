@@ -5,7 +5,7 @@
 #'
 #' @param dirpath USM directory path
 #' @return The function prints the STICS output to the console and returns
-#'         \code{TRUE} if STICS ran successfully, or an error if any problem occured
+#'         `TRUE` if STICS ran successfully, or an error if any problem occured
 #'
 #' @examples
 #'\dontrun{
