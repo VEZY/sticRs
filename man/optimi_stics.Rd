@@ -57,6 +57,7 @@ Optimize STICS parameter values according to measurements
 The function uses \code{\link[stats:optimize]{stats::optimize()}} for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
 Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
 The \code{Parameters} argument should be formated as a a data.frame (see example).
+The start values should exclude the min and max values (they are exclusive bounds).
 If the start is \code{NULL}, then the mean value between the min and max values is taken.
 If weight is not provided by the user, the selection criteria is computed using the equation
 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.

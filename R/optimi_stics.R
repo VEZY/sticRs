@@ -20,6 +20,7 @@
 #' @details The function uses [stats::optimize()] for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
 #' Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
 #' The `Parameters` argument should be formated as a a data.frame (see example).
+#' The start values should exclude the min and max values (they are exclusive bounds).
 #' If the start is `NULL`, then the mean value between the min and max values is taken.
 #' If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
@@ -130,16 +131,16 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   }
 
   # Testing start values regarding min and max:
-  if(any(Parameters$start<Parameters$min)){
+  if(any(Parameters$start<=Parameters$min)){
     stop("Wrong parameters argument: start value for ",
          paste(Parameters$parameter[Parameters$start<Parameters$min], collapse=", "),
-         " below its min value")
+         " below or at its min value")
   }
 
-  if(any(Parameters$start>Parameters$max)){
+  if(any(Parameters$start>=Parameters$max)){
     stop("Wrong parameters argument: start value for ",
          paste(Parameters$parameter[Parameters$start>Parameters$max], collapse=", "),
-         " above its max value")
+         " above or at its max value")
   }
   # NB: we don't use stics_eval dircectly because we want to copy the usm only once for
   # performance.
