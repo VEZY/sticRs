@@ -4,11 +4,9 @@ citEntry(
   entry = "Article",
   author = personList(as.person("Rémi Vezy")),
   title = "sticRs: the STICS model R package for developers",
-  journal = "XXX",
-  year = 0000,
-  volume = 0,
-  pages = "0--10",
-  url = "XXX",
+  year = 2019,
+  journal = "zenodo",
+  url = "http://doi.org/10.5281/zenodo.3233968",
   textVersion = paste(
     "Rémi Vezy. sticRs: the STICS model R package for developers.",
     "in prep"
