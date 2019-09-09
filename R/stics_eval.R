@@ -82,16 +82,16 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                      Parallel=T,mixed= NULL,Title=NULL,Erase=TRUE){
 
   if(!dir.exists(dir.targ)&Erase){erase_dir=T}else{erase_dir=F}
-  Param_val= Parameter[[1]]
-  if(length(stics)>1&length(Param_val)>1){
+  Param_val= Parameter
+  if(length(stics)>1&any(lapply(Param_val, length)%>%unlist > 1)){
     stop("stics_eval only evaluate several STICS executables OR parameter values",
          " not both at a time.", "\nPlease provide only one with several values")
   }
 
   # Setting usm name to either parameter values or stics names
-  if(length(Param_val)>1){
+  if(any(lapply(Param_val, length)%>%unlist > 1)){
     if(is.list(Parameter)){
-      usm_name= paste(names(Parameter),Param_val, sep="_")
+      usm_name= paste("Set",seq_along(Param_val[[1]]), sep="_")
       method= "Parameter"
     }else{
       stop("The Parameter parameter must be a list")
@@ -102,7 +102,12 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
       if(is.null(usm_name)){
         usm_name= paste0("STICS_",seq_along(stics))
       }
-      method= "stics"
+      if(length(stics)>1){
+        method= "stics"
+      }else{
+        method= "Parameter" # Default method
+      }
+
     }else{
       stop("The stics parameter must be a list")
     }
@@ -136,9 +141,13 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
             set_out_var(filepath= file.path(USM_path,"var.mod"),
                         vars=Out_var, add=F)
             if(method=="Parameter"){
-              set_param(dirpath = USM_path,
-                        param = names(Parameter),plant = Plant,
-                        value = Param_val[[x]])
+              # set parameter values using mapply:
+              Param_val_x= lapply(Param_val, function(y){y[x]})
+              mapply(function(y,z){
+                set_param(dirpath = USM_path,
+                          param = y,plant = Plant,
+                          value = z)
+              },names(Param_val_x),Param_val_x)
             }
             run_stics(dirpath = USM_path)
             output= eval_output(dirpath= USM_path, obs_name= obs_name)
@@ -181,9 +190,13 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                set_out_var(filepath= file.path(USM_path,"var.mod"),
                            vars=Out_var, add=F)
                if(method=="Parameter"){
-                 set_param(dirpath = USM_path,
-                           param = names(Parameter),plant = Plant,
-                           value = Param_val[[x]])
+                 # set parameter values using mapply:
+                 Param_val_x= lapply(Param_val, function(y){y[x]})
+                 mapply(function(y,z){
+                   set_param(dirpath = USM_path,
+                             param = y,plant = Plant,
+                             value = z)
+                 },names(Param_val_x),Param_val_x)
                }
                run_stics(dirpath = USM_path)
                output= eval_output(dirpath= USM_path, obs_name= obs_name)

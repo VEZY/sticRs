@@ -224,7 +224,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
         tmp= stics_eval(dir.orig = dir.orig[[x]], dir.targ = dir.targ,
                         stics = sim_name, obs_name = obs_name[x,],
                         Out_var = Vars, plot_it = FALSE, Erase = FALSE,
-                        Parallel = FALSE,Parameter= params)
+                        Parallel = FALSE,Parameter= params,Plant= Plant[x])
         tmp$outputs[[usm_name[x]]]=
           tmp$outputs[[usm_name[x]]]%>%
           dplyr::mutate(usm= names(dir.orig[x]))
