@@ -186,6 +186,8 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                           Plant= Plant,
                           weight= weight,
                           obs_name= obs_name)
+    params= as.list(opti$minimum)
+    names(params)= Parameters$parameter
   }else{
     # multivariate optimization:
     opti= dfoptim::nmkb(fn= stics_eval_opti,
@@ -197,23 +199,49 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                         Plant= Plant,
                         weight= weight,
                         obs_name= obs_name)
+    params= as.list(opti$par)
+    names(params)= Parameters$parameter
   }
 
-  # Import the last simulation output:
+
+  # Re-make the best simulation for output:
+  NbCores= parallel::detectCores()-1
+  cl= parallel::makeCluster(min(NbCores,length(dir.orig)))
+  parallel::clusterExport(cl=cl,
+                          varlist=c("dir.orig","dir.targ","usm_name","stics",
+                                    "obs_name","Vars","stics_eval","Plant","params"),
+                          envir=environment())
+  parallel::clusterEvalQ(cl, {library(dplyr)})
+
+  outputs_new=
+    parallel::parLapply(
+      cl,
+      1:length(dir.orig),
+      function(x,dir.orig,dir.targ,Vars,stics,obs_name,Plant){
+        sim_name= list(stics)
+        names(sim_name)= usm_name[x]
+
+        tmp= stics_eval(dir.orig = dir.orig[[x]], dir.targ = dir.targ,
+                        stics = sim_name, obs_name = obs_name[x,],
+                        Out_var = Vars, plot_it = FALSE, Erase = FALSE,
+                        Parallel = FALSE,Parameter= params)
+        tmp$outputs[[usm_name[x]]]=
+          tmp$outputs[[usm_name[x]]]%>%
+          dplyr::mutate(usm= names(dir.orig[x]))
+        tmp
+      },dir.orig,dir.targ,Vars,stics,obs_name,Plant)
+
+  parallel::stopCluster(cl)
+
   output_opti=
-    lapply(1:length(USM_path),
-           function(x){
-             eval_output(USM_path[x], obs_name= obs_name[x,])%>%
-               dplyr::mutate(usm= USM_path[x])
-           })%>%
-    data.table::rbindlist(fill = TRUE)%>%
-    as.data.frame()
+    lapply(outputs_new, function(x){x$outputs[[1]]})%>%
+    data.table::rbindlist(fill = TRUE)%>%as.data.frame()
 
   opti_plot=
     lapply(1:length(dir.orig),
            function(x){
              plot_output(original= outputs[[x]]$outputs[[1]],
-                         optimized= eval_output(USM_path[x], obs_name= obs_name[x,]),
+                         optimized= outputs_new[[x]]$outputs[[1]]%>%select(-.data$usm),
                          plot_it = FALSE,
                          Title = paste("Simulations for USM",names(dir.orig)[x]))
            })
