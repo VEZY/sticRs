@@ -1,14 +1,15 @@
 ---
 title: 'sticRs: the R package for STICS users and developers'
 authors:
-- affiliation: '1,2'
+- affiliation: '1,2,3'
   name: R. Vezy
   orcid: 0000-0002-0808-1461
-- affiliation: '1,2'
-  name: E. Justes
-  orcid: 0000-0001-7390-7058
-date: "30 August 2018"
-output: word_document
+date: "10 September 2019"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
 bibliography: paper.bib
 tags:
 - R
@@ -18,9 +19,12 @@ tags:
 - intercrop
 affiliations:
 - index: 1
-  name: INRA, UMR SYSTEM, Batiment 27, 2 Place Viala, 34060 Montpellier Cedex 1, France
+  name: CIRAD, UMR AMAP, F-34398 Montpellier, France
 - index: 2
-  name: SYSTEM, Univ Montpellier, CIRAD, INRA, IRD, Montpellier SupAgro, Montpellier, France
+  name: INRA, UMR SYSTEM, F-34398 Montpellier, France
+- index: 3
+  name: AMAP, Univ Montpellier, CIRAD, INRA, IRD, Montpellier SupAgro, Montpellier,
+    France
 ---
 
 # Summary
@@ -36,19 +40,28 @@ A developer that modifies a new formalism or designing a new one should also eva
 
 Therefore, STICS users and developers often experience the same different steps in their journey:
 
-* Read, write or add parameters and their values
-* Test the model programmatically for different parameter values, formalisms or model versions
-* Evaluate the model against field observations
-* Make plots
-* Make a sensitivity analysis
-* Distribute the runs across multiple cores / machines
+* Read, write or add parameters and their values  
+* Test the model programmatically for different parameter values, formalisms or model versions  
+* Evaluate the model against field observations  
+* Make plots  
+* Make a sensitivity analysis  
+* Optimize the parameter values using observations  
+* Distribute the runs across multiple cores / machines  
 
 ``sticRs`` is an R package that was designed to make these steps as easy and fast as possible, and more importantly, reproducible. It has been adapted for the regular sole crop version of STICS, but also to its intercrop version [@CORREHELLOU200972].
-The following diagram presents a typical workflow using the main functions from ``sticRs``: ![sticRs workflow](sticRs_workflow.png)
+The following diagram presents a typical workflow using the main functions from ``sticRs``:
+
+![sticRs workflow](sticRs_workflow.PNG)
 
 Evaluating the model is so fast and straightforward using ``sticRs`` that this step is often bypassed by the user to directly make a model evaluation using the ``stics_eval`` function, which is a wrapper of the previous functions. The package also automatically distributes the simulations across computer cores when the user call ``stics_eval`` and  ``sensitive_stics``.
 
-``sticRs`` documentation is accessible on its dedicated website (https://vezy.github.io/sticRs), and its source code has been archived to Zenodo with a concept (*i.e.* permanent) DOI [@zenodo].
+``sticRs`` documentation is accessible on its dedicated website (https://vezy.github.io/sticRs) along with three tutorials:  
+
+1. [Get started](https://vezy.github.io/sticRs/articles/sticRs.html);  
+1. [Sensitivity analyses](https://vezy.github.io/sticRs/articles/Sensitivity_analyses.html);   
+1. [Parameter value optimization](https://vezy.github.io/sticRs/articles/optimisation.html).  
+
+The source code of the package has been archived to Zenodo with a concept (*i.e.* permanent) DOI [@zenodo].
 
 # Acknowledgements
 

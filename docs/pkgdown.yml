@@ -1,10 +1,10 @@
 pandoc: '2.6'
-pkgdown: 1.3.0
-pkgdown_sha: ~
+pkgdown: 1.3.0.9100
+pkgdown_sha: 1829398a4e97056fe7fb332d0e8b952784b49321
 articles:
-  Introduction_to_sticRs: Introduction_to_sticRs.html
   optimisation: optimisation.html
   Sensitivity_analyses: Sensitivity_analyses.html
+  sticRs: sticRs.html
 urls:
   reference: https://vezy.github.io/sticRs//reference
   article: https://vezy.github.io/sticRs//articles

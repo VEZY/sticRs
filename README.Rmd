@@ -29,7 +29,6 @@ options(tibble.print_min = 5, tibble.print_max = 5)
 This package allows the user to programmatically: 
 
 * read ([`read_param`](R/read_param.R)) or set ([`set_param`](R/read_param.R)) parameters  
-
 * set ([`set_usm`](R/set_usm.R)) one or more simulations (USM)
 
 * call STICS to run them ([`run_stics`](R/run_stics.R))
@@ -44,8 +43,11 @@ This package allows the user to programmatically:
 
 * and optimize parameter values ([`optimi_stics`](R/optimi_stics.R))
 
-The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues ) at any time. 
+The package is under intensive development, so you can fill an issue or request me a feature [here](https://github.com/VEZY/sticRs/issues) at any time. 
 
+The following diagram presents a typical workflow using the main functions from ``sticRs``: 
+
+A scientific article is available [here](paper/paper.html).
 
 ## Installation
 

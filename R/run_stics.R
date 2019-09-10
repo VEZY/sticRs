@@ -15,10 +15,11 @@
 #' @export
 #'
 run_stics=function(dirpath=getwd()){
+
   wd= getwd()
+  on.exit(setwd(wd))
   setwd(dirpath)
   out= system2("stics")
-  setwd(wd)
   if(out==0){
     TRUE
   }else{

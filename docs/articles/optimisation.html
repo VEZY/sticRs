@@ -6,9 +6,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>3-Parameter value optimization • sticRs</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- sticky kit --><script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous">
+<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
 <script src="../pkgdown.js"></script><meta property="og:title" content="3-Parameter value optimization">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png">
@@ -39,9 +46,12 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/sticRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -54,9 +64,6 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/Introduction_to_sticRs.html">1-Introduction to sticRs</a>
-    </li>
-    <li>
       <a href="../articles/optimisation.html">3-Parameter value optimization</a>
     </li>
     <li>
@@ -77,13 +84,14 @@
 <!--/.navbar -->
 
       
+
       </header><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1>3-Parameter value optimization</h1>
                         <h4 class="author">R. Vezy</h4>
             
-            <h4 class="date">2019-08-11</h4>
+            <h4 class="date">2019-09-10</h4>
       
       
       <div class="hidden name"><code>optimisation.Rmd</code></div>
@@ -108,10 +116,10 @@
 <li>max: the mximum parameter value allowed</li>
 </ul>
 <p>Here is an example parameter <code>data.frame</code>:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">Parameters=<span class="st"> </span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">parameter=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'hautK1'</span>,<span class="st">'hautA1'</span>),</a>
-<a class="sourceLine" id="cb1-2" title="2">                       <span class="dt">start=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>),</a>
-<a class="sourceLine" id="cb1-3" title="3">                       <span class="dt">min=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">0</span>,<span class="dv">0</span>),</a>
-<a class="sourceLine" id="cb1-4" title="4">                       <span class="dt">max=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1">Parameters=<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">parameter=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'hautK1'</span>,<span class="st">'hautA1'</span>),</a>
+<a class="sourceLine" id="cb1-2" title="2">                       <span class="dt">start=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0.2</span>,<span class="fl">0.2</span>),</a>
+<a class="sourceLine" id="cb1-3" title="3">                       <span class="dt">min=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">0</span>,<span class="dv">0</span>),</a>
+<a class="sourceLine" id="cb1-4" title="4">                       <span class="dt">max=</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>))</a>
 <a class="sourceLine" id="cb1-5" title="5">Parameters</a>
 <a class="sourceLine" id="cb1-6" title="6"><span class="co">#&gt;   parameter start min max</span></a>
 <a class="sourceLine" id="cb1-7" title="7"><span class="co">#&gt; 1    hautK1   0.2   0   1</span></a>
@@ -121,11 +129,11 @@
 <h3 class="hasAnchor">
 <a href="#single-usm-single-observed-variable" class="anchor"></a>Single USM, single observed variable</h3>
 <p>The parameter <code>data.frame</code> is used as an argument to <code><a href="../reference/optimi_stics.html">optimi_stics()</a></code>. Here is an example of the optimization of the two parameters related to plant height for a single USM for an intercrop:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sticRs"</span>)</a>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)</a>
 <a class="sourceLine" id="cb2-2" title="2">opti=<span class="st"> </span><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
 <a class="sourceLine" id="cb2-3" title="3">                   <span class="dt">dir.targ =</span> <span class="st">"2-Simulations/param_optim"</span>,</a>
 <a class="sourceLine" id="cb2-4" title="4">                   <span class="dt">stics =</span> <span class="st">"0-DATA/stics_executable/19-new/Stics.exe"</span>,</a>
-<a class="sourceLine" id="cb2-5" title="5">                   <span class="dt">obs_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="st">"6_IC_Pea_N0.obs"</span>),</a>
+<a class="sourceLine" id="cb2-5" title="5">                   <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="st">"6_IC_Pea_N0.obs"</span>),</a>
 <a class="sourceLine" id="cb2-6" title="6">                   <span class="dt">Parameters=</span> Parameters,</a>
 <a class="sourceLine" id="cb2-7" title="7">                   <span class="dt">Vars =</span> <span class="st">'hauteur'</span>,</a>
 <a class="sourceLine" id="cb2-8" title="8">                   <span class="dt">method=</span> <span class="st">"nmkb"</span>,<span class="dt">Plant=</span><span class="dv">1</span>)</a></code></pre></div>
@@ -136,26 +144,26 @@
 <h3 class="hasAnchor">
 <a href="#single-usm-several-observed-variables" class="anchor"></a>Single USM, several observed variables</h3>
 <p>We can optimize the parameter values over several observed variables also, by giving them as a vector:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sticRs"</span>)</a>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)</a>
 <a class="sourceLine" id="cb3-2" title="2">opti=<span class="st"> </span><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
 <a class="sourceLine" id="cb3-3" title="3">                   <span class="dt">dir.targ =</span> <span class="st">"2-Simulations/param_optim"</span>,</a>
 <a class="sourceLine" id="cb3-4" title="4">                   <span class="dt">stics =</span> <span class="st">"0-DATA/stics_executable/19-new/Stics.exe"</span>,</a>
-<a class="sourceLine" id="cb3-5" title="5">                   <span class="dt">obs_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="st">"6_IC_Pea_N0.obs"</span>),</a>
+<a class="sourceLine" id="cb3-5" title="5">                   <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="st">"6_IC_Pea_N0.obs"</span>),</a>
 <a class="sourceLine" id="cb3-6" title="6">                   <span class="dt">Parameters=</span> Parameters,</a>
-<a class="sourceLine" id="cb3-7" title="7">                   <span class="dt">Vars =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'lai(n)'</span>,<span class="st">'masec(n)'</span>,<span class="st">'hauteur'</span>),</a>
+<a class="sourceLine" id="cb3-7" title="7">                   <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'lai(n)'</span>,<span class="st">'masec(n)'</span>,<span class="st">'hauteur'</span>),</a>
 <a class="sourceLine" id="cb3-8" title="8">                   <span class="dt">method=</span> <span class="st">"nmkb"</span>,<span class="dt">Plant=</span><span class="dv">1</span>)</a></code></pre></div>
 <p>In this example, the <code>hautK1</code> and <code>hautA1</code> parameter values are optimized over one USM for the <code>lai</code>, the <code>masec</code> and the <code>hauteur</code> variables at the same time. In general, the user should always keep in mind that parameters should be optimized over variables on which they have the most direct impact. So in this example the user should only use the <code>hauteur</code> output variable since the <code>hautK1</code> and <code>hautA1</code> parameters are directly related to the <code>hauteur</code> variable.<br>
 ### Several USMs</p>
 <p>The parameters can be optimized for several USMs at the same time. This helps getting generic parameter values using several years and/or locations with different pedo-climatic conditions.</p>
 <p>The USMs are specified as a named list such as:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/list">list</a></span>(<span class="st">"Wheat-Pea 2005"</span>=<span class="st"> "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="st">"Wheat-Pea 2005"</span>=<span class="st"> "0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
 <a class="sourceLine" id="cb4-2" title="2">                             <span class="st">"Wheat-Pea 2006"</span>=<span class="st"> "0-DATA/dummy/Year_2006_2007/IC_Wheat_Pea"</span>),</a>
 <a class="sourceLine" id="cb4-3" title="3">             <span class="dt">dir.targ =</span> <span class="st">"2-Simulations/param_optim"</span>,</a>
 <a class="sourceLine" id="cb4-4" title="4">             <span class="dt">stics =</span> <span class="st">"0-DATA/stics_executable/19-new/Stics.exe"</span>,</a>
-<a class="sourceLine" id="cb4-5" title="5">             <span class="dt">obs_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/data.frame">data.frame</a></span>(<span class="dt">Principal=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="dv">2</span>),</a>
-<a class="sourceLine" id="cb4-6" title="6">                                   <span class="dt">Associated=</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/rep">rep</a></span>(<span class="st">"6_IC_Pea_N0.obs"</span>,<span class="dv">2</span>)),</a>
-<a class="sourceLine" id="cb4-7" title="7">             <span class="dt">Parameters =</span> Parameters, <span class="dt">weight=</span> <span class="dv">1</span>, <span class="dt">Vars =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'hauteur'</span>),</a>
-<a class="sourceLine" id="cb4-8" title="8">             <span class="dt">method=</span> <span class="st">"nmkb"</span>,<span class="dt">Plant=</span><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
+<a class="sourceLine" id="cb4-5" title="5">             <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span>(<span class="dt">Principal=</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="dv">2</span>),</a>
+<a class="sourceLine" id="cb4-6" title="6">                                   <span class="dt">Associated=</span> <span class="kw"><a href="https://rdrr.io/r/base/rep.html">rep</a></span>(<span class="st">"6_IC_Pea_N0.obs"</span>,<span class="dv">2</span>)),</a>
+<a class="sourceLine" id="cb4-7" title="7">             <span class="dt">Parameters =</span> Parameters, <span class="dt">weight=</span> <span class="dv">1</span>, <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'hauteur'</span>),</a>
+<a class="sourceLine" id="cb4-8" title="8">             <span class="dt">method=</span> <span class="st">"nmkb"</span>,<span class="dt">Plant=</span><span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>))</a></code></pre></div>
 <p>The parameters will be optimized over all USMs at the same time. Each USM is simulated in parallel to reduce the computation time. If the parameter is in the plant or the technical file for an intercrop, the user can specify the plant for which the parameter has to be optimized for each USM using the <code>Plant</code> argument.</p>
 <p>To make a simulation for a sole crop, simply remove the <code>Associated</code> row from the <code>obs_name</code> argument, e.g.: <code>robs_name = data.frame(Principal= rep("6_IC_Wheat_N0.obs",2))</code>.</p>
 </div>
@@ -163,13 +171,13 @@
 <h3 class="hasAnchor">
 <a href="#weight" class="anchor"></a>Weight</h3>
 <p>The parameters are optimized over observed variables, but some variables are more important than others. The user can choose to apply a weight to each variable using the <code>weight</code> argument. For example, if the user wants to give three times the importance to one variable compared to others, he would put a weight three times higher for this variable:</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/library">library</a></span>(<span class="st">"sticRs"</span>)</a>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)</a>
 <a class="sourceLine" id="cb5-2" title="2">opti=<span class="st"> </span><span class="kw"><a href="../reference/optimi_stics.html">optimi_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-DATA/dummy/Year_2005_2006/IC_Wheat_Pea"</span>,</a>
 <a class="sourceLine" id="cb5-3" title="3">                   <span class="dt">dir.targ =</span> <span class="st">"2-Simulations/param_optim"</span>,</a>
 <a class="sourceLine" id="cb5-4" title="4">                   <span class="dt">stics =</span> <span class="st">"0-DATA/stics_executable/19-new/Stics.exe"</span>,</a>
-<a class="sourceLine" id="cb5-5" title="5">                   <span class="dt">obs_name =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="st">"6_IC_Pea_N0.obs"</span>),</a>
-<a class="sourceLine" id="cb5-6" title="6">                   <span class="dt">Parameters=</span> Parameters, <span class="dt">weight =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>), </a>
-<a class="sourceLine" id="cb5-7" title="7">                   <span class="dt">Vars =</span> <span class="kw"><a href="https://www.rdocumentation.org/packages/base/topics/c">c</a></span>(<span class="st">'lai(n)'</span>,<span class="st">'masec(n)'</span>,<span class="st">'hauteur'</span>),</a>
+<a class="sourceLine" id="cb5-5" title="5">                   <span class="dt">obs_name =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"6_IC_Wheat_N0.obs"</span>,<span class="st">"6_IC_Pea_N0.obs"</span>),</a>
+<a class="sourceLine" id="cb5-6" title="6">                   <span class="dt">Parameters=</span> Parameters, <span class="dt">weight =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">3</span>), </a>
+<a class="sourceLine" id="cb5-7" title="7">                   <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">'lai(n)'</span>,<span class="st">'masec(n)'</span>,<span class="st">'hauteur'</span>),</a>
 <a class="sourceLine" id="cb5-8" title="8">                   <span class="dt">method=</span> <span class="st">"nmkb"</span>,<span class="dt">Plant=</span><span class="dv">1</span>)</a></code></pre></div>
 <p>In this example, the <code>hauteur</code> variable will have three times the weight compared to <code>lai(n)</code> and <code>masec(n)</code>.</p>
 </div>
@@ -217,17 +225,20 @@ Figure 1: hautK1 and hautA1 parameters optimisation: USM 2
 </div>
 
 
+
       <footer><div class="copyright">
   <p>Developed by <a href="https://remi-vezy.netlify.com">Remi Vezy</a>, <a href="https://www6.paca.inra.fr/stics_eng">STICS group</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
 </div>
+
       </footer>
 </div>
 
   
+
 
   </body>
 </html>

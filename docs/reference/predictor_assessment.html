@@ -8,6 +8,13 @@
 
 <title>Model quality assessment — predictor_assessment • sticRs</title>
 
+<!-- favicons -->
+<link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="../apple-touch-icon.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
@@ -16,13 +23,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha256-eZrrJcwDc/3uDhsdt61sL2oOBY362qM3lon1gyExkL0=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
 
-<!-- sticky kit -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sticky-kit/1.1.3/sticky-kit.min.js" integrity="sha256-c4Rlo1ZozqTPE2RLuvbusY3+SU1pQaJC0TjuhygMipw=" crossorigin="anonymous"></script>
+<!-- headroom.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -50,6 +59,7 @@ observations." />
 <![endif]-->
 
 
+
   </head>
 
   <body>
@@ -74,9 +84,12 @@ observations." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fa fa-home fa-lg"></span>
+    <span class="fas fa fas fa-home fa-lg"></span>
      
   </a>
+</li>
+<li>
+  <a href="../articles/sticRs.html">Get started</a>
 </li>
 <li>
   <a href="../reference/index.html">Reference</a>
@@ -88,9 +101,6 @@ observations." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Introduction_to_sticRs.html">1-Introduction to sticRs</a>
-    </li>
     <li>
       <a href="../articles/optimisation.html">3-Parameter value optimization</a>
     </li>
@@ -113,6 +123,7 @@ observations." />
 </div><!--/.navbar -->
 
       
+
       </header>
 
 <div class="row">
@@ -130,7 +141,7 @@ observations.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>R2</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://www.rdocumentation.org/packages/stats/topics/na.fail'>na.omit</a></span>)
+    <pre class="usage"><span class='fu'>R2</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.action</span> <span class='kw'>=</span> <span class='kw pkg'>stats</span><span class='kw ns'>::</span><span class='no'><a href='https://rdrr.io/r/stats/na.fail.html'>na.omit</a></span>)
 
 <span class='fu'>SS_res</span>(<span class='no'>sim</span>, <span class='no'>obs</span>, <span class='kw'>na.rm</span> <span class='kw'>=</span> <span class='no'>T</span>)
 
@@ -186,7 +197,7 @@ observations.</p>
     <p>The statistics for model quality can differ between sources. Here is a
 short description of each statistic and its equation (see html version
 for <code>LATEX</code>):</p><ul>
-<li><p><code>R2()</code>: coefficient of determination, computed using <code><a href='https://www.rdocumentation.org/packages/stats/topics/lm'>stats::lm()</a></code> on obs~sim.</p></li>
+<li><p><code>R2()</code>: coefficient of determination, computed using <code><a href='https://rdrr.io/r/stats/lm.html'>stats::lm()</a></code> on obs~sim.</p></li>
 <li><p><code>SS_res()</code>: residual sum of squares (see notes).</p></li>
 <li><p><code>RMSE()</code>: Root Mean Squared Error, computed as
 $$RMSE = \sqrt{\frac{\sum_1^n(\hat{y_i}-y_i)^2}{n}}$$</p></li>
@@ -212,6 +223,7 @@ $$MAPE = \frac{\sum_1^n(\frac{\left|\hat{y_i}-y_i\right|}{y_i})}{n}$$</p></li>
 <li><p><code>RME()</code>: Relative mean error (%), computed as:
 $$RME = \frac{\sum_1^n(\frac{\hat{y_i}-y_i}{y_i})}{n}$$</p></li>
 </ul>
+
     
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -229,9 +241,9 @@ from the <code>SticsEvalR</code> package. This function is used by <code><a href
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://www.rdocumentation.org/packages/base/topics/library'>library</a></span>(<span class='no'>sticRs</span>)
-<span class='no'>sim</span><span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>,<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1</span>,<span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
-<span class='no'>obs</span><span class='kw'>=</span> <span class='fu'><a href='https://www.rdocumentation.org/packages/stats/topics/Normal'>rnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>,<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1</span>,<span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>sticRs</span>)
+<span class='no'>sim</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>,<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1</span>,<span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
+<span class='no'>obs</span><span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span>(<span class='kw'>n</span> <span class='kw'>=</span> <span class='fl'>5</span>,<span class='kw'>mean</span> <span class='kw'>=</span> <span class='fl'>1</span>,<span class='kw'>sd</span> <span class='kw'>=</span> <span class='fl'>1</span>)
 <span class='fu'>RMSE</span>(<span class='no'>sim</span>,<span class='no'>obs</span>)</div><div class='output co'>#&gt; [1] 1.815465</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -253,19 +265,23 @@ from the <code>SticsEvalR</code> package. This function is used by <code><a href
   </div>
 </div>
 
+
       <footer>
       <div class="copyright">
   <p>Developed by <a href='https://remi-vezy.netlify.com'>Remi Vezy</a>, <a href='https://www6.paca.inra.fr/stics_eng'>STICS group</a>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.3.0.9100.</p>
 </div>
+
       </footer>
    </div>
 
   
 
+
   </body>
 </html>
+
 
