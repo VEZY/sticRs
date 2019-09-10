@@ -53,7 +53,8 @@ any time.
 The following diagram presents a typical workflow using the main
 functions from `sticRs`:
 
-A scientific article is available [here](paper/paper.html).
+A scientific article is available
+[here](https://github.com/VEZY/sticRs/blob/master/paper/paper.pdf).
 
 ## Installation
 
