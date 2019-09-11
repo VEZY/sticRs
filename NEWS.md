@@ -1,3 +1,9 @@
+# sticRs 1.1.1
+
+* Fix several bugs in parameter optimization
+* Best optimization is now returned by optimi_stics instead of the last one
+* Add tests for optimization -> parameters min/max/start values
+
 # sticRs 1.1.0
 Add parameter optimization (adapted to intercropping)
 
