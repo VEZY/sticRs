@@ -206,6 +206,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
     names(params)= Parameters$parameter
   }
 
+  params[Parameters$type=="integer"]= as.integer(params[Parameters$type=="integer"])
 
   # Re-make the best simulation for output:
   NbCores= parallel::detectCores()-1
