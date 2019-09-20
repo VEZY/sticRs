@@ -17,7 +17,7 @@ optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
 \item{obs_name}{A \code{data.frame} of observation file name(s) of the form
 \code{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply remove the \code{Dominated} column for sole crops.}
 
-\item{Parameters}{A data.frame with parameter name, starting, min and max values (see details and example)}
+\item{Parameters}{A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.}
 
 \item{Vars}{Output variables on which the optimization is performed}
 
@@ -58,7 +58,8 @@ The function uses \code{\link[stats:optimize]{stats::optimize()}} for univariate
 Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
 The \code{Parameters} argument should be formated as a a data.frame (see example).
 The start values should exclude the min and max values (they are exclusive bounds).
-If the start is \code{NULL}, then the mean value between the min and max values is taken.
+If the start is \code{NULL}, then the mean value between the min and max values is taken. The data type is optional
+and only takes double (numeric) or integer. If a parameter is an integer, then a rounding is applied (very crude but functional).
 If weight is not provided by the user, the selection criteria is computed using the equation
 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
 }
