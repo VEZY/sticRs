@@ -54,7 +54,7 @@ read_output= function(dirpath=getwd(), mixed= NULL, name= NULL){
         Plant_test= list.files(dirpath)%>%.[grep("mod_s",.)]
         if(length(Plant_test)>0){
           stop("Can't find mod_sp and mod_sa files in the USM directory, but mod_s was found. ",
-               "Please set mixed to FALSe to read sole crop USMs")
+               "Please set mixed to FALSE to read sole crop USMs")
         }
       }else{
         if(length(Plant_1_mod)==0){
