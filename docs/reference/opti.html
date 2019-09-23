@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Changelog • sticRs</title>
+<title>Optimization function — opti • sticRs</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,7 +42,8 @@
 
 
 
-<meta property="og:title" content="Changelog" />
+<meta property="og:title" content="Optimization function — opti" />
+<meta property="og:description" content="Optimization function" />
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -63,7 +64,7 @@
   </head>
 
   <body>
-    <div class="container template-news">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -128,57 +129,79 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
-      
+    <h1>Optimization function</h1>
+    
+    <div class="hidden name"><code>opti.Rd</code></div>
     </div>
 
-    <div id="sticrs-111" class="section level1">
-<h1 class="page-header">
-<a href="#sticrs-111" class="anchor"></a>sticRs 1.1.1</h1>
-<ul>
-<li>Fix several bugs in parameter optimization</li>
-<li>Best optimization is now returned by optimi_stics instead of the last one</li>
-<li>Add tests for optimization -&gt; parameters min/max/start values</li>
-</ul>
-</div>
-    <div id="sticrs-110" class="section level1">
-<h1 class="page-header">
-<a href="#sticrs-110" class="anchor"></a>sticRs 1.1.0</h1>
-<p>Add parameter optimization (adapted to intercropping)</p>
-</div>
-    <div id="sticrs-102" class="section level1">
-<h1 class="page-header">
-<a href="#sticrs-102" class="anchor"></a>sticRs 1.0.2</h1>
-<p>Add vignettes for introduction and for sensitivity analyses.</p>
-</div>
-    <div id="sticrs-101" class="section level1">
-<h1 class="page-header">
-<a href="#sticrs-101" class="anchor"></a>sticRs 1.0.1</h1>
-<p>Add exact match to set_* and read_param to avoid issue when using higher level functions such as stics_eval with similar parameter names (e.g. P_hauteur_threshold and P_hauteur_threshold_2).</p>
-</div>
-    <div id="sticrs-100" class="section level1">
-<h1 class="page-header">
-<a href="#sticrs-100" class="anchor"></a>sticRs 1.0.0</h1>
-<ul>
-<li>Added a <code>NEWS.md</code> file to track changes to the package.</li>
-<li>First stable release of the package</li>
-</ul>
-</div>
-  </div>
+    <div class="ref-description">
+    <p>Optimization function</p>
+    </div>
 
+    <pre class="usage"><span class='fu'>opti</span>(<span class='no'>USM_path</span>, <span class='no'>Plant</span>, <span class='no'>weight</span>, <span class='no'>obs_name</span>, <span class='no'>Parameters</span>)</pre>
+
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>USM_path</th>
+      <td><p>Path to the USM directory for evaluation.</p></td>
+    </tr>
+    <tr>
+      <th>Plant</th>
+      <td><p>A vector for the plant (<em>i.e.</em> Principal or associated) for which the parameters
+will be set (only for plant or technical parameters in mixed crop simulations)
+Set to <code>NULL</code> if using STICS in sole crop</p></td>
+    </tr>
+    <tr>
+      <th>weight</th>
+      <td><p>The weight used for each variable (see details)</p></td>
+    </tr>
+    <tr>
+      <th>obs_name</th>
+      <td><p>A <code>data.frame</code> of observation file name(s) of the form
+<code>data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)</code> for mixed crops (simply
+remove the <code>Dominated</code> column for sole crops.</p></td>
+    </tr>
+    <tr>
+      <th>Parameters</th>
+      <td><p>A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.</p></td>
+    </tr>
+    </table>
+
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A named vector of the optimized values of the parameters.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The function uses <code><a href='https://rdrr.io/r/stats/optimize.html'>stats::optimize()</a></code> for univariate optimization, and the <span class="pkg">dfoptim</span> package functions for multivariate.
+Currently only the Nelder-Mead algorithm is implemented from <span class="pkg">dfoptim</span>.
+The <code>Parameters</code> argument should be formated as a a data.frame (see example).
+The start values should exclude the min and max values (they are exclusive bounds).
+If the start is <code>NULL</code>, then the mean value between the min and max values is taken. The data type is optional
+and only takes double (numeric) or integer. If a parameter is an integer, then a rounding is applied (very crude but functional).
+If weight is not provided by the user, the selection criteria is computed using the equation
+5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
+A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling &amp; Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='https://rdrr.io/pkg/dfoptim/man/nmkb.html'>dfoptim::nmkb()</a></code></p></div>
+
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#sticrs-111">1.1.1</a></li>
-        <li><a href="#sticrs-110">1.1.0</a></li>
-        <li><a href="#sticrs-102">1.0.2</a></li>
-        <li><a href="#sticrs-101">1.0.1</a></li>
-        <li><a href="#sticrs-100">1.0.0</a></li>
-      </ul>
-    </div>
-  </div>
+    <h2>Contents</h2>
+    <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
+      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
+      <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
+    </ul>
 
+  </div>
 </div>
 
 

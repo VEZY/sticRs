@@ -5,7 +5,8 @@
 \title{STICS parameter optimization}
 \usage{
 optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
-  Vars, weight = NULL, method = c("nmkb"), Plant = 1, ...)
+  Vars, weight = NULL, method = c("nmkb"), Plant = 1, max_run = 3,
+  ...)
 }
 \arguments{
 \item{dir.orig}{Vector or named list of paths to the directory from which to copy the USMs files.}
@@ -27,7 +28,10 @@ optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
 
 \item{Plant}{A vector for the plant (\emph{i.e.} Principal or associated) for which the parameters
 will be set (only for plant or technical parameters in mixed crop simulations)
-Set to \code{NULL} if using STICS in sole crop}
+Set to \code{NULL} if using STICS in sole crop.}
+
+\item{max_run}{Maximum number of runs for the optimisation (restart automatically if singular matrix
+is returned) Default to 3, i.e. two potential restart.}
 
 \item{...}{Further parameters passed to the optimization function called
 (see \pkg{dfoptim} package)}
@@ -37,15 +41,7 @@ A list of three :
 \itemize{
 \item gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
 compared to original parameter values.
-\item opti_output: differs if the optimisation is uni or multi-dimensional:
-\itemize{
-\item Univariate: A list of two: \code{minimum} -> the optimized parameter(s) value(s), and
-\code{objective} -> the last value of the objective function.
-\item Multivariate: A list of six: \code{par} -> the optimized parameter(s) value(s),
-\code{value} -> the last value of the optimization function, \code{feval}-> the number of times the objective function
-was evaluated, \code{restarts} -> the number of times the algorithm had to be restarted when it stagnated,
-\code{convergence} -> 0= convergence, 1 no convergence, and \code{message} some information about the convergence.
-}
+\item opti_output: A named list of the optimized parameter(s) value(s).
 \item last_sim_data: the STICS output from the last simulation with the optimized parameter
 values. This data is given using \code{\link[=eval_output]{eval_output()}}.
 }

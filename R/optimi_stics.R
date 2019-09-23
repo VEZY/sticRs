@@ -13,7 +13,9 @@
 #' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only [dfoptim::nmkb()]
 #' @param Plant      A vector for the plant (*i.e.* Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
-#'                   Set to `NULL` if using STICS in sole crop
+#'                   Set to `NULL` if using STICS in sole crop.
+#' @param max_run    Maximum number of runs for the optimisation (restart automatically if singular matrix
+#' is returned) Default to 3, i.e. two potential restart.
 #' @param ...        Further parameters passed to the optimization function called
 #'                   (see \pkg{dfoptim} package)
 #'
@@ -33,17 +35,10 @@
 #' @return A list of three :
 #' * gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
 #'   compared to original parameter values.
-#' * opti_output: differs if the optimisation is uni or multi-dimensional:
-#'     + Univariate: A list of two: `minimum` -> the optimized parameter(s) value(s), and
-#'       `objective` -> the last value of the objective function.
-#'     + Multivariate: A list of six: `par` -> the optimized parameter(s) value(s),
-#'       `value` -> the last value of the optimization function, `feval`-> the number of times the objective function
-#'        was evaluated, `restarts` -> the number of times the algorithm had to be restarted when it stagnated,
-#'        `convergence` -> 0= convergence, 1 no convergence, and `message` some information about the convergence.
+#' * opti_output: A named list of the optimized parameter(s) value(s).
 #' * last_sim_data: the STICS output from the last simulation with the optimized parameter
 #'   values. This data is given using [eval_output()].
 #'
-#' @importFrom dfoptim nmkb
 #' @importFrom dplyr group_by summarise summarise_all select
 #' @importFrom magrittr "%<>%"
 #'
@@ -81,8 +76,9 @@
 #' @export
 #'
 optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
-                       Vars,weight=NULL,method=c("nmkb"),Plant=1,...){
+                       Vars,weight=NULL,method=c("nmkb"),Plant=1,max_run=3,...){
   .= NULL # to avoid CRAN checks errors
+  restart= 1
 
   method= match.arg(method,c("nmkb")) # add new methods here
 
@@ -178,32 +174,31 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
   names(outputs)= usm_name
   parallel::stopCluster(cl)
 
-  if(length(Parameters$parameter)==1){
-    # univariate optimization:
-    opti= stats::optimize(f= stics_eval_opti,
-                          interval= c(Parameters$min,Parameters$max),
-                          USM_path= USM_path,
-                          param= as.character(Parameters$parameter),
-                          Plant= Plant,
-                          weight= weight,
-                          obs_name= obs_name,
-                          type= Parameters$type)
-    params= as.list(opti$minimum)
-    names(params)= Parameters$parameter
-  }else{
-    # multivariate optimization:
-    opti= dfoptim::nmkb(fn= stics_eval_opti,
-                        par= Parameters$start,
-                        lower= Parameters$min,
-                        upper= Parameters$max,
-                        USM_path= USM_path,
-                        param= as.character(Parameters$parameter),
-                        Plant= Plant,
-                        weight= weight,
-                        obs_name= obs_name,
-                        type= Parameters$type)
-    params= as.list(opti$par)
-    names(params)= Parameters$parameter
+
+
+  # Actual optimization process:
+  params= try(opti(USM_path = USM_path, Plant = Plant, weight = weight, obs_name = obs_name,
+                   Parameters = Parameters))
+
+  while(inherits(params,"try-error") && restart<max_run){
+    # Restart the optimization with different starting values if error:
+    set.seed(restart)
+    param_table=
+      Parameters%>%
+      dplyr::mutate(start= mapply(function(x,y){
+        sample(seq(from = x,to = y,length.out = 100),1)
+      },Parameters$min,Parameters$max))
+
+    restart= restart + 1
+    params= try(opti(USM_path = USM_path, Plant = Plant, weight = weight, obs_name = obs_name,
+                     Parameters = param_table))
+  }
+
+  if(restart == max_run){
+    stop("No solution found (singular matrix) during optimization process.",
+         " Please re-start with different starting values or increase max_run.")
+  }else if(restart > 1){
+    warning("Algorithm restarted ", restart, " times.")
   }
 
   params[Parameters$type=="integer"]= as.integer(params[Parameters$type=="integer"])
@@ -253,7 +248,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 
   unlink(x = dir.targ, recursive = T, force = T)
 
-  invisible(list(gg_objects= opti_plot, opti_output= opti, last_sim_data= output_opti))
+  invisible(list(gg_objects= opti_plot, opti_output= params, last_sim_data= output_opti))
 }
 
 
@@ -393,3 +388,67 @@ stics_eval_no_copy= function(USM_path,param,obs_name,Plant,type=NULL){
 
   outputs
 }
+
+
+
+
+#' Optimization function
+#'
+#' @param USM_path   Path to the USM directory for evaluation.
+#' @param Plant      A vector for the plant (*i.e.* Principal or associated) for which the parameters
+#'                   will be set (only for plant or technical parameters in mixed crop simulations)
+#'                   Set to `NULL` if using STICS in sole crop
+#' @param weight     The weight used for each variable (see details)
+#' @param obs_name   A `data.frame` of observation file name(s) of the form
+#'                   `data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)` for mixed crops (simply
+#'                   remove the `Dominated` column for sole crops.
+#' @param Parameters A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.
+#'
+#' @details The function uses [stats::optimize()] for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
+#' Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
+#' The `Parameters` argument should be formated as a a data.frame (see example).
+#' The start values should exclude the min and max values (they are exclusive bounds).
+#' If the start is `NULL`, then the mean value between the min and max values is taken. The data type is optional
+#' and only takes double (numeric) or integer. If a parameter is an integer, then a rounding is applied (very crude but functional).
+#' If weight is not provided by the user, the selection criteria is computed using the equation
+#' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
+#'
+#' @references Wallach, D., Buis, S., Lecharpentier, P., Bourges, J., Clastre, P., Launay, M., … Justes, E. (2011).
+#'  A package of parameter estimation methods and implementation for the STICS crop-soil model. Environmental Modelling & Software, 26(4), 386–394. doi:10.1016/j.envsoft.2010.09.004
+#'
+#' @importFrom dfoptim nmkb
+#' @seealso [dfoptim::nmkb()]
+#'
+#' @return A named vector of the optimized values of the parameters.
+#'
+opti= function(USM_path,Plant,weight,obs_name,Parameters){
+  if(length(Parameters$parameter)==1){
+    # univariate optimization:
+    out_opti= stats::optimize(f= stics_eval_opti,
+                              interval= c(Parameters$min,Parameters$max),
+                              USM_path= USM_path,
+                              param= as.character(Parameters$parameter),
+                              Plant= Plant,
+                              weight= weight,
+                              obs_name= obs_name,
+                              type= Parameters$type)
+    params= as.list(out_opti$minimum)
+    names(params)= Parameters$parameter
+  }else{
+    # multivariate optimization:
+    out_opti= dfoptim::nmkb(fn= stics_eval_opti,
+                            par= Parameters$start,
+                            lower= Parameters$min,
+                            upper= Parameters$max,
+                            USM_path= USM_path,
+                            param= as.character(Parameters$parameter),
+                            Plant= Plant,
+                            weight= weight,
+                            obs_name= obs_name,
+                            type= Parameters$type)
+    params= as.list(out_opti$par)
+    names(params)= Parameters$parameter
+  }
+  return(params)
+}
+
