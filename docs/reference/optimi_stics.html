@@ -201,14 +201,7 @@ is returned) Default to 3, i.e. two potential restart.</p></td>
     <p>A list of three :</p><ul>
 <li><p>gg_objects: A list of ggplot objects to plot the final STICS simulation with optimized parameter values
 compared to original parameter values.</p></li>
-<li><p>opti_output: differs if the optimisation is uni or multi-dimensional:</p><ul>
-<li><p>Univariate: A list of two: <code>minimum</code> -&gt; the optimized parameter(s) value(s), and
-<code>objective</code> -&gt; the last value of the objective function.</p></li>
-<li><p>Multivariate: A list of six: <code>par</code> -&gt; the optimized parameter(s) value(s),
-<code>value</code> -&gt; the last value of the optimization function, <code>feval</code>-&gt; the number of times the objective function
-was evaluated, <code>restarts</code> -&gt; the number of times the algorithm had to be restarted when it stagnated,
-<code>convergence</code> -&gt; 0= convergence, 1 no convergence, and <code>message</code> some information about the convergence.</p></li>
-</ul></li>
+<li><p>opti_output: A named list of the optimized parameter(s) value(s).</p></li>
 <li><p>last_sim_data: the STICS output from the last simulation with the optimized parameter
 values. This data is given using <code><a href='eval_output.html'>eval_output()</a></code>.</p></li>
 </ul>
