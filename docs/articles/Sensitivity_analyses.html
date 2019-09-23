@@ -91,7 +91,7 @@
       <h1>2-Sensitivity analyses</h1>
                         <h4 class="author">Rémi Vezy</h4>
             
-            <h4 class="date">2019-09-11</h4>
+            <h4 class="date">2019-09-20</h4>
       
       
       <div class="hidden name"><code>Sensitivity_analyses.Rmd</code></div>
@@ -110,9 +110,6 @@
 <a href="#doe" class="anchor"></a>DOE</h2>
 <p>The design of experiment, or DOE, is a sample of parameter values that will be tested during the sensitivity analysis. If the user wants to study the interaction between several parameters, the DOE will be a data.frame with parameters in column and their values in rows. The values are sampled using <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.1/topics/Distributions">distribution functions</a>, such as the <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.1/topics/Uniform">uniform distribution</a> or the <a href="https://www.rdocumentation.org/packages/stats/versions/3.5.1/topics/Normal">normal distribution</a>. In <code>sensitive_stics</code>, the DOE is always computed using the fast99 function.</p>
 <p>Here is the first four rows of an example DOE to study the intercations between the interrow and the sowing density:</p>
-<pre><code>#&gt; Registered S3 method overwritten by 'sensitivity':
-#&gt;   method    from 
-#&gt;   print.src dplyr</code></pre>
 <table class="table">
 <thead><tr class="header">
 <th align="right">interrang</th>
@@ -142,26 +139,26 @@
 <h2 class="hasAnchor">
 <a href="#description-and-parameterization" class="anchor"></a>Description and parameterization</h2>
 <p>Here is an example of a <code>sensitive_stics</code> call for the previous example:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)</a>
-<a class="sourceLine" id="cb2-2" title="2">sens=<span class="st"> </span><span class="kw"><a href="../reference/sensitive_stics.html">sensitive_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-Data"</span>,</a>
-<a class="sourceLine" id="cb2-3" title="3">                      <span class="dt">dir.targ =</span> <span class="st">"2-Simulations"</span>,</a>
-<a class="sourceLine" id="cb2-4" title="4">                      <span class="dt">stics =</span> <span class="st">"0-Data/stics_executable/stics.exe"</span>,</a>
-<a class="sourceLine" id="cb2-5" title="5">                      <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,</a>
-<a class="sourceLine" id="cb2-6" title="6">                      <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),</a>
-<a class="sourceLine" id="cb2-7" title="7">                      <span class="dt">Parameters =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">interrang=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="fl">0.05</span>, <span class="dt">max =</span> <span class="fl">0.25</span>),</a>
-<a class="sourceLine" id="cb2-8" title="8">                                        <span class="dt">P_densitesem=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="dv">140</span>, <span class="dt">max =</span> <span class="dv">280</span>)),</a>
-<a class="sourceLine" id="cb2-9" title="9">                      <span class="dt">method =</span> <span class="st">"fast99"</span>, <span class="dt">n =</span> <span class="dv">70</span>, <span class="dt">q =</span> <span class="st">"qunif"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)
+sens=<span class="st"> </span><span class="kw"><a href="../reference/sensitive_stics.html">sensitive_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-Data"</span>,
+                      <span class="dt">dir.targ =</span> <span class="st">"2-Simulations"</span>,
+                      <span class="dt">stics =</span> <span class="st">"0-Data/stics_executable/stics.exe"</span>,
+                      <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,
+                      <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),
+                      <span class="dt">Parameters =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">interrang=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="fl">0.05</span>, <span class="dt">max =</span> <span class="fl">0.25</span>),
+                                        <span class="dt">P_densitesem=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">min =</span> <span class="dv">140</span>, <span class="dt">max =</span> <span class="dv">280</span>)),
+                      <span class="dt">method =</span> <span class="st">"fast99"</span>, <span class="dt">n =</span> <span class="dv">70</span>, <span class="dt">q =</span> <span class="st">"qunif"</span>)</code></pre></div>
 <p>The function will use the STICS inputs located in “0-Data”, use the STICS executable located in “0-Data/stics_executable/stics.exe”, and execute the simulations in automatically generated sub-folders in “2-Simulations”. The function will test the sensitivity of the leaf area index (<code>lai(n)</code>) and the above-ground dry mass (<code>masec(n)</code>) variables to the interrow (<code>interrang</code>) and the sowing density (<code>P_densitesem</code>) parameters. The parameter values are sampled using a uniform distribution (its quantile function name is provided: “qunif”) with a minimum value of 0.05 and 140 and a maximum of 0.25 and 280 for the interrow and the sowing density respectively. The fast99 algorithm will be used to perform the sensitivty analysis with 70 simulations.</p>
 <p>If a parameter distribution is closer to a normal distibution, which is often the case in reality, the user should set the <code>q</code> parameter to “qnorm” instead to better sample plausible values of the parameter. If so, the user should also replace the parameter arguments (min and max) and values that correspond to <code>qunif</code> arguments by the arguments of the <code>qnorm</code> function, such as:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" title="1"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)</a>
-<a class="sourceLine" id="cb3-2" title="2">sens=<span class="st"> </span><span class="kw"><a href="../reference/sensitive_stics.html">sensitive_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-Data"</span>,</a>
-<a class="sourceLine" id="cb3-3" title="3">                      <span class="dt">dir.targ =</span> <span class="st">"2-Simulations"</span>,</a>
-<a class="sourceLine" id="cb3-4" title="4">                      <span class="dt">stics =</span> <span class="st">"0-Data/stics_executable/stics.exe"</span>,</a>
-<a class="sourceLine" id="cb3-5" title="5">                      <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,</a>
-<a class="sourceLine" id="cb3-6" title="6">                      <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),</a>
-<a class="sourceLine" id="cb3-7" title="7">                      <span class="dt">Parameters =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">interrang=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="fl">0.15</span>, <span class="dt">sd =</span> <span class="fl">0.05</span>),</a>
-<a class="sourceLine" id="cb3-8" title="8">                                        <span class="dt">P_densitesem=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="dv">210</span>, <span class="dt">sd =</span> <span class="dv">70</span>)),</a>
-<a class="sourceLine" id="cb3-9" title="9">                      <span class="dt">method =</span> <span class="st">"fast99"</span>, <span class="dt">n =</span> <span class="dv">70</span>, <span class="dt">q =</span> <span class="st">"qnorm"</span>)</a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="st">"sticRs"</span>)
+sens=<span class="st"> </span><span class="kw"><a href="../reference/sensitive_stics.html">sensitive_stics</a></span>(<span class="dt">dir.orig =</span> <span class="st">"0-Data"</span>,
+                      <span class="dt">dir.targ =</span> <span class="st">"2-Simulations"</span>,
+                      <span class="dt">stics =</span> <span class="st">"0-Data/stics_executable/stics.exe"</span>,
+                      <span class="dt">obs_name =</span> <span class="st">"Wheat.obs"</span>,
+                      <span class="dt">Vars =</span> <span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"lai(n)"</span>, <span class="st">"masec(n)"</span>),
+                      <span class="dt">Parameters =</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">interrang=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="fl">0.15</span>, <span class="dt">sd =</span> <span class="fl">0.05</span>),
+                                        <span class="dt">P_densitesem=</span> <span class="kw"><a href="https://rdrr.io/r/base/list.html">list</a></span>(<span class="dt">mean =</span> <span class="dv">210</span>, <span class="dt">sd =</span> <span class="dv">70</span>)),
+                      <span class="dt">method =</span> <span class="st">"fast99"</span>, <span class="dt">n =</span> <span class="dv">70</span>, <span class="dt">q =</span> <span class="st">"qnorm"</span>)</code></pre></div>
 </div>
 <div id="run-with-caution" class="section level2">
 <h2 class="hasAnchor">
@@ -178,13 +175,13 @@
 <li>DOE: A list of the design of experiment, with parameter values used for each simulation.</li>
 </ul>
 <p>Here is the ggplot2 object for the leaf area index from our previous example:</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1">sens<span class="op">$</span>gg_objects<span class="op">$</span><span class="st">`</span><span class="dt">lai(n)</span><span class="st">`</span></a></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sens<span class="op">$</span>gg_objects<span class="op">$</span><span class="st">`</span><span class="dt">lai(n)</span><span class="st">`</span></code></pre></div>
 <div class="figure">
-<img src="../../../../OneDrive%20-%20cirad.fr/Travail_Postdoc/sticRs/vignettes/sensitivity_lai.png" alt="Figure 1: Sensitivity analysis output" width="100%"><p class="caption">
+<img src="sensitivity_lai.png" alt="Figure 1: Sensitivity analysis output" width="100%"><p class="caption">
 Figure 1: Sensitivity analysis output
 </p>
 </div>
-<p>The plot is not very usefull as it is. It only tell us that the leaf area index seems to be sensitive to the variability of the parameters values. These results are only interesting when coupled with the <code>sensi_objects</code> outputs, but they also can be improved if rendered interactively, for exemple using <code><a href="https://rdrr.io/pkg/plotly/man/ggplotly.html">plotly::ggplotly</a></code>.</p>
+<p>The plot is not very usefull as it is. It only tell us that the leaf area index seems to be sensitive to the variability of the parameters values. These results are only interesting when coupled with the <code>sensi_objects</code> outputs, but they also can be improved if rendered interactively, for exemple using <code>plotly::ggplotly</code>.</p>
 </div>
 <div id="save-load" class="section level2">
 <h2 class="hasAnchor">
@@ -194,7 +191,6 @@ Figure 1: Sensitivity analysis output
   </div>
 
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-
         <div id="tocnav">
       <h2 class="hasAnchor">
 <a href="#tocnav" class="anchor"></a>Contents</h2>
@@ -218,7 +214,7 @@ Figure 1: Sensitivity analysis output
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

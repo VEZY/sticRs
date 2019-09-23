@@ -15,13 +15,11 @@
 <link rel="apple-touch-icon" type="image/png" sizes="120x120" href="../apple-touch-icon-120x120.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="76x76" href="../apple-touch-icon-76x76.png" />
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
-
 <!-- jquery -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
 
 <!-- Font Awesome icons -->
@@ -41,13 +39,13 @@
 
 
 
-
 <meta property="og:title" content="Set (replace) STICS input file parameters — set_param" />
+
 <meta property="og:description" content="Replace or set an input parameter from a pre-existing STICS input
 file. Generally used after calling import_usm()." />
+
 <meta property="og:image" content="https://vezy.github.io/sticRs/logo.png" />
 <meta name="twitter:card" content="summary" />
-
 
 
 
@@ -115,6 +113,7 @@ file. Generally used after calling import_usm()." />
   <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
+      
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
@@ -136,8 +135,10 @@ file. Generally used after calling import_usm()." />
     </div>
 
     <div class="ref-description">
+    
     <p>Replace or set an input parameter from a pre-existing STICS input
 file. Generally used after calling <code><a href='import_usm.html'>import_usm()</a></code>.</p>
+    
     </div>
 
     <pre class="usage"><span class='fu'>set_param</span>(<span class='kw'>dirpath</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='no'>param</span>, <span class='no'>value</span>, <span class='kw'>add</span> <span class='kw'>=</span> <span class='no'>F</span>, <span class='kw'>plant</span> <span class='kw'>=</span> <span class='fl'>1</span>)
@@ -161,7 +162,7 @@ file. Generally used after calling <code><a href='import_usm.html'>import_usm()<
 
 <span class='fu'>set_out_var</span>(<span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"var.mod"</span>, <span class='kw'>vars</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>),
   <span class='kw'>add</span> <span class='kw'>=</span> <span class='no'>F</span>)</pre>
-
+    
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
@@ -198,7 +199,7 @@ file. Generally used after calling <code><a href='import_usm.html'>import_usm()<
       <td><p>Vector of variable names for STICS output requirements</p></td>
     </tr>
     </table>
-
+    
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>The <code>plant</code> parameter can be either equal to <code>1</code>, <code>2</code> for
@@ -206,13 +207,16 @@ the associated plant in the case of intercrop, or <code><a href='https://rdrr.io
 Princiapl and associated plants.
 <code><a href='all_out_var.html'>all_out_var()</a></code> is a helper function that returns all possible
 output variables.</p>
+    
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p><code>set_out_var</code> is not used by <code>set_param</code>. To replace the output
 variables required from STICS, please directly call <code>set_out_var</code>.</p>
+    
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p><code><a href='import_usm.html'>import_usm()</a></code>.</p></div>
+    
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
@@ -227,9 +231,13 @@ variables required from STICS, please directly call <code>set_out_var</code>.</p
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
+      
       <li><a href="#details">Details</a></li>
+
       <li><a href="#note">Note</a></li>
+
       <li><a href="#see-also">See also</a></li>
+      
       <li><a href="#examples">Examples</a></li>
     </ul>
 
@@ -243,7 +251,7 @@ variables required from STICS, please directly call <code>set_out_var</code>.</p
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
 </div>
 
       </footer>

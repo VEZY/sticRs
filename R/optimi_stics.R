@@ -7,7 +7,7 @@
 #' @param stics      STICS executable path
 #' @param obs_name   A `data.frame` of observation file name(s) of the form
 #'                   `data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)` for mixed crops (simply remove the `Dominated` column for sole crops.
-#' @param Parameters A data.frame with parameter name, starting, min and max values (see details and example)
+#' @param Parameters A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.
 #' @param Vars       Output variables on which the optimization is performed
 #' @param weight     The weight used for each variable (see details)
 #' @param method     The optimization method to use, see \pkg{dfoptim} package. For the moment, only [dfoptim::nmkb()]
@@ -21,7 +21,8 @@
 #' Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
 #' The `Parameters` argument should be formated as a a data.frame (see example).
 #' The start values should exclude the min and max values (they are exclusive bounds).
-#' If the start is `NULL`, then the mean value between the min and max values is taken.
+#' If the start is `NULL`, then the mean value between the min and max values is taken. The data type is optional
+#' and only takes double (numeric) or integer. If a parameter is an integer, then a rounding is applied (very crude but functional).
 #' If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
 #'
@@ -185,7 +186,8 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                           param= as.character(Parameters$parameter),
                           Plant= Plant,
                           weight= weight,
-                          obs_name= obs_name)
+                          obs_name= obs_name,
+                          type= Parameters$type)
     params= as.list(opti$minimum)
     names(params)= Parameters$parameter
   }else{
@@ -198,11 +200,13 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
                         param= as.character(Parameters$parameter),
                         Plant= Plant,
                         weight= weight,
-                        obs_name= obs_name)
+                        obs_name= obs_name,
+                        type= Parameters$type)
     params= as.list(opti$par)
     names(params)= Parameters$parameter
   }
 
+  params[Parameters$type=="integer"]= as.integer(params[Parameters$type=="integer"])
 
   # Re-make the best simulation for output:
   NbCores= parallel::detectCores()-1
@@ -268,6 +272,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @param Plant      The plant (*i.e.* Principal or associated) for which the parameters
 #'                   will be set (only for plant or technical parameters in mixed crop simulations)
 #'                   Set to `NULL` if using STICS in sole crop
+#' @param type     The type of the parameter (only used if integers are required)
 #'
 #' @details If weight is not provided by the user, the selection criteria is computed using the equation
 #' 5 from Wallach et al. (2011). If they are provided, the equation 6 is used instead.
@@ -280,10 +285,13 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 #' @return The weighted product of squares (selection criteria)
 #' @export
 #'
-stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant){
+stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant,type=NULL){
   names(x)= param
+  if(!is.null(type)){
+    names(type)= param
+  }
 
-  output= stics_eval_no_copy(USM_path,x,obs_name,Plant)
+  output= stics_eval_no_copy(USM_path,x,obs_name,Plant,type)
 
   out_stats=
     output%>%
@@ -321,19 +329,25 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant){
 #' @param obs_name The observation file names
 #' @param Plant    The plant (*i.e.* Principal or associated) for which the parameters
 #'                 will be set (only for plant or technical parameters in mixed crop simulations)
-#'                 Set to `NULL` if using STICS in sole crop#'
+#'                 Set to `NULL` if using STICS in sole crop
+#' @param type     The type of the parameter (only used if integers are required)
+#'
 #' @return The output of [eval_output()]
 #'
-stics_eval_no_copy= function(USM_path,param,obs_name,Plant){
+stics_eval_no_copy= function(USM_path,param,obs_name,Plant,type=NULL){
 
   if(length(USM_path)==1){
     outputs=
       lapply(1:length(USM_path),
              function(x){
                lapply(names(param), function(pa){
+                 par_val= param[pa]
+                 if(isTRUE(type[pa]=="integer")){
+                   par_val= as.integer(param[pa])
+                 }
                  set_param(dirpath = USM_path[x],
                            param = pa,
-                           value = param[pa],
+                           value = par_val,
                            plant = Plant)
                })
                run_stics(dirpath = USM_path[x])
@@ -359,9 +373,13 @@ stics_eval_no_copy= function(USM_path,param,obs_name,Plant){
         1:length(USM_path),
         function(x,USM_path,param,obs_name,Plant){
           lapply(names(param), function(pa){
+            par_val= param[pa]
+            if(isTRUE(type[pa]=="integer")){
+              par_val= as.integer(param[pa])
+            }
             set_param(dirpath = USM_path[x],
                       param = pa,
-                      value = param[pa],
+                      value = par_val,
                       plant = Plant[x])
           })
           run_stics(dirpath = USM_path[x])
