@@ -1,3 +1,8 @@
+# sticRs 1.1.2
+
+* optimi_stics now can restart automatically with new start values if the optimization process returns an error (e.g. singular matrix)  
+* Add possibility to use integer parameter type in optimi_stics
+
 # sticRs 1.1.1
 
 * Fix several bugs in parameter optimization
