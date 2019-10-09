@@ -292,8 +292,8 @@ stics_eval_opti= function(x,USM_path,obs_name,param,weight=NULL,Plant,type=NULL)
     output%>%
     dplyr::select(-.data$Plant)%>% # removing the Plant column to avoid any issue in the next line
     # Selecting only the plant the user need:
-    dplyr::filter(ifelse(.data$Dominance=="Sole crop"|(.data$Dominance=="Principal"&Plant==1)|
-                           (.data$Dominance=="Associated"&Plant==2),TRUE,FALSE))%>%
+    dplyr::filter(ifelse(.data$Dominance=="Sole crop"|(.data$Dominance=="Principal"&any(Plant==1))|
+                           (.data$Dominance=="Associated"&any(Plant==2)),TRUE,FALSE))%>%
     dplyr::select(-.data$usm)%>%
     stati_stics()%>%dplyr::ungroup()
 
