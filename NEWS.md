@@ -1,3 +1,7 @@
+# sticRs 1.1.3
+
+* Bug fix when using set_param for associated plant
+
 # sticRs 1.1.2
 
 * optimi_stics now can restart automatically with new start values if the optimization process returns an error (e.g. singular matrix)  
