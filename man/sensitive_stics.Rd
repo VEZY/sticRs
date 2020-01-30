@@ -4,10 +4,21 @@
 \alias{sensitive_stics}
 \title{Make sensitivity analysis of STICS output}
 \usage{
-sensitive_stics(dir.orig, dir.targ = getwd(), stics, obs_name,
-  Parameters, Vars, method = c("fast99", "sobol"), n = 10 *
-  length(Vars), q = "qunif", Plant = 1, Erase = T, values = rep(1,
-  length(Parameters)), ...)
+sensitive_stics(
+  dir.orig,
+  dir.targ = getwd(),
+  stics,
+  obs_name,
+  Parameters,
+  Vars,
+  method = c("fast99", "sobol"),
+  n = 10 * length(Vars),
+  q = "qunif",
+  Plant = 1,
+  Erase = T,
+  values = rep(1, length(Parameters)),
+  ...
+)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which to copy the simulation files. If
@@ -66,7 +77,7 @@ The function uses the \pkg{sensitivity} package functions under the hood to
 create the DOE (design of experiment) and then to compute the sensitivity index. For
 \code{sobol} alike methods, the DOE is first computed using the
 \code{\link[sensitivity:fast99]{sensitivity::fast99()}} function using the \code{q} and \code{Parameters} (for
-\code{q.arg}) parameters. The DOE is then splitted in two to fill the \code{X1`` and }X2\code{parameters. The}Parameters\code{should take the form of a list of arguments to pass to the}q\code{function for each parameter, named after the parameter of interest (see example). As the simulations can take a lot of space on disk while augmenting the parameters number, the}Erase\code{parameter allow the user to erase each simulation as soon as its data is imported. The}values` parameter is used to repeat the input value found in the DOE given to set_param.
+\code{q.arg}) parameters. The DOE is then splitted in two to fill the \verb{X1`` and }X2\verb{parameters. The}Parameters\verb{should take the form of a list of arguments to pass to the}q\verb{function for each parameter, named after the parameter of interest (see example). As the simulations can take a lot of space on disk while augmenting the parameters number, the}Erase\verb{parameter allow the user to erase each simulation as soon as its data is imported. The}values` parameter is used to repeat the input value found in the DOE given to set_param.
 It is usefull for plant parameters in intercrops that are still in the temporary parameter file
 so they have two values (one for each plant).
 }

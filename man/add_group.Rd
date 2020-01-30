@@ -30,7 +30,7 @@ Eval_stics_1=
              stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
              obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
              Out_var = c("lai(n)", "masec(n)","hauteur"),
-             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)\%>\%
+             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)%>%
              add_group("2017-2018")
 
 # Simulation from 2017 (note the add_group function call at the end):
@@ -40,7 +40,7 @@ Eval_stics_2=
              stics = list(EquivDens= "0-DATA/stics_executable/EquDens/stics.exe"),
              obs_name =  c("6_IC_Wheat_N02.obs","6_IC_Pea_N02.obs"),
              Out_var = c("lai(n)", "masec(n)","hauteur"),
-             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)\%>\%
+             Title = "Wheat-Pea Auzeville 2005-2006 N0", plot_it = T)%>%
              add_group("2016-2017")
 
 # Binding the two simulations:

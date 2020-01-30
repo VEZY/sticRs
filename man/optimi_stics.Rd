@@ -4,9 +4,19 @@
 \alias{optimi_stics}
 \title{STICS parameter optimization}
 \usage{
-optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
-  Vars, weight = NULL, method = c("nmkb"), Plant = 1, max_run = 3,
-  ...)
+optimi_stics(
+  dir.orig,
+  dir.targ = getwd(),
+  stics,
+  obs_name,
+  Parameters,
+  Vars,
+  weight = NULL,
+  method = c("nmkb"),
+  Plant = 1,
+  max_run = 3,
+  ...
+)
 }
 \arguments{
 \item{dir.orig}{Vector or named list of paths to the directory from which to copy the USMs files.}
@@ -16,7 +26,7 @@ optimi_stics(dir.orig, dir.targ = getwd(), stics, obs_name, Parameters,
 \item{stics}{STICS executable path}
 
 \item{obs_name}{A \code{data.frame} of observation file name(s) of the form
-\code{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply remove the \code{Dominated} column for sole crops.}
+\verb{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply remove the \code{Dominated} column for sole crops.}
 
 \item{Parameters}{A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.}
 

@@ -4,8 +4,15 @@
 \alias{stics_eval_opti}
 \title{Objective function to optimize}
 \usage{
-stics_eval_opti(x, USM_path, obs_name, param, weight = NULL, Plant,
-  type = NULL)
+stics_eval_opti(
+  x,
+  USM_path,
+  obs_name,
+  param,
+  weight = NULL,
+  Plant,
+  type = NULL
+)
 }
 \arguments{
 \item{x}{The starting parameter values}

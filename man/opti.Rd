@@ -16,7 +16,7 @@ Set to \code{NULL} if using STICS in sole crop}
 \item{weight}{The weight used for each variable (see details)}
 
 \item{obs_name}{A \code{data.frame} of observation file name(s) of the form
-\code{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply
+\verb{data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)} for mixed crops (simply
 remove the \code{Dominated} column for sole crops.}
 
 \item{Parameters}{A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.}

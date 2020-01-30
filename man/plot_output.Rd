@@ -4,8 +4,14 @@
 \alias{plot_output}
 \title{Plot STICS outputs}
 \usage{
-plot_output(..., Vars = NULL, obs_name = NULL, Title = NULL,
-  plot_it = T, group = F)
+plot_output(
+  ...,
+  Vars = NULL,
+  obs_name = NULL,
+  Title = NULL,
+  plot_it = T,
+  group = F
+)
 }
 \arguments{
 \item{...}{Either a file path or the output from \code{\link[=eval_output]{eval_output()}}

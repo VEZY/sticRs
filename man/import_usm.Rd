@@ -4,8 +4,15 @@
 \alias{import_usm}
 \title{Create a simulation unit (USM) for the STICS model}
 \usage{
-import_usm(dir.orig = NULL, dir.targ = getwd(), stics = NULL,
-  usm_name = NULL, all_files = F, overwrite = T, verbose = NULL)
+import_usm(
+  dir.orig = NULL,
+  dir.targ = getwd(),
+  stics = NULL,
+  usm_name = NULL,
+  all_files = F,
+  overwrite = T,
+  verbose = NULL
+)
 }
 \arguments{
 \item{dir.orig}{Path to the directory from which copy the simulation files. If

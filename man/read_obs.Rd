@@ -23,7 +23,7 @@ Read STICS observation file for sole or mixed crops.
 }
 \details{
 If \code{filename} is not specified (or equal to \code{NULL}), the
-function tries first to match the \code{mod_s*} names for the same *.obs
+function tries first to match the \verb{mod_s*} names for the same \*.obs
 names, and then to use the \code{.obs} file if there is one only
 (used for sole crops or for both mixed crops). If there are no .obs files,
 or two but not specified for reading, the function returns \code{NULL}

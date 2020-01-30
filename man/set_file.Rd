@@ -17,12 +17,12 @@ set_file(filepath, param, value, add, variety = NULL)
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input
-file. This function is called by some of the generic \code{set_*}
+file. This function is called by some of the generic \verb{set_*}
 functions under the hood.
 }
 \details{
 The function uses \code{\link[base:sys.call]{base::sys.call()}} to know from which function
-of the \code{set_*} family it is called, so it won't work properly if called
+of the \verb{set_*} family it is called, so it won't work properly if called
 by the user directly. This is why this function is internal.
 }
 \note{

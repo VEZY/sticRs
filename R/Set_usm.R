@@ -250,7 +250,7 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
 
            tmp= lapply(plant, function(x){
              set_plant(filepath = file.path(dirpath,paste0("ficplt",x,".txt")),
-                       param = param, value = value, add= add, variety = variety[x])
+                       param = param, value = value, add= add, variety = variety)
            })
          },
          stop("Parameter not found")

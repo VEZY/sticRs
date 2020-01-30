@@ -5,8 +5,15 @@
 \alias{load_sensi}
 \title{Save and Read sensitivity analysis of STICS}
 \usage{
-save_sensi(x, dirpath = getwd(), device = "png", width = NULL,
-  height = NULL, units = c("in", "cm", "mm"), ...)
+save_sensi(
+  x,
+  dirpath = getwd(),
+  device = "png",
+  width = NULL,
+  height = NULL,
+  units = c("in", "cm", "mm"),
+  ...
+)
 
 load_sensi(dirpath = getwd())
 }

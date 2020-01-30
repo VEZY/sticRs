@@ -4,8 +4,7 @@
 \alias{eval_output}
 \title{Compare STICS simulation outputs (mod_s) to observations (*.obs)}
 \usage{
-eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL,
-  verbose = FALSE)
+eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL, verbose = FALSE)
 }
 \arguments{
 \item{dirpath}{Directory path}
@@ -19,8 +18,8 @@ eval_output(dirpath = getwd(), obs_name = NULL, mixed = NULL,
 }
 \value{
 A data.frame (sole crop) or a list of two data.frames (mixed crops) with
-simulated and observed data. Simulated and measured data have the \code{_sim}
-and \code{_meas} suffix respectively.
+simulated and observed data. Simulated and measured data have the \verb{_sim}
+and \verb{_meas} suffix respectively.
 }
 \description{
 Compare STICS simulation outputs to observations for sole or mixed crops.
