@@ -14,6 +14,8 @@ set_file(filepath, param, value, add, variety = NULL)
 \item{value}{New parameter value}
 
 \item{add}{Boolean. Append input to existing file (add to the list)}
+
+\item{variety}{Integer (variety index) or character (variety name)}
 }
 \description{
 Replace or set an input parameter from a pre-existing STICS input

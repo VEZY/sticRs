@@ -12,7 +12,7 @@
 #' @param is_pasture   Is the plant a pasture ?
 #' @param max_variety  Maximum number of variety authorized (this is only for STICS
 #'                     compatibility)
-#' @param variety      Integer. The plant variety to get the parameter from.
+#' @param variety      Integer (index of the variety) or character (name of the variety) to filter by variety.
 #' @param ...          Helper to pass arguments from [read_param()] to the
 #'                     other functions
 #'
@@ -311,11 +311,6 @@ read_plant= function(filepath="ficplt1.txt", variety= NULL, max_variety=30){
   plant= vector(mode='list', length = 0)
   values= params[!seq_along(params)%%2]
 
-  # No need to read all varieties if the variety is set and is not the last one
-  if(!is.null(variety)){
-    max_variety= min(variety,max_variety)
-  }
-
   index= 1
   val= function(){
     index<<- index+1
@@ -601,6 +596,9 @@ read_plant= function(filepath="ficplt1.txt", variety= NULL, max_variety=30){
 
   # Keep only the variety asked:
   if(!is.null(variety)){
+    if(is.character(variety)){
+      variety= which(tmp$P_codevar==variety)
+    }
     tmp= lapply(tmp, function(x)x[variety])
   }
 

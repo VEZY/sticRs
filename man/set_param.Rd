@@ -46,7 +46,7 @@ set_out_var(filepath = "var.mod", vars = c("lai(n)", "masec(n)"), add = F)
 
 \item{filepath}{Path to the parameter file}
 
-\item{variety}{Integer. The plant variety to get the parameter from.}
+\item{variety}{Integer (variety index) or character (variety name), see details.}
 
 \item{vars}{Vector of variable names for STICS output requirements}
 }
@@ -57,13 +57,15 @@ file. Generally used after calling \code{\link[=import_usm]{import_usm()}}.
 \details{
 The \code{plant} parameter can be either equal to \code{1}, \code{2} for
 the associated plant in the case of intercrop, or \code{c(1,2)} for both
-Princiapl and associated plants.
+Principal and associated plants.
 \code{\link[=all_out_var]{all_out_var()}} is a helper function that returns all possible
 output variables.
+The variety is read from the technical file when using \code{\link[=set_param]{set_param()}}.
+To change a value for a particular variety, plase directly use \code{set_plant()}.
 }
 \note{
-\code{set_out_var} is not used by \code{set_param}. To replace the output
-variables required from STICS, please directly call \code{set_out_var}.
+\code{set_out_var()} is not used by \code{set_param()}. To replace the output
+variables required from STICS, please directly call \code{set_out_var()}.
 }
 \examples{
 \dontrun{

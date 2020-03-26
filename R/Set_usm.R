@@ -176,16 +176,19 @@ import_usm= function(dir.orig=NULL, dir.targ= getwd(),stics= NULL,
 #' @param plant    Plant index. Optional, only for plant or technical parameters
 #' @param vars     Vector of variable names for STICS output requirements
 #' @param add      Boolean. Append input to existing file (add to the list)
-#' @param variety  Integer. The plant variety to get the parameter from.
+#' @param variety  Integer (variety index) or character (variety name), see details.
 #'
 #' @details The `plant` parameter can be either equal to `1`, `2` for
 #'          the associated plant in the case of intercrop, or `c(1,2)` for both
-#'          Princiapl and associated plants.
+#'          Principal and associated plants.
 #'          [all_out_var()] is a helper function that returns all possible
 #'          output variables.
+#'          The variety is read from the technical file when using [`set_param()`].
+#'          To change a value for a particular variety, plase directly use `set_plant()`.
 #'
-#' @note `set_out_var` is not used by `set_param`. To replace the output
-#'       variables required from STICS, please directly call `set_out_var`.
+#'
+#' @note `set_out_var()` is not used by `set_param()`. To replace the output
+#'       variables required from STICS, please directly call `set_out_var()`.
 #'
 #' @seealso [import_usm()].
 #'
@@ -245,12 +248,12 @@ set_param= function(dirpath=getwd(),param,value,add=F,plant=1){
          },
          plant= {
            variety=
-             read_param(dirpath = dirpath, param = "variete")[plant]%>%
+             read_param(dirpath = dirpath, param = "variete")%>%
              as.numeric()
 
            tmp= lapply(plant, function(x){
              set_plant(filepath = file.path(dirpath,paste0("ficplt",x,".txt")),
-                       param = param, value = value, add= add, variety = variety)
+                       param = param, value = value, add= add, variety = variety[x])
            })
          },
          stop("Parameter not found")
@@ -360,6 +363,7 @@ set_out_var= function(filepath="var.mod",vars=c("lai(n)","masec(n)"),add= F){
 #' @param param    Parameter name
 #' @param value    New parameter value
 #' @param add      Boolean. Append input to existing file (add to the list)
+#' @param variety  Integer (variety index) or character (variety name)
 #'
 #' @details The function uses [base::sys.call()] to know from which function
 #'          of the `set_*` family it is called, so it won't work properly if called
@@ -396,6 +400,10 @@ set_file= function(filepath,param,value,add,variety= NULL){
          set_plant= {
            ref_index= grep(gsub('P_','',param_),params)+1
            if(!is.null(variety)){
+             if(is.character(variety)){
+               varieties= params[grep("codevar",params)+1]
+               variety= grep(variety,varieties)
+             }
              ref_index= ref_index[variety]
            }
          },

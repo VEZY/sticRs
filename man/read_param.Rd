@@ -49,7 +49,7 @@ other functions}
 
 \item{filepath}{File path}
 
-\item{variety}{Integer. The plant variety to get the parameter from.}
+\item{variety}{Integer (index of the variety) or character (name of the variety) to filter by variety.}
 
 \item{max_variety}{Maximum number of variety authorized (this is only for STICS
 compatibility)}
