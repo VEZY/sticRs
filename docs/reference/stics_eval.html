@@ -78,7 +78,7 @@ outputs using observations and/or other model versions." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sticRs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -140,10 +140,20 @@ outputs using observations and/or other model versions." />
 outputs using observations and/or other model versions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stics_eval</span>(<span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dir.targ</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(), <span class='no'>stics</span>,
-  <span class='kw'>Parameter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Plant</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>Out_var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>, <span class='st'>"hauteur"</span>), <span class='kw'>plot_it</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>Parallel</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>mixed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>Erase</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>stics_eval</span>(
+  <span class='kw'>dir.orig</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>dir.targ</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/getwd.html'>getwd</a></span>(),
+  <span class='no'>stics</span>,
+  <span class='kw'>Parameter</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>Plant</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+  <span class='kw'>obs_name</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>Out_var</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"lai(n)"</span>, <span class='st'>"masec(n)"</span>, <span class='st'>"hauteur"</span>),
+  <span class='kw'>plot_it</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>Parallel</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>mixed</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>Title</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>Erase</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

@@ -78,7 +78,7 @@ file. Generally used after calling set_usm()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">sticRs</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">1.1.3</span>
       </span>
     </div>
 
@@ -148,11 +148,14 @@ file. Generally used after calling <code><a href='set_param.html'>set_usm()</a><
 
 <span class='fu'>read_tmp</span>(<span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"tempoparv6.sti"</span>)
 
-<span class='fu'>read_plant</span>(<span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"ficplt1.txt"</span>, <span class='kw'>variety</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>max_variety</span> <span class='kw'>=</span> <span class='fl'>30</span>)
+<span class='fu'>read_plant</span>(<span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"ficplt1.txt"</span>, <span class='kw'>variety</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>max_variety</span> <span class='kw'>=</span> <span class='fl'>30</span>)
 
-<span class='fu'>read_tec</span>(<span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"fictec1.txt"</span>, <span class='kw'>several_fert</span> <span class='kw'>=</span> <span class='no'>T</span>,
-  <span class='kw'>several_thin</span> <span class='kw'>=</span> <span class='no'>T</span>, <span class='kw'>is_pasture</span> <span class='kw'>=</span> <span class='no'>F</span>)
+<span class='fu'>read_tec</span>(
+  <span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"fictec1.txt"</span>,
+  <span class='kw'>several_fert</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>several_thin</span> <span class='kw'>=</span> <span class='no'>T</span>,
+  <span class='kw'>is_pasture</span> <span class='kw'>=</span> <span class='no'>F</span>
+)
 
 <span class='fu'>read_soil</span>(<span class='kw'>filepath</span> <span class='kw'>=</span> <span class='st'>"param.sol"</span>)
 
@@ -185,7 +188,7 @@ other functions</p></td>
     </tr>
     <tr>
       <th>variety</th>
-      <td><p>Integer. The plant variety to get the parameter from.</p></td>
+      <td><p>Integer (index of the variety) or character (name of the variety) to filter by variety.</p></td>
     </tr>
     <tr>
       <th>max_variety</th>
