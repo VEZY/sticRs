@@ -404,7 +404,11 @@ set_file= function(filepath,param,value,add,variety= NULL){
                varieties= params[grep("codevar",params)+1]
                variety= grep(variety,varieties)
              }
-             ref_index= ref_index[variety]
+
+             # Apply variety indexing only if the parameters are varietal:
+             if(length(ref_index)>1){
+               ref_index= ref_index[variety]
+             }
            }
          },
          # Default here
