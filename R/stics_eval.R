@@ -107,11 +107,19 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
       }else{
         method= "Parameter" # Default method
       }
-
     }else{
       stop("The stics parameter must be a list")
     }
   }
+
+  # Add standard exe name if needed:
+  stics= lapply(stics, function(x){
+    if(file.info(x)$exe == "no"){
+      file.path(x,"stics")
+    }else{
+      x
+    }
+  })
 
 
   if(Parallel&length(usm_name)>1){
@@ -149,7 +157,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                           value = z)
               },names(Param_val_x),Param_val_x)
             }
-            run_stics(dirpath = USM_path)
+            run_stics(dirpath = USM_path,stics[[x]])
             output= eval_output(dirpath= USM_path, obs_name= obs_name)
             if(Erase){
               unlink(x = USM_path, recursive = T, force = T)
@@ -198,7 +206,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                              value = z)
                  },names(Param_val_x),Param_val_x)
                }
-               run_stics(dirpath = USM_path)
+               run_stics(dirpath = USM_path,stics[[x]])
                output= eval_output(dirpath= USM_path, obs_name= obs_name)
                if(Erase){
                  unlink(x = USM_path, recursive = T, force = T)

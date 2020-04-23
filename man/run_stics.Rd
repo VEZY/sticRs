@@ -4,10 +4,12 @@
 \alias{run_stics}
 \title{Run STICS}
 \usage{
-run_stics(dirpath = getwd())
+run_stics(dirpath = getwd(), exe_name = "stics")
 }
 \arguments{
 \item{dirpath}{USM directory path}
+
+\item{exe_name}{(optional) The executable name.}
 }
 \value{
 The function prints the STICS output to the console and returns
