@@ -1,3 +1,7 @@
+# sticRs 1.1.4
+
+* optimi_stics now accepts further arguments to pass to the optimisation functions (e.g. `tol` for the convergence tolerance)
+
 # sticRs 1.1.3
 
 * Bug fix when using set_param for associated plant
