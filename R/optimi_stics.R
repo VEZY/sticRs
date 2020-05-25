@@ -178,7 +178,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 
   # Actual optimization process:
   params= try(opti(USM_path = USM_path, Plant = Plant, weight = weight, obs_name = obs_name,
-                   Parameters = Parameters))
+                   Parameters = Parameters,...))
 
   while(inherits(params,"try-error") && restart<max_run){
     # Restart the optimization with different starting values if error:
@@ -191,7 +191,7 @@ optimi_stics= function(dir.orig, dir.targ=getwd(),stics,obs_name,Parameters,
 
     restart= restart + 1
     params= try(opti(USM_path = USM_path, Plant = Plant, weight = weight, obs_name = obs_name,
-                     Parameters = param_table))
+                     Parameters = param_table,...))
   }
 
   if(restart == max_run){
@@ -403,6 +403,7 @@ stics_eval_no_copy= function(USM_path,param,obs_name,Plant,type=NULL){
 #'                   `data.frame(Principal= c(obs1.obs), Dominated= c(obs2.obs)` for mixed crops (simply
 #'                   remove the `Dominated` column for sole crops.
 #' @param Parameters A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.
+#' @param ...        Further arguments to pass to the optimization function, i.e. [dfoptim::nmkb()] or [stats::optimize()]
 #'
 #' @details The function uses [stats::optimize()] for univariate optimization, and the \pkg{dfoptim} package functions for multivariate.
 #' Currently only the Nelder-Mead algorithm is implemented from \pkg{dfoptim}.
@@ -421,9 +422,16 @@ stics_eval_no_copy= function(USM_path,param,obs_name,Plant,type=NULL){
 #'
 #' @return A named vector of the optimized values of the parameters.
 #'
-opti= function(USM_path,Plant,weight,obs_name,Parameters){
+opti= function(USM_path,Plant,weight,obs_name,Parameters,...){
+  dot_args= list(...)
   if(length(Parameters$parameter)==1){
     # univariate optimization:
+    if(is.null(dot_args$tol)){
+      tol= .Machine$double.eps^0.25
+    }
+    if(is.null(dot_args$maximum)){
+      maximum= FALSE
+    }
     out_opti= stats::optimize(f= stics_eval_opti,
                               interval= c(Parameters$min,Parameters$max),
                               USM_path= USM_path,
@@ -431,11 +439,18 @@ opti= function(USM_path,Plant,weight,obs_name,Parameters){
                               Plant= Plant,
                               weight= weight,
                               obs_name= obs_name,
-                              type= Parameters$type)
+                              type= Parameters$type,
+                              maximum= maximum,tol = tol)
     params= as.list(out_opti$minimum)
     names(params)= Parameters$parameter
   }else{
     # multivariate optimization:
+    if(is.null(dot_args$tol)){
+      tol= .Machine$double.eps^0.25
+    }
+    if(is.null(dot_args$maximum)){
+      maximum= FALSE
+    }
     out_opti= dfoptim::nmkb(fn= stics_eval_opti,
                             par= Parameters$start,
                             lower= Parameters$min,
@@ -445,7 +460,7 @@ opti= function(USM_path,Plant,weight,obs_name,Parameters){
                             Plant= Plant,
                             weight= weight,
                             obs_name= obs_name,
-                            type= Parameters$type)
+                            type= Parameters$type,dot_args)
     params= as.list(out_opti$par)
     names(params)= Parameters$parameter
   }

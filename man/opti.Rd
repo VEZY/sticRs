@@ -4,7 +4,7 @@
 \alias{opti}
 \title{Optimization function}
 \usage{
-opti(USM_path, Plant, weight, obs_name, Parameters)
+opti(USM_path, Plant, weight, obs_name, Parameters, ...)
 }
 \arguments{
 \item{USM_path}{Path to the USM directory for evaluation.}
@@ -20,6 +20,8 @@ Set to \code{NULL} if using STICS in sole crop}
 remove the \code{Dominated} column for sole crops.}
 
 \item{Parameters}{A data.frame with parameter name, starting (optional), min, max values, and data type (optional). See details and example.}
+
+\item{...}{Further arguments to pass to the optimization function, i.e. \code{\link[dfoptim:nmkb]{dfoptim::nmkb()}} or \code{\link[stats:optimize]{stats::optimize()}}}
 }
 \value{
 A named vector of the optimized values of the parameters.
