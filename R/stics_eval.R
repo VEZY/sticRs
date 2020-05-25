@@ -157,7 +157,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                           value = z)
               },names(Param_val_x),Param_val_x)
             }
-            run_stics(dirpath = USM_path,stics[[x]])
+            run_stics(dirpath = USM_path,basename(stics[[x]]))
             output= eval_output(dirpath= USM_path, obs_name= obs_name)
             if(Erase){
               unlink(x = USM_path, recursive = T, force = T)
@@ -206,7 +206,7 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
                              value = z)
                  },names(Param_val_x),Param_val_x)
                }
-               run_stics(dirpath = USM_path,stics[[x]])
+               run_stics(dirpath = USM_path,basename(stics[[x]]))
                output= eval_output(dirpath= USM_path, obs_name= obs_name)
                if(Erase){
                  unlink(x = USM_path, recursive = T, force = T)
