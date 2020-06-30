@@ -1,4 +1,8 @@
-# sticRs 1.1.4
+# sticRs 1.2.1
+
+Fix issue when using `stics_eval` with more than one parameter
+
+# sticRs 1.2.0
 
 * optimi_stics now accepts further arguments to pass to the optimisation functions (e.g. `tol` for the convergence tolerance)
 

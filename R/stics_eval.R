@@ -121,6 +121,9 @@ stics_eval= function(dir.orig=NULL, dir.targ= getwd(),stics,Parameter=NULL,
     }
   })
 
+  if(method == "Parameter"){
+    stics= rep(stics, length(usm_name))
+  }
 
   if(Parallel&length(usm_name)>1){
     NbCores= parallel::detectCores()-1
