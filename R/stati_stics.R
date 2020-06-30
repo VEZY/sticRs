@@ -107,7 +107,7 @@ stati_stics= function(...,obs_name=NULL){
       merge(x_meas_,x_sim_)%>%
       dplyr::filter(!is.na(obs))%>%
       dplyr::group_by(variable,Dominance,Version)%>%
-      dplyr::summarise(n_obs= n(),
+      dplyr::summarise(n_obs= dplyr::n(),
                        mean_obs= mean(obs, na.rm = T),
                        mean_sim= mean(sim, na.rm = T),
                        sd_obs= sd(obs, na.rm = T),
