@@ -1,3 +1,5 @@
+> [!IMPORTANT]  
+> **This package is no longer maintained. All functionalities were transfered to the [SticsRPacks suite of packages](https://github.com/SticsRPacks/SticsRPacks). Please use these packages instead.**
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
